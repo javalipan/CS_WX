@@ -10,7 +10,7 @@ import com.block.common.model.MemberAddress;
 import com.block.common.model.Region;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
-
+//地址管理
 public class AddressController extends BaseController{
 
 	public void initAddressList(){
