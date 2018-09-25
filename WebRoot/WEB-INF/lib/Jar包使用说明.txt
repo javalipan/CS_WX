@@ -1,0 +1,29 @@
+## JFinal-weixin_1.8必须依赖的包，项目中已有的请略过
+--jfinal-2.2.jar
+----cglib-nodep-3.1.jar
+
+### 可选Json处理包，必选其一
+--fastjson-1.2.6.jar
+或者
+--jackson-databind-2.4.3.jar
+----jackson-annotations-2.4.0.jar
+----jackson-core-2.4.3.jar
+
+### 可选（功能包）：redis分布式存储accessToken
+--jedis-2.7.2.jar
+--commons-pool2-2.3.jar
+--fst-2.29.jar // 序列化所用
+----jackson-core-2.4.3.jar
+----javassist-3.19.0-GA.jar
+----objenesis-2.1.jar
+
+### 可选（增强）okHttp2增强http请求
+--okhttp-2.6.0.jar
+----okio-1.6.0.jar
+或者 okhttp3
+--okhttp-3.2.0.jar
+----okio-1.6.0.jar
+
+注意：———表示--jar包的依赖，1.8以下版本的用户建议大家直接升级。
+
+本zip包含的jfinal-weixin-1.8-preview.jar表示预览版的jar包，未来正式发布可能有bug修复，建议到final官网下载最新版本。

@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+<head>
+	<title>尺尚</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta content="telephone=no" name="format-detection">
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/css.css"/>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/mui.min.css"/>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/app.css"/>
+	#parse("WEB-INF/tmp/include.vm")
+</head>
+
+<body>
+	#parse("WEB-INF/tmp/top.vm")
+	<div class="myscorebg"> 
+	  <div class="myscore">
+	    <h4>我的积分</h4>
+	    <h5>$!{member.memberPoint}</h5>
+	  
+	  </div>
+	</div>
+	
+	<div class="myscoretab"><a href="${ctx}/member/myscore" class="on">获得积分记录</a> <a href="${ctx}/member/myexchange">兑换记录</a></div>
+	
+	<div class="viptablebox"><table class="viptable" >
+	  <tbody>
+	    <tr>
+	      <th scope="col">No.</th>
+	      <th scope="col">获得积分</th>
+	      <th scope="col">来源</th>
+	      <th scope="col">时间</th>
+	    </tr>
+	    #foreach($point in $!{pointLogs})
+	    <tr>
+	      <td>$!{velocityCount}</td>
+	      <td>$!{point.point}</td>
+	      <td>
+	      	#if(${point.reason}=="0")
+	      		订单$!{point.code}
+	      	#elseif(${point.reason}=="1")
+	      		注册
+	      	#elseif(${point.reason}=="2")
+	      		管理员修改
+	      	#else
+	      		推广积分
+	      	#end
+	      </td>
+	      <td>$!date.format('yyyy-MM-dd',$!point.changeTime)</td>
+	    </tr>
+	  	#end
+	  </tbody>
+	</table></div>
+	
+	<div class="height5"></div>
+	
+	#parse("WEB-INF/tmp/bottom.vm")
+</body>
+</html>

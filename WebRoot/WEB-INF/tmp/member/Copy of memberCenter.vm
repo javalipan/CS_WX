@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+<head>
+	<title>尺尚</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta content="telephone=no" name="format-detection">
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/css.css"/>
+	 #parse("WEB-INF/tmp/include.vm")
+</head>
+
+<body>
+ #parse("WEB-INF/tmp/top.vm")
+
+<div class="vipbg"> 
+  <span><img src="$!{member.headUrl}" alt=""/></span>
+  <div class="vipnr">
+    <h2>尊贵的$!{member.nickname}：</h2>
+    <h3>您的当前积分为：$!{member.memberPoint}分</h3>
+    <h3>您目前已累计消费 $!{member.totalmoney} 元</h3>
+  </div>
+</div>
+<div class="viptopicobox">
+  <div class="viptopico" onclick="location.href='${ctx}/order/orderList?type=0'"><img src="${ctx}/images/viptico1.png" alt=""/>
+    <p>待付款</p>
+    <em>$!{record.unpayed}</em></div>
+  <div class="viptopico" onclick="location.href='${ctx}/order/orderList?type=1'"><img src="${ctx}/images/viptico2.png" alt=""/>
+    <p>待发货</p>
+    <em>$!{record.unsended}</em></div>
+  <div class="viptopico" onclick="location.href='${ctx}/order/orderList?type=2'"><img src="${ctx}/images/viptico3.png" alt=""/>
+    <p>已发货</p>
+    <em>$!{record.sended}</em></div>
+  <div class="viptopico" onclick="location.href='${ctx}/order/orderList?type=3'"><img src="${ctx}/images/viptico4.png" alt=""/>
+    <p>已完成</p>
+    <em>$!{record.finished}</em></div>
+</div>
+<div class=" height1"></div>
+<div class="vipico" onclick="location.href='${ctx}/order/orderList'">
+  <p><img src="${ctx}/images/vipico1.png" alt=""/>全部订单</p>
+  <span><img src="${ctx}/images/btn-more.png"  alt=""/></span></div>
+
+<div class="vipico" onclick="location.href='${ctx}/member/myCollect'">
+  <p><img src="${ctx}/images/vipico2.png" alt=""/>我的收藏</p>
+  <span><img src="${ctx}/images/btn-more.png"  alt=""/></span></div>
+
+<div class="vipico" onclick="location.href='${ctx}/member/memberGrade'">
+  <p><img src="${ctx}/images/vipico3.png" alt=""/>我的会员等级</p>
+  <span><img src="${ctx}/images/btn-more.png"  alt=""/></span></div>
+
+<div class="vipico" onclick="location.href='${ctx}/member/myscore'">
+  <p><img src="${ctx}/images/vipico4.png" alt=""/>我的积分</p>
+  <span><img src="${ctx}/images/btn-more.png"  alt=""/></span></div>
+
+<div class="vipico" onclick="location.href='${ctx}/member/memberInfo'">
+  <p><img src="${ctx}/images/vipico5.png" alt=""/>个人信息</p>
+  <span><img src="${ctx}/images/btn-more.png"  alt=""/></span>
+</div>
+<div class="vipico" onclick="location.href='${ctx}/order/gotoShoppingCar'">
+  <p><img src="${ctx}/images/vipico6.png" alt=""/>我的购物车</p>
+  <span><img src="${ctx}/images/btn-more.png"  alt=""/></span>
+</div>
+<div class="vipico" onclick="location.href='${ctx}/member/myQrCode'">
+  <p><img src="${ctx}/images/vipico7.png" alt=""/>我的二维码</p>
+  <span><img src="${ctx}/images/btn-more.png"  alt=""/></span>
+</div>
+
+
+<div class="height5"></div>
+<!--bottom-->
+
+#parse("WEB-INF/tmp/bottom.vm")
+</body>
+</html>

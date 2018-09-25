@@ -1,0 +1,14 @@
+<style>
+#loading {position: fixed;left: 0;top: 0;right: 0;bottom: 0;background: rgba(255,255,255,1);margin-left: -2.5rem;margin-top: -1rem;z-index: 111;}
+#loading img {position: absolute;width: 5rem;height: auto;left: 50%;top: 50%;margin-left: -2rem;margin-top: -3rem;}
+</style>
+<script type="text/javascript" src="${ctx}/js/jquery-1.11.0.min.js"></script>
+<script>
+var ctx="${ctx}";
+$(function(){
+	$("#loading").remove();
+});
+</script>
+<script type="text/javascript" src="${ctx}/js/ibox.js"></script>
+<script type="text/javascript" src="${ctx}/js/common.js"></script>
+<div id='loading'><img src='${ctx}/images/loading.gif'></div>

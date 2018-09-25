@@ -1,0 +1,397 @@
+<!doctype html>
+<html>
+<head>
+	<title>尺尚</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta content="telephone=no" name="format-detection">
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/css.css"/>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/mui.min.css"/>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/app.css"/>
+	 #parse("WEB-INF/tmp/include.vm")
+	 <style>
+	 	select{margin-bottom: 0px; padding: 5px;}
+	 </style>
+</head>
+
+<body>
+	<header class="mui-bar mui-bar-nav z_bar_nav">
+	    <a class="mui-action-back mui-icon mui-icon-arrowleft z_col_666" onclick="javascript:history.go(-1)"></a>
+	    <h1 class="mui-title">确认订单</h1>
+	</header>
+	<div class="z_padt44 z_padb70">
+		<input type="hidden" name="addrid" value="$!{memberAddress.id}"/>
+		<input type="hidden" name="balancePay"/>
+		<input type="hidden" name="couponids"/>
+		<div class="z_address">
+	    	<span class="z_icon_address"></span>
+	    	
+	    	<div #if("$!{memberAddress}"!="")style="display:none"#else style="display:block"#end onclick="addAddress()" class="z_address_zadd"><a href="javascript:void(0)" class="z_new_address">添加收货地址</a></div>
+	    	<div class="z_address_a" #if("$!{memberAddress}"=="")style="display:none"#end>
+	        	<p class="row1"><span class="r1"><b>收货人：</b><i id="addressName">$!{memberAddress.name}</i></span><span class="r2" id="phone">$!{memberAddress.phone}</span></p>
+	            <p class="row2">收货地址：<span id="address">$!{memberAddress.address}</span></p>
+	        </div>
+	    </div>
+	    <div class="z_ord_box">
+	    	#foreach($goodsDetail in $!{goodsDetails})
+	        <div class="z_ord_list" js-num="$!{goodsDetail.num}" js-id="$!{goodsDetail.id}">
+	            <a href="javascript:void(0)" class="list_img"><img onload="fixImg($(this))" onerror="defaultImg(this)" src="${ftppath}$!{goodsDetail.img}"></a>
+	            <p class="row1">$!{goodsDetail.name}</p>
+	            <p class="row2"><span>$!{goodsDetail.colorName}</span>,<span>$!{goodsDetail.sizeName}</span></p>
+	            #if(${goodsDetail.isdiscount}=="2")
+	            <p class="row3"><span class="left"><span class="r1"><i>￥</i>$!{goodsDetail.vipPrice}</span><span class="r2"><i>￥</i>$!{goodsDetail.price}</span></span><span class="right">×<i>$!{goodsDetail.num}</i></span></p>
+	            #else
+	            <p class="row3"><span class="left"><span class="r1"><i>￥</i>$!{goodsDetail.price}</span></span><span class="right">×<i>$!{goodsDetail.num}</i></span></p>
+	            #end
+	        </div>
+	    	#end
+		<div class="z_lmsg">
+	    	<div class="z_lmsg_hd">您的留言</div>
+	        <div class="z_lmsg_bd"><textarea placeholder="您的留言" name="remark"></textarea></div>
+	    </div>
+	    <div class="z_odd">
+	        <ul>
+	            <li><a href="javascript:void(0)">订单原价</a><span class="z_col6167f1"><i>${oldprice}</i>元</span></li>
+	            <li><a href="javascript:void(0)">享受折扣</a><span class="z_col6167f1"><i>${member.discount}</i>折</span></li>
+	            <li><a href="javascript:void(0)">订单金额</a><span class="z_col6167f1"><i>${total}</i>元</span></li>
+	            #if(${subtractmoney}>0)
+	            <li><a class="z_odd_y" href="javascript:void(0)"><i>满</i>满减优惠</a><span id="subMoney" class="z_col6167f1">$!{subtractText}</span></li>
+	            <input type="hidden" value="${subtractmoney}" name="subtractmoney"/>
+	            #end
+	            #if($memberCoupons.size()>0)
+	            <li class="z_odd_li" id="coupons"><a class="z_odd_m2" href="javascript:void(0)">优惠券</a><span class="z_col6167f1"><i id="couponUse">0</i>元</span></li>
+	            #end
+	            <li class="z_odd_li" id="balances"><a class="z_odd_m1" href="javascript:void(0)">余额使用</a><span class="z_col6167f1"><i id="balanceUse">0</i>元</span></li>
+	            
+	            <li class="z_por"><a class="z_gz" href="javascript:void(0)">满减规则</a><span class="z_gz_all">小计￥<i class="topay">${topay}</i></span><span class="z_gz_sell">已优惠￥<i>0</i></span></li>  
+	        </ul>
+	    </div>
+	    <div class="z_b_div">
+	    	<div class="z_d_pay">
+		    	<div class="z_d_left">应付款:<span>￥<i class="topay">${topay}</i></span></div><a href="javascript:void(0)" class="bj_1 z_pay_a" id="payBtn">去付款</a>
+	        </div>
+	    </div>
+	</div>
+	<div class="z_gz_box">
+		<div class="z_gz_box_main">
+	    	<i class="z_close" onclick="$(this).parent().parent().hide()"></i>
+	        <h2>满减规则</h2>
+	        #foreach($rule in $fullRules)
+	        <p>满${rule.amount}减${rule.subtractAmount}</p>
+	        #end
+	    </div>
+	</div>
+	
+	
+	<div class="z_odd_m">
+		<div class="z_odd_m_div">
+	    	<div class="z_odd_m_div_tit">可用余额：<span>￥<i>${member.balance}</i></span>元</div>
+	        <input class="z_odd_input" placeholder="请输入金额" type="text" value="">
+	        <div class="z_odd_m_div_bt"><span class="r1"><a class="z_dd_m_r1" onclick="$('.z_odd_m').hide()" href="javascript:void(0)">取消</a></span><span class="r2"><a class="z_dd_m_r2" id="balanceOk" href="javascript:void(0)">确定</a></span></div>
+	    </div>
+	</div>
+	<div class="z_odd_j">
+		<div class="z_odd_j_div">
+	    	<div class="z_box_center">
+	            <div class="z_box_center_tit">使用优惠券</div>
+	        </div>
+	    	<div class="z_coupon tab">
+	            <div class="z_coupon_bd tab-bd">
+	                <div class="z_coupon_none thisclass">
+	                    <div class="z_coupon_list z_c_a">
+	                        <ul>
+	                        	#foreach($coupon in $!{memberCoupons})
+	                            <li class="clear" js-id="${coupon.id}" js-money="${coupon.money}">
+	                            	<label class="z_lable_100 mui-checkbox"><input type="checkbox" vaule="" name="checkbox"></label>
+	                                <i class="i1"></i><i class="i2"></i>
+	                                <span class="img"><img src="${ftppath}${coupon.logoUrl}"></span>
+	                                <h2>${coupon.name}</h2>
+	                                <p class="r1">${coupon.money}元</p>
+	                                <p class="r2">使用期限：$!date.format('yyyy-MM-dd',$!coupon.startTime) - $!date.format('yyyy-MM-dd',$!coupon.endTime)</p>
+	                            </li>
+	                            #end
+	                        </ul>
+	                    </div>
+	                    <div class="z_bottom"><input type="button" id="couponOk" class="bj_1" value="确定" /></div>
+	                    <div class="z_bottom_cancel"><input type="button" onclick="$('.z_odd_j').hide()" class="bj_cancel z_none_box" value="取消" /></div>
+	                </div>
+	            </div>
+	    	</div>        
+	    </div>
+	</div> 
+	<div class="z_add_box" style="z-index:999">
+		<div class="z_box_center">
+	    	<div class="z_box_center_tit">添加收货人</div>
+	    </div>
+	    <section class="g-flexview">
+	    	<form id="addrform">
+	        <section class="g-scrollview">
+	            <!--默认调用-->
+	            <div class="m-cell">
+	                <div class="cell-item">
+	                    <div class="cell-left">收货人：</div>
+	                    <div class="cell-right">
+	                        <input type="text" class="z_inp_text" name="name" placeholder="请填写收货人">
+	                    </div>
+	                </div>
+	            </div>
+	            <div class="m-cell">
+	                <div class="cell-item">
+	                    <div class="cell-left">联系电话：</div>
+	                    <div class="cell-right">
+	                        <input type="text" class="z_inp_text" name="phone" placeholder="请填写联系电话">
+	                    </div>
+	                </div>
+	            </div>
+	            <div class="m-cell">
+	                <div class="cell-item">
+	                    <div class="cell-left">所在地区：</div>
+	                    <div class="cell-arrow">
+	                        <div class="select">
+							    <select class="txt1" style="width:80px;" onchange="getChildren(this)">
+						   			<option value="">省</option>
+						   			#foreach($province in $!{provinces})
+						   			<option value="${province.code}">${province.name}</option>
+						   			#end
+						   		</select> 
+						   		<select class="txt1" style="width:80px;" onchange="getChildren(this)">
+						   			<option value="">市</option>
+						   		</select>
+						   		<select class="txt1" style="width:90px;" name="addressId">
+						   			<option value="">区/县</option>
+						   		</select>
+						    </div>
+	                    </div>
+	                </div>
+	            </div>
+	            <div class="m-cell">
+	                <div class="cell-item">
+	                    <div class="cell-left">详细地址：</div>
+	                    <div class="cell-right">
+	                    	<textarea class="z_textarea" name="detailAddress" placeholder="请填写详细收货地址"></textarea>
+	                    </div>
+	                </div>
+	            </div>
+	            <div class="z_bottom"><input type="button" id="addrSaveBtn" class="bj_1" value="保存" /></div>
+	            <div class="z_bottom_cancel"><input type="button" class="bj_cancel" onclick="$('.z_add_box').hide();" value="取消" /></div>
+	        </section>
+	        </form>
+	    </section>
+	</div>
+	<div class="z_box_aaddress">
+		<div class="z_box_center">
+	    	<div class="z_box_center_tit">选择收货人</div>
+	    </div>
+	    #foreach($add in $memberAddresses)
+	    <div class="z_r_add" js-id="${add.id}">
+	    	<div class="z_r_add_hd">
+	        	<p class="row1"><span class="r1"><b>收货人：</b><i>${add.name}</i></span><span class="r2">${add.phone}</span></p>
+	            <p class="row2">收货地址：<span>${add.address}</span></p>
+	        </div>
+	    </div>
+	    #end
+	    <div class="z_bnone"><a class="z_b_none" onclick="$('.z_box_aaddress').hide();" href="javascript:void(0)">取消</a></div>
+	</div>
+	
+	<script>
+	//新增地址点击
+	function addAddress(){
+		$(".z_add_box input[type='text'],.z_add_box textarea,.z_add_box select").val("");
+		$(".z_add_box").show();
+	}
+	
+	function getChildren(t){
+	   	 	var pid=$(t).val();
+	   	 	var nextselect=$(t).next();
+	    	if(pid){
+	    		$.ajax({
+	    			url:'${ctx}/getChildrenRegion',
+	    			data:{pid:pid },
+	    			method:'POST',
+	    			success:function(result){
+	    				var html="";
+	    				for(var i=0;i<result.length;i++){
+	    					html+="<option value='"+result[i].code+"'>"+result[i].name+"</option>";
+	    				}
+						nextselect.find("option:gt(0)").remove();
+						nextselect.append(html);
+	    			}
+	    		})
+	    	}
+	    }
+	    
+	    //地址校验
+	     function validate(){
+	    	if(!$(".z_add_box input[name='name']").val()){
+	    		$.iBox.alert("请填写收货人!",1000);
+	    		return false;
+	    	}
+	    	if(!$(".z_add_box input[name='phone']").val()){
+	    		$.iBox.alert("请填写联系电话!",1000);
+	    		return false;
+	    	}
+	    	if(!isTelorMobile($(".z_add_box input[name='phone']").val())){
+	    		$.iBox.alert("电话输入不合法!",1000);
+	    		return false;
+	    	}
+	    	if(!$(".z_add_box select[name='addressId']").val()){
+	    		$.iBox.alert("请选择地区!",1000);
+	    		return false;
+	    	}
+	    	if(!$(".z_add_box textarea[name='detailAddress']").val()){
+	    		$.iBox.alert("请填写详细地址!",1000);
+	    		return false;
+	    	}
+	    	return true;
+	    }
+	
+	//合计计算
+	function calc(){
+		var oldprice=parseFloat("${oldprice}");
+		var topay=parseFloat("${topay}");
+		var balancePayTxt=$("input[name='balancePay']").val();
+		var balancePay=balancePayTxt==""?0:parseFloat(balancePayTxt);		//余额支付
+		var couponUse=$("#couponUse").text();
+		var couponpay=couponUse==""?0:parseFloat(couponUse);		//优惠券支付
+		
+		topay=Number(topay).sub(balancePay);
+		topay=Number(topay).sub(couponpay);
+		if(topay<0){
+			topay=0;
+		}
+		$(".topay").text(Number(topay).toFixed(2));
+		
+		var yh=Number(Number(oldprice).sub(topay)).sub(balancePay);
+		$(".z_gz_sell i").text(Number(yh).toFixed(2));
+	}
+	
+	$(function(){
+	
+		calc();
+		
+		$(".z_add_box,.z_add_edit,.adz_box_bj,.z_box_aaddress,.z_odd_m,.z_odd_j,.z_gz_box").css("height",(($(window).height())-(44)+"px"));
+		
+		//地址保存
+		$("#addrSaveBtn").click(function(){
+			if(validate()){
+				$.ajax({
+					url:"${ctx}/addr/saveAddress",
+					data:$("#addrform").serializeArray(),
+					type:"post",
+					dataType:"json",
+					success:function(result){
+						$("#addressName").text(result.memberAddress.name);
+						$("#address").text(result.memberAddress.address);
+						$("#phone").text(result.memberAddress.phone);
+						$("input[name='addrid']").val(result.memberAddress.id);
+						$(".z_add_box").hide();
+						$(".z_icon_address").next().hide();
+						$(".z_icon_address").next().next().show();
+					}
+				});
+			}
+		});
+		
+		//地址选择点击
+		$(".z_address_a").click(function(){
+			if($(".z_box_aaddress .z_r_add_hd").length>0){
+				$(".z_box_aaddress").show();
+			}
+		});
+		
+		//确认选择地址
+		$(".z_box_aaddress .z_r_add").click(function(){
+			$("#addressName").text($(this).find(".r1 i").text());
+			$("#address").text($(this).find(".row2 span").text());
+			$("#phone").text($(this).find(".r2").text());
+			$("input[name='addrid']").val($(this).attr("js-id"));
+			$(".z_box_aaddress").hide();
+		});
+		
+		//余额使用
+		$("#balances").click(function(){
+			$(".z_odd_m").show();
+			$(".z_odd_m input[type='text']").val("");
+		});
+		
+		//余额使用确认
+		$("#balanceOk").click(function(){
+			var text=$(".z_odd_m input[type='text']").val();
+			if(!text||isNaN(text)){
+				$.iBox.alert("只能输入数字",500);
+				return;
+			}
+			if(parseFloat(text)>parseFloat("$!{member.balance}")){
+				$.iBox.alert("余额不足",500);
+				return;
+			}
+			var topay=parseFloat("${topay}");
+			var couponUse=$("#couponUse").text();
+			var couponpay=couponUse==""?0:parseFloat(couponUse);		//优惠券支付
+			topay=Number(topay).sub(couponpay);
+			if(parseFloat(text)>topay){
+				$.iBox.alert("使用余额大于支付金额",500);
+				return;
+			}
+			$("#balanceUse").text(text);
+			$("input[name='balancePay']").val(text);
+			$(".z_odd_m").hide();
+			calc();
+		});
+		
+		//优惠券使用
+		$("#coupons").click(function(){
+			$(".z_odd_j").show();
+		});
+		
+		//优惠券确认
+		$("#couponOk").click(function(){
+			var checked=$(".z_odd_j input[type='checkbox']:checked");
+			/*if(checked.length==0){
+				$.iBox.alert("请选择优惠券",500);
+				return;
+			}*/
+			var ids="",couponpay=0;
+			for(var i=0;i<checked.length;i++){
+				var id=checked.eq(i).parent().parent().attr("js-id");
+				var money=checked.eq(i).parent().parent().attr("js-money");
+				couponpay=Number(money).add(couponpay);
+				if(i==0){
+					ids+=id;
+				}
+				else{
+					ids+=","+id;
+				}
+			}
+			$("input[name='couponids']").val(ids);
+			$("#couponUse").text(couponpay);
+			$(".z_odd_j").hide();
+			calc();
+		});
+		
+		$(".z_gz").click(function(){
+			$(".z_gz_box").show();
+		});
+		
+		//提交支付
+		$("#payBtn").click(function(){
+			var data={
+				from:'${from}',
+				json:'${json}',
+				addrid:$("input[name='addrid']").val(),
+				balancePay:$("input[name='balancePay']").val(),
+				couponids:$("input[name='couponids']").val(),
+				remark:$("textarea[name='remark']").val()
+			};
+			if(!data.addrid){
+				$.iBox.alert("收货地址不能为空",500);
+				return;
+			}
+			$.iBox.loading("处理中...");
+			jQuery.post("${ctx}/order/saveOrder",data,function(data,status){}); 
+		});
+	});
+	
+	</script>
+</body>
+</html>

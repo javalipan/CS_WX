@@ -1,0 +1,250 @@
+<!doctype html>
+<html>
+<head>
+	<title>尺尚</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta content="telephone=no" name="format-detection">
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/css.css"/>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/mui.min.css"/>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/app.css"/>
+	 #parse("WEB-INF/tmp/include.vm")
+	 <style>
+	 	select{margin-bottom: 0px; padding: 5px;}
+	 </style>
+</head>
+
+<body>
+	<header class="mui-bar mui-bar-nav z_bar_nav">
+	    <a class="mui-action-back mui-icon mui-icon-arrowleft z_col_666" onclick="javascript:history.go(-1)"></a>
+	    <h1 class="mui-title">管理收货地址</h1>
+	</header>
+	<div class="z_padt44">
+		#foreach($address in $memberAddresses)
+		<div class="z_r_add">
+	    	<div class="z_r_add_hd">
+	        	<p class="row1"><span class="r1"><b>收货人：</b><i>${address.name}</i></span><span class="r2">${address.phone}</span></p>
+	            <p class="row2">收货地址：<span>${address.address}</span></p>
+	        </div>
+	    	<div class="z_r_add_bd clear">
+	        	<div class="left"><label class="lab_none mui-radio"><input #if(${address.isDefault}=="1")checked="checked"#end type="radio" value="${address.id}"><span>默认地址</span></label></div>
+	            <div class="right"><a class="r1 z_edit" href="javascript:void(0)" onclick="edit(${address.id})"><i></i><span>编辑</span></a><a class="r2 z_add_del" onclick="deleteAddress(${address.id})" href="javascript:void(0)"><i></i><span>删除</span></a></div>
+	        </div>
+	    </div>
+		#end
+	    <div class="z_bottom"><input type="button" class="bj_1 new_add" value="添加新收货地址"></input></div>
+	</div>
+	
+	<div class="z_add_box" id="js-pop-edit">
+	    <section class="g-flexview">
+		<form>
+			<input type="hidden" name="id"/>
+	        <section class="g-scrollview">
+	            <!--默认调用-->
+	            <div class="m-cell">
+	                <div class="cell-item">
+	                    <div class="cell-left">收货人：</div>
+	                    <div class="cell-right">
+	                        <input type="text" class="z_inp_text" name="name" placeholder="请填写收货人">
+	                    </div>
+	                </div>
+	            </div>
+	            <div class="m-cell">
+	                <div class="cell-item">
+	                    <div class="cell-left">联系电话：</div>
+	                    <div class="cell-right">
+	                        <input type="text" class="z_inp_text" name="phone" placeholder="请填写联系电话">
+	                    </div>
+	                </div>
+	            </div>
+	            <div class="m-cell">
+	                <div class="cell-item">
+	                    <div class="cell-left">所在地区：</div>
+	                    <div class="">
+	                        <div class="select">
+							    <select class="txt1" style="width:80px;" onchange="getChildren(this)">
+						   			<option value="">省</option>
+						   			#foreach($province in $!{provinces})
+						   			<option value="${province.code}">${province.name}</option>
+						   			#end
+						   		</select> 
+						   		<select class="txt1" style="width:80px;" onchange="getChildren(this)">
+						   			<option value="">市</option>
+						   		</select>
+						   		<select class="txt1" style="width:90px;" name="addressId">
+						   			<option value="">区/县</option>
+						   		</select>
+						    </div>
+	                    </div>
+	                </div>
+	            </div>
+	            <div class="m-cell">
+	                <div class="cell-item">
+	                    <div class="cell-left">详细地址：</div>
+	                    <div class="cell-right">
+	                    	<textarea class="z_textarea" name="detailAddress" placeholder="请填写详细收货地址"></textarea>
+	                    </div>
+	                </div>
+	            </div>
+	            <div class="z_bottom"><input type="button" class="bj_1" id="saveBtn" value="保存"></input></div>
+	            <div class="z_bottom_cancel"><input type="button" class="bj_cancel" value="取消"></input></div>
+	        </section>
+		    </form>
+	    </section>
+	</div>
+	
+	<div class="adz_box_bj">
+		<input type='hidden'/>
+		<div class="z_del">
+	    	<p class="row1">确定要删除该地址吗？</p>
+	        <p class="row2"><a class="r1" onclick="$('.adz_box_bj').hide()" href="javascript:void(0)">取消</a><a class="r2" id="okBtn" href="javascript:void(0)">确定</a></p>
+	    </div>
+	</div>
+	
+	#parse("WEB-INF/tmp/bottom.vm")
+	
+	<script>
+		function getChildren(t){
+	   	 	var pid=$(t).val();
+	   	 	var nextselect=$(t).next();
+	    	if(pid){
+	    		$.ajax({
+	    			url:'${ctx}/getChildrenRegion',
+	    			data:{pid:pid },
+	    			method:'POST',
+	    			success:function(result){
+	    				var html="";
+	    				for(var i=0;i<result.length;i++){
+	    					html+="<option value='"+result[i].code+"'>"+result[i].name+"</option>";
+	    				}
+						nextselect.find("option:gt(0)").remove();
+						nextselect.append(html);
+	    			}
+	    		})
+	    	}
+	    }
+	    
+	    //编辑地址
+	    function edit(id){
+	    	$.ajax({
+				url:"${ctx}/addr/initEditAddress",
+				data:{id:id},
+				type:"post",
+				dataType:"json",
+				success:function(result){
+					if(result){
+						$("#js-pop-edit input[name='id']").val(result.memberAddress.id);
+						$("#js-pop-edit input[name='name']").val(result.memberAddress.name);
+						$("#js-pop-edit input[name='phone']").val(result.memberAddress.phone);
+						$("#js-pop-edit textarea[name='detailAddress']").val(result.memberAddress.detailAddress);
+						$("#js-pop-edit select:eq(0)").val(result.currentAddress.ProvinceCode);
+						$("#js-pop-edit select:eq(1)").append("<option selected='selected' value='"+result.currentAddress.CityCode+"'>"+result.currentAddress.CityName+"</option>");
+						$("#js-pop-edit select:eq(2)").append("<option selected='selected' value='"+result.currentAddress.AreaCode+"'>"+result.currentAddress.AreaName+"</option>");
+						$("#js-pop-edit").show();
+					}
+				}
+			});
+	    }
+	    
+	    //删除地址
+	    function deleteAddress(id){
+	    	$(".adz_box_bj input[type='hidden']").val(id);
+	    	$(".adz_box_bj").show(id);
+	    }
+	    
+	    //关闭弹窗
+	    function closePop(){
+	    	$("#js-pop-edit input[type='text'],#js-pop-edit textarea").val("");
+	    	$("#js-pop-edit select").val("")
+	    	$("#js-pop-edit").hide();
+	    }
+	    
+	    function validate(){
+	    	if(!$("#js-pop-edit input[name='name']").val()){
+	    		$.iBox.alert("请填写收货人!",1000);
+	    		return false;
+	    	}
+	    	if(!$("#js-pop-edit input[name='phone']").val()){
+	    		$.iBox.alert("请填写联系电话!",1000);
+	    		return false;
+	    	}
+	    	if(!isTelorMobile($("#js-pop-edit input[name='phone']").val())){
+	    		$.iBox.alert("电话输入不合法!",1000);
+	    		return false;
+	    	}
+	    	if(!$("#js-pop-edit select[name='addressId']").val()){
+	    		$.iBox.alert("请选择地区!",1000);
+	    		return false;
+	    	}
+	    	if(!$("#js-pop-edit textarea[name='detailAddress']").val()){
+	    		$.iBox.alert("请填写详细地址!",1000);
+	    		return false;
+	    	}
+	    	return true;
+	    }
+    
+		$(function(){
+			$(".z_add_box,.z_add_edit,.adz_box_bj").css("height",(($(window).height())-(44)+"px"));
+			$(".z_del").css("margin-top",((($(window).height())-($(".z_del").height()+50))/3+"px"));
+			
+			//取消按钮
+			$(".bj_cancel").click(function(){
+				closePop();
+			});
+			
+			//新增按钮
+			$(".new_add").click(function(){
+				$("#js-pop-edit").show();
+			});
+			
+			//保存按钮
+			$("#saveBtn").click(function(){
+				if(validate()){
+					$.ajax({
+						url:"${ctx}/addr/saveAddress",
+						data:$("form").serializeArray(),
+						type:"post",
+						dataType:"json",
+						success:function(result){
+							window.location.href = location.href+'?time='+((new Date()).getTime());
+						}
+					});
+				}
+			});
+			
+			$("#okBtn").click(function(){
+				var id=$(".adz_box_bj input[type='hidden']").val();
+				
+				$.ajax({
+					url:"${ctx}/addr/deleteMemberAddress",
+					data:{id:id},
+					type:"post",
+					dataType:"json",
+					success:function(result){
+						if(result){
+							window.location.href = location.href+'?time='+((new Date()).getTime());
+						}
+					}
+				});
+			});
+			
+			$("input[type='radio']").click(function(){
+				$("input[type='radio']:checked").removeAttr("checked");
+				$(this).prop("checked","checked");
+				var id=$(this).val();
+				
+				$.ajax({
+					url:"${ctx}/addr/setDefault",
+					data:{id:id},
+					type:"post",
+					dataType:"json",
+					success:function(result){
+						if(result){
+						}
+					}
+				});
+			});
+		});
+	</script>
+</body>
+</html>

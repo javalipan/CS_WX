@@ -1,0 +1,274 @@
+<!doctype html>
+<html>
+<head>
+	<title>尺尚</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta content="telephone=no" name="format-detection">
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/css.css"/>
+	 #parse("WEB-INF/tmp/include.vm")
+</head>
+
+<body>
+#parse("WEB-INF/tmp/top.vm")
+
+<div class="ordertab"><a href="javascript:void(0)" onclick="delway(0,this)" class="on">商家配送</a> <a href="javascript:void(0)" onclick="delway(1,this)">到店自提</a></div>
+<div class="line1"></div>
+
+<div class="sentaddress self" style="display:none;">
+	<h5><img src="$!{ctx}/images/address.png" alt="">提货人：$!{member.name}</h5>
+	<h5 style=" margin-left:2rem;">手机号码：$!{member.phone}</h5>
+	<h5 style=" margin-left:2rem;">提货地点：重庆南岸区南滨路133号长嘉汇购物公园L1-27 </h5> <img src="$!{ctx}/images/btn-more.png" alt="">
+	<div class="clear"></div>
+</div>
+<div class="sentlist  clear">
+  
+  #foreach($goodsDetail in $!{goodsDetails})
+  <div  class="shopingbox" js-num="$!{goodsDetail.num}" js-id="$!{goodsDetail.id}">
+    <div class="shopingboxpic"><img src="${ftppath}$!{goodsDetail.img}"  alt=""/></div>
+    <div class="shopingboxnr">
+      <h3>$!{goodsDetail.name}</h3>
+      <div class="rule rule320">$!{goodsDetail.colorName}&nbsp;&nbsp;$!{goodsDetail.sizeName}</div>
+      <div><span class="span320">X$!{goodsDetail.num}</span> </div>
+    </div>
+    <div class="shopprice">
+      <div class="close"></div>
+      <div class="addprice addprice320">$!{goodsDetail.num}X￥$!{goodsDetail.price}</div>
+      <div class="totleprice totleprice320">￥$!{goodsDetail.total}</div>
+    </div>
+  </div>
+  <div class="line1"></div>
+  #end
+  
+</div>
+<div class="sentscorebg send">
+  <div class="sentscore">
+    <h5>您当前积分为：<em>$!{member.memberPoint}</em></h5>
+    <h5>可兑换积分为：<em>$!{rempoints}</em></h5>
+  </div>
+  <p>兑换：<em id="exresult" style="color:#45c8dc;"></em>(需输入$!{INT_TIMES}的整倍数)</p>
+  <div class="sentinput">
+    <div>
+      <input type="text" id="integral" max="$!{rempoints}" value="0"/>
+      <input type="hidden" name="integral" value="0"/>
+    </div>
+    <a onclick="exchange(this)">兑换/取消</a>
+     </div>
+  <!--<div class="sentinput">
+    <h6>优惠：￥101.0</h6>
+  </div>-->
+</div>
+<div class="sentdetail">
+  <div class="mt1 send">
+    <h5 style=" line-height:1rem;">配送方式：</h5>
+    <h3>本店由申通、圆通、中通、顺丰物流统一配送</h3>
+  </div>
+  <div class="line2 send"></div>
+  <div class="send">
+    <h5>收货人：</h5>
+    <input type="text" value="$!{member.name}" name="reveivename" placeholder="输入收货人姓名" style=" border:0;">
+    </span>
+  </div>
+  <div class="line2 send"></div>
+  <div class="send">
+    <h5>收货地点：</h5>
+    <input type="text" value="$!{currentAddress.ProvinceName}$!{currentAddress.CityName}$!{currentAddress.AreaName}$!{member.detailAddress}" name="address" placeholder="输入详细收货地址" style=" border:0;">
+    </span>
+  </div>
+  <div class="line2 send"></div>
+  <div class="send">
+    <h5>联系电话：</h5>
+    <input type="text" value="$!{member.phone}" name="phone" placeholder="输入收货人电话" style=" border:0;">
+    </span>
+  </div>
+  <div class="line2"></div>
+  <div>
+    <h5>您的留言：</h5>
+    <input type="text" name="remark" placeholder="点击给商家留言" style=" border:0;">
+    </span>
+  </div>
+  <div class="line2"></div>
+  <div>
+    <h5>合计：</h5>
+    <span class="fr" style="font-size:1rem;">￥$!{total}</span></div>
+  <div class="line2"></div>
+  <div>
+    <h5>本次优惠：</h5>
+    <em class="fr">￥0</em></div>
+  <div class="line2"></div>
+</div>
+<div class="sentscorebg clear">
+  <div class="sentscore">
+    <h5>您当前获取积分速度为：<em>$!{speed}</em></h5>
+    <h5>本次消费可获积分为 ：<em id="thispoint">$!{points}</em></h5>
+  </div>
+  <div class="clear"></div>
+</div>
+<div class="height5"></div>
+<!--bottom-->
+
+<div class="bottom1" style="height:4.5rem;width:100%;position:fixed;left:auto;right:auto;bottom:0;_position:absolute;_top:expression(document.documentElement.clientHeight + document.documentElement.scrollTop - this.offsetHeight);text-align:center;">
+  <div class="shopbottom">
+    <div class="shopbtnl">
+      <h4 style="margin-top:1.3rem;">合计: $!{total}元</h4>
+    </div>
+    <div class="shopbtnr" onclick="checkout()" style="background:#f94304"><a href="javascript:void(0)">结算</a></div>
+  </div>
+</div>
+<input type="hidden" name="delway" value="0"/>
+<input type="hidden" name="from" value="$!{from}"/>
+<script> 
+$(function(){
+	$("#integral").bind("input propertychange",function(){
+		var times=parseInt("${INT_TIMES}");
+		var weight=parseInt("${INT_WEIGHT}");
+		var points=$("#integral").val();
+		$("#exresult").html("");
+		if(!points){
+			return;
+		}
+		if(isNaN(points)){
+			return;
+		}
+		if(parseInt(points)<=0){
+			return;
+		}
+		if(points&&parseInt(points)>0&&parseInt(points)<times){
+			return;
+		}
+		if(points&&parseInt(points)%times>0){
+			return;
+		}
+		if(parseInt(points)>parseInt("$!{rempoints}")){
+			return;
+		}
+		var exchangePrice=parseInt(points)/parseInt(weight);
+		$("#exresult").html(points+"分="+exchangePrice+"元");
+	});
+});
+
+function delway(type,t){
+	if(type==1){
+		$(".send").hide();
+		$(".self").show();
+		$("input[name='delway']").val(1);
+	}
+	else{
+		$(".send").show();
+		$(".self").hide();
+		$("input[name='delway']").val(0);
+	}
+	$(t).siblings().removeClass("on");
+	$(t).addClass("on");
+}
+
+function checkout(){
+	if(!window.confirm("您确认要结算此订单吗?")){
+		return;
+	}
+	var array=[];
+	for(var i=0;i<$(".shopingbox").length;i++){
+		array.push({
+			id:$(".shopingbox").eq(i).attr("js-id"),
+			num:$(".shopingbox").eq(i).attr("js-num")
+		});
+	}
+	if(array.length<=0){
+		$.iBox.error("商品不能为空!");
+		return;
+	}
+	var data={
+		json:JSON.stringify(array),
+		remark:$("input[name='remark']").val(),
+		delWay:$("input[name='delway']").val()
+	};
+	if($("input[name='from']").val()){
+		data.from=$("input[name='from']").val();
+	}
+	if($("input[name='delway']").val()=="0"){		//商家配送
+		if(!$("input[name='reveivename']").val()){
+			$.iBox.alert("收货人不能为空!");
+			return;
+		}
+		if(!$("input[name='address']").val()){
+			$.iBox.alert("收货地址不能为空!");
+			return;
+		}
+		if(!$("input[name='phone']").val()){
+			$.iBox.alert("收货人电话不能为空!");
+			return;
+		}
+		data.reveivename=$("input[name='reveivename']").val();
+		data.address=$("input[name='address']").val();
+		data.phone=$("input[name='phone']").val();
+		data.integral=$("input[name='integral']").val();
+	}
+	else{		//自提
+		
+	}
+	jQuery.post("${ctx}/order/saveOrder",data,function(data,status){}); 
+}
+
+//积分兑换
+function exchange(t){
+	$("#exresult").html("");
+	var times=parseInt("${INT_TIMES}");
+	var weight=parseInt("${INT_WEIGHT}");
+	var points=$("#integral").val();
+	if(!points){
+		$.iBox.alert("请输入要兑换积分");
+		return;
+	}
+	if(isNaN(points)){
+		$.iBox.alert("请输入数字");
+		return;
+	}
+	if(parseInt(points)<=0){
+		$.iBox.alert("兑换积分必须大于0");
+		return;
+	}
+	if(points&&parseInt(points)>0&&parseInt(points)<times){
+		$.iBox.alert("只能兑换"+times+"的整数倍");
+		$("#integral").val(0);
+		return;
+	}
+	if(points&&parseInt(points)%times>0){
+		$.iBox.alert("只能兑换"+times+"的整数倍");
+		$("#integral").val(parseInt(points)-(parseInt(points)%times));
+		return;
+	}
+	if((parseInt(points)/parseInt(weight))>parseFloat("$!{total}")){
+		$("#integral").val(0);
+		$.iBox.alert("兑换金额不能大于订单总金额");
+		return;
+	}
+	if(parseInt(points)>parseInt("$!{rempoints}")){
+		$("#integral").val(0);
+		$.iBox.alert("积分不足!");
+		return;
+	}
+	if(window.confirm("您确认要兑换积分吗?")){
+		$("#integral").attr("disabled","disabled");
+		$("input[name='integral']").val(points);
+		var exchangePrice=parseInt(points)/parseInt(weight);
+		var price=Number(parseFloat("$!{total}")).sub(exchangePrice);
+		$(".shopbtnl h4").html("合计: "+price+"元");
+		$(t).attr("onclick","cancelExchange(this)");
+		$("#exresult").html(points+"分="+exchangePrice+"元");
+		$("#thispoint").html(parseInt(Number("$!{speed}").mul(price)));
+	}
+}
+
+//取消兑换
+function cancelExchange(t){
+	$("#integral").val(0);
+	$("#integral").removeAttr("disabled");
+	$("input[name='integral']").val(0);
+	$(".shopbtnl h4").html("合计: $!{total}元");
+	$(t).attr("onclick","exchange(this)");
+	$("#exresult").html("");
+	$("#thispoint").html("$!{points}");
+}
+</script>
+</body>
+</html>

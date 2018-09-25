@@ -1,0 +1,131 @@
+<!doctype html>
+<html>
+<head>
+	<title>尺尚</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta content="telephone=no" name="format-detection">
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/css.css"/>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/mui.min.css"/>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/app.css"/>
+	<script>
+	var ctx="${ctx}";
+	</script>
+	<script type="text/javascript" src="${ctx}/js/jquery.min.js"></script>
+	<script type="text/javascript" src="${ctx}/js/ibox.js"></script>
+	<script type="text/javascript" src="${ctx}/js/common.js"></script>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/lCalendar.css"/>
+	<script src="${ctx}/js/lCalendar.min.js"></script>
+	<script src="${ctx}/js/ajaxfileupload.js"></script>
+</head>
+
+<body>
+	<header class="mui-bar mui-bar-nav z_bar_nav">
+	    <a class="mui-action-back mui-icon mui-icon-arrowleft z_col_666" onclick="javascript:history.go(-1)"></a>
+	    <h1 class="mui-title">个人信息</h1>
+	</header>
+	<div class="z_padt44">
+		<div class="z_setinfo">
+	    	<div class="z_setinfo_tips">请确保个人信息的真实性，所有个人信息均严格保密。</div>
+	        <form id="infoForm">
+	        <input type="hidden" name="headUrl" value="$!{member.headUrl}"/>
+	        <div class="z_setinfo_main">
+	        	<ul>
+	            	<li class="z_mui_after"><a href="javascript:void(0)"><img id="headImg" src="$!{member.headUrl}"/></a><input type="file" name="file" id="file" style="display:none;"/></li>
+	                <li class="z_mui_after">
+	                    <label>昵称</label>
+	                    <input class="inp_text" type="text" name="nickname" value="$!{member.nickname}" placeholder="昵称">
+	                </li>
+	                <li class="z_mui_after">
+	                    <label>联系电话</label>
+	                    <input class="inp_text" type="text" name="phone" value="$!{member.phone}" placeholder="输入常用的联系电话  ">
+	                </li>
+	                <li class="z_mui_after">
+	                    <label>真实姓名</label>
+	                    <input class="inp_text" type="text" name="name" value="$!{member.name}" placeholder="输入真实姓名">
+	                </li>
+	                <li>
+	                    <label>性别</label>
+	                    <label class="lab_none mui-radio"><input type="radio" value="0" #if($!{member.sex}=="0")checked="checked"#end name="sex"><span>男</span></label>
+	                    <label class="lab_none mui-radio"><input type="radio" value="1" #if($!{member.sex}=="1")checked="checked"#end name="sex"><span>女</span></label>
+	                </li>
+	                <li class="z_mui_after">
+	                    <label>生日</label>
+	                    <input class="inp_text" type="text" placeholder="生日" name="birthday" readonly="readonly" id="demo1" value="$!date.format('yyyy-MM-dd',$!member.birthday)" style=" border:0;">
+	                </li>
+	            </ul>
+	        </div>
+	        </form>
+	        <div class="z_bottom"><input type="button" onclick="save()" class="bj_1" value="确定" /></div>
+	    </div>
+	</div>
+	
+	<script>
+	$(function(){
+		var calendar = new lCalendar();
+	    calendar.init({
+	        'trigger': '#demo1',
+	        'type': 'date'
+	    });
+	    
+	    $("#headImg").click(function(){
+	    	$("#file").click();
+	    });
+	    
+	    $("#file").change(function(){
+	    	$.ajaxFileUpload({
+                url: '${ctx}/atta/upload', //用于文件上传的服务器端请求地址
+                secureuri: false, //是否需要安全协议，一般设置为false
+                fileElementId: "file", //文件上传域的ID
+                dataType: 'json', //返回值类型 一般设置为json
+                success: function (data, status)  //服务器成功响应处理函数
+                {
+                    $("#headImg").attr("src", "${headPrev}"+data.filePath);
+                    $("input[name='headUrl']").val(data.filePath);
+                },
+                error: function (data, status, e)//服务器响应失败处理函数
+                {
+                    alert(e);
+                }
+            });
+	    });
+	});
+	
+	function save(){
+    	if(!$("input[name='nickname']").val()){
+    		$.iBox.alert("请输入昵称",1000);
+    		return;
+    	}
+    	if(!$("input[name='phone']").val()){
+    		$.iBox.alert("请输入手机号码",1000);
+    		return;
+    	}
+    	if(!ismobile($("input[name='phone']").val())){
+    		$.iBox.alert("手机号不合法",1000);
+    		return;
+    	}
+    	if(!$("input[name='name']").val()){
+    		$.iBox.alert("请输入姓名",1000);
+    		return;
+    	}
+    	$.ajax({
+    		url:"${ctx}/member/saveMemberInfo",
+    		data:$("#infoForm").serializeArray(),
+    		method:'post',
+    		dataType:'json',
+    		success:function(data){
+    			if(data.ok){
+    				$.iBox.success("保存成功!",1000);
+    				if(data.redirect){
+	    				setTimeout(window.location.href="${ctx}/member/hongbao",1000);
+    				}
+    				else{
+	    				setTimeout(window.location.href="${ctx}/member/memberCenter",1000);
+    				}
+    			}
+    		}
+    	});
+    }
+	</script>
+</body>
+</html>

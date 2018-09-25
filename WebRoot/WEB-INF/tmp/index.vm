@@ -1,0 +1,261 @@
+<!doctype html>
+<html>
+<head>
+	<title>尺尚</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta content="telephone=no" name="format-detection">
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/css.css"/>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/mui.min.css"/>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/app.css"/>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/ectouch.css"/>
+	 #parse("WEB-INF/tmp/include.vm")
+	<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<script type="text/javascript" src="${ctx}/js/mui.min.js"></script>
+</head>
+
+<body>
+	<div class="z_padb70">
+	    <div class="banner">
+	        <div id="slider" class="mui-slider" >
+	            <div class="mui-slider-group mui-slider-loop">
+	                <!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
+	                #foreach($content in $contents)
+	                	#if(${velocityCount}==$contents.size())
+	                	<div class="mui-slider-item mui-slider-item-duplicate"><a href="$!{content.url}"><img src="${ftppath}/$!{content.img}"></a></div>
+	                	#end
+	                #end
+	                #foreach($content in $contents)
+	                	<div class="mui-slider-item"><a href="$!{content.url}"><img src="${ftppath}/$!{content.img}"></a></div>
+	                #end
+	                <!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
+	                #foreach($content in $contents)
+	                	#if(${velocityCount}==1)
+	                	<div class="mui-slider-item mui-slider-item-duplicate"><a href="$!{content.url}"><img src="${ftppath}/$!{img.content}"></a></div>
+	                	#end
+	                #end
+	            </div>
+	            <div class="mui-slider-indicator">
+	             	#foreach($content in $contents)
+		                <div class="mui-indicator#if(${velocityCount}==1) mui-active#end"></div>
+	                #end
+	            </div>
+	        </div>
+	    </div>
+	    <div class="new_hot_main">
+	        <div class="new_hot" id="new_hot">	
+	            <ul>
+	            	#foreach($content in $notices)
+	                <li><a href="$!{content.url}">$!{content.title}</a></li>
+	                #end
+	            </ul>
+	        </div>
+	    </div>
+	    <div class="z_seach"><!--<div class="z_seach z_seach_click">-->
+	    	<div class="z_seach_c">
+	        	<input class="z_seach_t" type="text" placeholder="请输入关键字搜索" /><input class="z_seach_b" type="button" value=""/>
+	        </div>
+	        <a href="javascript:void(0)" class="non">取消</a>
+	    </div>
+	    <div class="tab i_c_list">
+	    	<div class="tab-hd i_c_hd">
+	        	<ul>
+	            	<li #if(${type}=="1")class="cur"#end><a href="${ctx}/index?type=1">为您推荐</a></li>
+	                <li #if(${type}=="2")class="cur"#end><a href="${ctx}/index?type=2">促销</a></li>
+	                <li #if(${type}=="3")class="cur"#end><a href="${ctx}/index?type=3">新品</a></li>
+	            </ul>
+	        </div>
+	        
+	    	<div class="tab-bd i_c_bd">
+	        	<div class="z_coupon_none thisclass">
+	            	<div class="i_c_ware clear">
+	                	<ul>
+	                    	#foreach($goods in $goodsList)
+	                    	<li onclick="location.href='${ctx}/goods/goodsDetail?id=$!{goods.id}'">
+		                    	<a href="javascript:void(0)"><img onload="fixImg($(this))" onerror="defaultImg(this)" src="${ftppath}/$!{goods.img}"></a>
+		                        <p class="row1">$!{goods.brandname}-$!{goods.name}</p>
+		                        <p class="row2 clear"><span class="left"><i class="r1">￥</i><i class="r2">#if(${goods.isDiscount}=="2")$!{goods.priceJsonObj.vipmin}#else$!{goods.priceJsonObj.min}#end</i></span>#if(${goods.isDiscount}=="2")<span class="right">原价:￥<i>$!{goods.priceJsonObj.min}</i></span>#end</p>
+		                    </li>
+	                        #end
+	                    </ul>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	
+	#if(${totalamount}>0)
+	<div class="z_quan_list">
+	    <div class="z_quan_main">
+	    	<i class="z_quan_colse"></i>
+	    	<div class="z_quan_hd">
+	        	<div class="r1"><img src="${member.headUrl}" width="50" height="50"/></div>
+	            <div class="r2">您当前有<span><i>￥</i>${totalamount}</span>元优惠券</div>
+	        </div>
+	        <div class="z_quan_bd">
+	        	<ul>
+	        		#foreach($membercoupon in $memberCoupons)
+	            	<li><i class="i3"></i><i class="i4"></i>
+	                	<p><i class="i1"></i><i class="i2"></i>
+	                    	<span class="r1">优<br/>惠<br/>券</span>
+	                        <span class="r2">
+	                        	<span class="r3">￥${membercoupon.money}</span>
+	                            <span class="r4">/</span>
+	                            <span class="r5">
+	                            	<i>元</i>
+	                                <b>${membercoupon.name}</b>
+	                            </span>                        
+	                        </span>
+	                    </p>
+	                </li>
+	                #end
+	            </ul>
+	        </div>
+	        <div class="z_quan_bt">
+	        	<a href="javascript:void(0)" onclick="$(this).parent().parent().parent().hide();">进店看看</a>
+	        	<img src="${ctx}/images/z_quan.png" />
+	        </div>
+	    </div>
+	</div>
+	#end
+	
+	#set($current=1)
+	#parse("WEB-INF/tmp/bottom.vm")
+	
+	<script>
+	//首页信息滚动开始
+	function AutoScroll(obj){
+	    $(obj).find("ul:first").animate({
+	        marginTop:"-50px"
+	    },500,function(){
+	        $(this).css({marginTop:"0px"}).find("li:first").appendTo(this);
+	    });
+	}
+
+	$(function(){
+		//首页banner开始
+		var slider = mui("#slider");
+			slider.slider({
+				interval: 5000
+		});
+		
+		setInterval('AutoScroll("#new_hot")',3000);
+		
+		$(".z_seach_t").click(function(){
+			$(".z_seach").addClass("z_seach_click");
+		});
+		$(".non").click(function(){
+			$(".z_seach").removeClass("z_seach_click");
+		});
+		
+		$(".z_seach_b").click(function(){
+			var text=$(this).prev().val();
+			if(text){
+				location.href="${ctx}/goods/searchGoods?searchTxt="+text;
+			}
+		});
+		
+		fixImg($(".tab-bd ul li img"));
+		
+		$(".z_quan_list").css("height",($(window).height())+"px");
+		$(".z_quan_main").css("margin-top",((($(".z_quan_list").height())-($(".z_quan_main").height()))/2+"px"));
+	
+	
+		$(".z_quan_colse").click(function(){
+			$(".z_quan_list").hide();
+		});
+		$(".z_quan_bd ul li p .r2").css("width",($(".z_quan_bd ul li p").width()-45)+"px");
+	})
+	
+	wx.config({
+	debug:false, 
+	appId:"${jsparas.appId}",
+	timestamp: "${jsparas.timestamp}",
+	nonceStr: "${jsparas.nonceStr}",
+	signature:"${jsparas.signature}",
+	jsApiList: [
+	   'checkJsApi',
+	   'onMenuShareTimeline',
+	   'onMenuShareAppMessage',
+	   'onMenuShareQQ',
+	   'onMenuShareWeibo',
+	   'onMenuShareQZone' 
+	]
+    });
+    
+    var title  = "尺尚设计师集合";
+	var link = "${jsparas.link}";
+	var imgUrl = "http://weixin.karlay.cn/images/logo.jpg";
+	var desc = "尺尚设计师集合";
+    wx.ready(function () {
+		//获取“分享到朋友圈”按钮点击状态及自定义分享内容接口
+		wx.onMenuShareTimeline({
+		    title:title, // 分享标题
+		    link:link, // 分享链接
+		    imgUrl:imgUrl, // 分享图标
+		    success: function () {
+			// 用户确认分享后执行的回调函数
+		    },
+		    cancel: function () {
+			// 用户取消分享后执行的回调函数
+		    }
+		});
+		//获取“分享给朋友”按钮点击状态及自定义分享内容接口
+		wx.onMenuShareAppMessage({
+		    title:title, // 分享标题
+		    desc:desc, // 分享描述
+		    link:link, // 分享链接
+		    imgUrl:imgUrl, // 分享图标
+		    type: 'link', // 分享类型,music、video或link，不填默认为link
+		    dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+		    success: function () {
+			// 用户确认分享后执行的回调函数
+		    },
+		    cancel: function () {
+			// 用户取消分享后执行的回调函数
+		    }
+		});
+		//获取“分享到QQ”按钮点击状态及自定义分享内容接口
+		wx.onMenuShareQQ({
+		    title:title, // 分享标题
+		    desc:desc, // 分享描述
+		    link:link, // 分享链接
+		    imgUrl:imgUrl, // 分享图标
+		    success: function () {
+		       // 用户确认分享后执行的回调函数
+		    },
+		    cancel: function () {
+		       // 用户取消分享后执行的回调函数
+		    }
+		});
+		//获取“分享到腾讯微博”按钮点击状态及自定义分享内容接口
+		wx.onMenuShareWeibo({
+		    title:title, // 分享标题
+		    desc:desc, // 分享描述
+		    link:link, // 分享链接
+		    imgUrl:imgUrl, // 分享图标
+		    success: function () {
+		       // 用户确认分享后执行的回调函数
+		    },
+		    cancel: function () {
+			// 用户取消分享后执行的回调函数
+		    }
+		});
+	
+		//获取“分享到腾讯微博”按钮点击状态及自定义分享内容接口
+		wx.onMenuShareWeibo({
+		    title:title, // 分享标题
+		    desc:desc, // 分享描述
+		    link:link, // 分享链接
+		    imgUrl:imgUrl, // 分享图标
+		    success: function () {
+		       // 用户确认分享后执行的回调函数
+		    },
+		    cancel: function () {
+			// 用户取消分享后执行的回调函数
+		    }
+		});
+    });
+	</script>
+</body>
+</html>

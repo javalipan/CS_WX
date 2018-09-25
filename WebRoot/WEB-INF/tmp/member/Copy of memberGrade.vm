@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+<head>
+	<title>尺尚</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta content="telephone=no" name="format-detection">
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/css.css"/>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/mui.min.css"/>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/app.css"/>
+	 #parse("WEB-INF/tmp/include.vm")
+	 <style>.viptable img,.vipbggrade .vipgrade img{width:auto;height:18px;}</style>
+</head>
+
+<body>
+ #parse("WEB-INF/tmp/top.vm")
+ 
+<div class="vipbggrade"> <img src="$!{member.headUrl}" style="width: 4rem;height: 4rem;display: block;margin:0 auto;border-radius: 30rem;background: #828C97;text-align: center;" alt=""/>
+  <div class="vipgrade">
+    <h2>尊贵的$!{member.nickname}：</h2>
+    <h3>您目前的会员级别为:&nbsp;<img src="${ctx}/$!{levelSetting.icon}" alt=""/>“$!{levelSetting.gradename}”</h3>
+    #if($nextLevel.icon)
+    <h3>还需${remaining}元消费晋级:&nbsp;<img src="${ctx}/$!{nextLevel.icon}" alt=""/>“$!{nextLevel.gradename}”</h3>
+    #end
+    <h3>当前等级折扣为 $!{levelSetting.discount} 折 #if($nextLevel.icon)下级折扣为  $!{nextLevel.discount} 折#end</h3>
+  </div>
+</div>
+<div class="vipgradett"><h1>您的晋级之路</h1><em><a href="">《会员级别规则》</a></em></div>
+
+<div class="viptablebox"><table class="viptable" >
+  <tbody>
+    <tr>
+      <th scope="col">级别</th>
+      <th scope="col">方式</th>
+    </tr>
+    #foreach($setting in $!{levelSettings})
+    <tr>
+      <td #if($setting.id==$levelSetting.id)class="grey"#end><img src="${ctx}/$!{setting.icon}" alt=""/>$!{setting.gradename}</td>
+      <td #if($setting.id==$levelSetting.id)class="grey"#end>
+	  	#if($velocityCount==1)
+	  	赠送
+	  	#else
+	  	累计消费$!{setting.levelstart}元
+	  	#end
+	  </td>
+    </tr>
+    #end
+  </tbody>
+</table></div>
+
+<div class="height5"></div>
+
+ #parse("WEB-INF/tmp/bottom.vm")
+</body>
+</html>

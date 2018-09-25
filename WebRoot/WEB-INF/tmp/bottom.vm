@@ -1,0 +1,16 @@
+<div class="z_nav">
+	<ul>
+    	<li onclick="location.href='${ctx}/index'"><span #if($current==1)class="cur"#end><a class="a1" href="javascript:void(0)"><i></i><span>首页</span></a></span></li>
+        <li onclick="location.href='${ctx}/goods/brandList'"><span #if($current==2)class="cur"#end><a class="a2" href="javascript:void(0)"><i></i><span>设计师</span></a></span></li>
+        <li onclick="location.href='${ctx}/goods/typeList'"><span #if($current==3)class="cur"#end><a class="a3" href="javascript:void(0)"><i></i><span>分类</span></a></span></li>
+        <li onclick="location.href='${ctx}/order/gotoShoppingCar'"><span #if($current==4)class="cur"#end><a class="a4" href="javascript:void(0)"><i>#if($session.getAttribute("SESSION_SHOPPINGCAR")>0)<em class="a4_e bj_1">$session.getAttribute("SESSION_SHOPPINGCAR")</em>#end</i><span>购物车</span></a></span></li>
+    	<li onclick="location.href='${ctx}/member/memberCenter'"><span #if($current==5)class="cur"#end><a class="a5" href="javascript:void(0)"><i></i><span>个人中心</span></a></span></li>
+    </ul>
+</div>
+
+<!--<div class="bottom1" style="height:4rem;width:100%;position:fixed;left:auto;right:auto;bottom:0;_position:absolute;_top:expression(document.documentElement.clientHeight + document.documentElement.scrollTop - this.offsetHeight);text-align:center;">
+  <div class="newindexnav">
+    <div class="idxbtnl fl"><a href="${ctx}/index"><img src="${ctx}/images/idxbtn-home.png" alt=""/></a></div>
+    <div class="idxbtnr fr"><a href="${ctx}/member/memberCenter"><img src="${ctx}/images/idxbtn-my.png" alt=""/></a></div>
+  </div>
+</div>-->

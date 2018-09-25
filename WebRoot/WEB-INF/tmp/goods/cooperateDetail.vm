@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+	<title>尺尚</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta content="telephone=no" name="format-detection">
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/css.css"/>
+	<script src='${ctx}/js/swipe.js'></script>
+	 #parse("WEB-INF/tmp/include.vm")
+	 <style>
+	 .reorttt img{max-width:99%;}
+	 </style>
+</head>
+
+<body>
+	<div  class="backblock"><img onclick="javascript:history.go(-1)" src="${ctx}/images/btn-back.png"  alt=""/>特别合作系列</div>
+	
+	<div class="reorttt">
+		${cooperate.content}
+	</div>
+	<div class="height1"></div>
+	<div>
+	  #foreach($g in $!{goods})
+	  <a href="${ctx}/goods/goodsDetail?id=$!{g.id}">
+	  <div class="brandblock49 fl po-r">
+	    <div class="price" style=" left:0.8rem;">
+	      <p>￥$!{g.priceJsonObj.min}</p>
+	    </div>
+	    <img src="${ftppath}/$!{g.img}" width="100%" alt=""/>
+	  </div>
+	  </a>
+	  #end
+	</div>
+
+
+</body>
+</html>

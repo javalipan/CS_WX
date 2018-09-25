@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+<head>
+	<title>尺尚</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta content="telephone=no" name="format-detection">
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/css.css"/>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/mui.min.css"/>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/app.css"/>
+	#parse("WEB-INF/tmp/include.vm")
+</head>
+
+<body>
+	<div  class="backblock"><img onclick="javascript:history.go(-1)" src="${ctx}/images/btn-back.png"  alt=""/>我的收藏</div>
+
+	#foreach($collect in $!{collects})
+	<div class="favorlist">
+	  <a href="${ctx}/goods/goodsDetail?id=$!{collect.id}"><div class="favorlistpic"><img src="${ftppath}/${collect.img}"  alt=""/></div></a>
+	  <div class="favorlistnr">
+	    <a href="${ctx}/goods/goodsDetail?id=$!{collect.id}"><h3>${collect.name}</h3></a>
+	    <div class="rule">#if("${collect.status}"=="1")上架#else下架#end<i>$!date.format('yyyy-MM-dd',$!collect.createTime)</i></div>    
+	    <div class="price1">￥$!{collect.priceJsonObj.min} </div>
+	    <div class="btn"><a href="javascript:void(0)" onclick="removeCollect(this,$!{collect.collectid})">移除收藏</a></div>
+	  </div>
+	</div>
+	<div class="line1"></div>
+	#end
+	
+	
+	
+	<div class="height5"></div>
+	
+	#parse("WEB-INF/tmp/bottom.vm")
+	
+	<script>
+	function removeCollect(t,id){
+		if(window.confirm("您确认要移除收藏吗?")){
+			$.ajax({
+				url:'${ctx}/goods/removeCollect',
+				data:{id:id},
+				method:'post',
+				dataType:'json',
+				success:function(result){
+					if(result.ok){
+						$.iBox.success("移除成功!",2000);
+						$(t).parent().parent().parent().remove();
+						$(t).parent().parent().parent().next().remove();
+					}
+				}
+			});
+		}
+	}
+	</script>
+</body>
+</html>

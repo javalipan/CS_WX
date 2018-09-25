@@ -1,0 +1,144 @@
+<!doctype html>
+<html>
+<head>
+	<title>尺尚</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta content="telephone=no" name="format-detection">
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/css.css"/>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/lCalendar.css"/>
+	<script src="${ctx}/js/lCalendar.min.js"></script>
+	 #parse("WEB-INF/tmp/include.vm")
+</head>
+
+<body>
+	 #parse("WEB-INF/tmp/top.vm")
+	<div class="registuser"> <img src="$!{member.headUrl}" style="width: 4rem;height: 4rem;display: block;margin:0 auto;border-radius: 30rem;background: #828C97;text-align: center;" alt=""/></div>
+	<div class="registtablebox">
+	  <form id="infoForm">
+	  <div class="registtable">
+	    <h5>姓名</h5>
+	    <div>
+	    <input type="text" name="name" value="$!{member.name}" placeholder="输入姓名"  style=" border:0;">
+	    </div></div>
+	  <div class="registtable">
+	    <h5>生日</h5>
+	    <div>
+	    <input type="text" placeholder="生日" name="birthday" readonly="readonly" id="demo1" value="$!date.format('yyyy-MM-dd',$!member.birthday)" style=" border:0;">
+	    </div></div>
+	  <div class="registtable">
+	    <h5>性别</h5>
+	    <input type="hidden" value="0" name="sex"/>
+	    <div class="male js-sex"><label><img value="0" src="${ctx}/images/icoselect.png" alt=""/>男</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><img value="1" src="${ctx}/images/icoselectnone.png" alt=""/>女</label></div></div>
+	  <div class="registtable">
+	    <h5>手机</h5>
+	    <div>
+	    <input type="text" name="phone" value="$!{member.phone}" placeholder="输入手机号码" style=" border:0;">
+	    </div></div>
+	  <div class="registtable">
+	    <h5>所在地址</h5>
+	    <div class="select">
+		    <select class="txt1" style="width:80px;" onchange="getChildren(this)">
+	   			<option value="">省</option>
+	   			#foreach($province in $!{provinces})
+	   			<option #if("$!{province.code}" == "$!{currentAddress.ProvinceCode}")selected="selected"#end value="${province.code}">${province.name}</option>
+	   			#end
+	   		</select> 
+	   		<select class="txt1" style="width:80px;" onchange="getChildren(this)">
+	   			<option value="">市</option>
+	   			#if("$!{currentAddress.CityCode}" !="")
+	   			<option selected="selected" value="$!{currentAddress.CityCode}">$!{currentAddress.CityName}</option>
+	   			#end
+	   		</select>
+	   		<select class="txt1" style="width:90px;" name="addressId">
+	   			<option value="">区/县</option>
+	   			#if("$!{currentAddress.AreaCode}" !="")
+	   			<option selected="selected" value="$!{currentAddress.AreaCode}">$!{currentAddress.AreaName}</option>
+	   			#end
+	   		</select>
+	    </div>
+	  </div>
+      <div class="registtable">
+	    <h5>详细地址</h5>
+	    <div>
+	    <input type="text" placeholder="详细地址" value="$!{member.detailAddress}" name="detailAddress" style=" border:0;">
+	    </div></div>
+	</div>
+	</form>
+	
+	<div class="registbtn"><a href="javascript:save()">保存</a></div>
+	
+	<div class="height5"></div>
+	
+	 #parse("WEB-INF/tmp/bottom.vm")
+	<script>
+	$(function(){
+	
+	 var calendar = new lCalendar();
+    calendar.init({
+        'trigger': '#demo1',
+        'type': 'date'
+    });
+	
+		$(".js-sex label").click(function(){
+			$(this).find("img").attr("src","${ctx}/images/icoselect.png");
+			$("input[name='sex']").val($(this).find("img").attr("value"));
+			$(this).siblings().find("img").attr("src","${ctx}/images/icoselectnone.png");
+		});
+		
+		if("$!{member.sex}"){
+			$("img[value='$!{member.sex}']").parent().click();
+		}
+	});
+	
+	function getChildren(t){
+   	 	var pid=$(t).val();
+   	 	var nextselect=$(t).next();
+    	if(pid){
+    		$.ajax({
+    			url:'${ctx}/getChildrenRegion',
+    			data:{pid:pid },
+    			method:'POST',
+    			success:function(result){
+    				var html="";
+    				for(var i=0;i<result.length;i++){
+    					html+="<option value='"+result[i].code+"'>"+result[i].name+"</option>";
+    				}
+					nextselect.find("option:gt(0)").remove();
+					nextselect.append(html);
+    			}
+    		})
+    	}
+    }
+    
+    function save(){
+    	if(!$("input[name='name']").val()){
+    		$.iBox.alert("请输入姓名",1000);
+    		return;
+    	}
+    	if(!$("input[name='phone']").val()){
+    		$.iBox.alert("请输入手机号码",1000);
+    		return;
+    	}
+    	if(!ismobile($("input[name='phone']").val())){
+    		$.iBox.alert("手机号不合法",1000);
+    		return;
+    	}
+    	$.ajax({
+    		url:"${ctx}/member/saveMemberInfo",
+    		data:$("#infoForm").serializeArray(),
+    		method:'post',
+    		dataType:'json',
+    		success:function(data){
+    			if(data.ok){
+    				$.iBox.success("保存成功!",1000);
+    				if(data.redirect){
+	    				setTimeout(window.location.href="${ctx}/member/hongbao",1000);
+    				}
+    			}
+    		}
+    	});
+    }
+	</script>
+</body>
+</html>

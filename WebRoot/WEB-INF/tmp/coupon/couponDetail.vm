@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+<head>
+	<title>优惠券#if(${coupon.type}=='0')兑换#else购买#end</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta content="telephone=no" name="format-detection">
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/css.css"/>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/mui.min.css"/>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/app.css"/>
+	<script src='${ctx}/js/swipe.js'></script>
+	<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	 #parse("WEB-INF/tmp/include.vm")
+</head>
+
+<body>
+	<header class="mui-bar mui-bar-nav z_bar_nav">
+	    <a class="mui-action-back mui-icon mui-icon-arrowleft z_col_666"  onclick="javascript:history.go(-1)"></a>
+	    <a class="head_more right z_bar_font" onclick="location.href='${ctx}/member/myscore'">积分明细</a>
+	    <h1 class="mui-title">优惠券#if(${coupon.type}=='0')兑换#else购买#end</h1>
+	</header>
+	<div class="z_padt44">
+		<div class="z_integral">
+	    	<div class="z_integral_hd">
+	        	<p class="r1"><span>$!{member.memberPoint}</span>积分</p>
+	            <p class="r2"><span>当前积分</span></p>
+	        </div>
+	    	<div class="z_integral_bd">
+	        	<div class="z_integral_list z_integral_z_integral_list_info">
+	                <ul>
+	                    <li class="clear">
+	                        <span class="img"><img src="${ftppath}/${coupon.logoUrl}"/></span>
+	                        <h2>${coupon.name}</h2>
+	                        <p class="r1 clear"><span class="left"><i>${coupon.money}</i>元</span><span class="right">剩余:<i>${coupon.leftAmount}</i>张</span></p>
+	                        <p class="r2">领取有效期:$!date.format('yyyy-MM-dd',$!coupon.startTime) - $!date.format('yyyy-MM-dd',$!coupon.endTime)</p>
+	                    </li>
+	                </ul>
+	            </div>
+	            <div class="z_integral_fix">
+	            	<p class="r1">需要#if(${coupon.type}=='0')积分#else金额 #end: <span><i>#if(${coupon.type}=='0')${coupon.integral}#else ${coupon.price}#end</i></span>#if(${coupon.type}=='0')积分#else元 #end</p>
+	            	<p class="r2">我的积分: <span><i>$!{member.memberPoint}</i></span>积分</p>
+	                <input class="bj_1" id="confirmBtn" type="button" value="确定#if(${coupon.type}=='0')兑换#else购买#end" />
+	            </div>
+	            <div class="z_integral_tips">
+	            	<h2>说明</h2>
+	            	<p>${coupon.remark}</p>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	
+	#parse("WEB-INF/tmp/bottom.vm")
+	
+	<script>
+		$("#confirmBtn").click(function(){
+			var coupontype="${coupon.type}";
+			if(coupontype=="0"){
+				$.ajax({
+					url:'${ctx}/coupon/buyCoupon',
+					data:{
+						id:${coupon.id}
+					},
+					method:'post',
+					dataType:'json',
+					success:function(data){
+						if(data.success){
+							$.iBox.success("#if(${coupon.type}=='0')兑换#else购买#end成功!",1000);
+							setTimeout(function(){
+								location.href="${ctx}/coupon/memberCouponList"
+							},1000);
+						}
+						else{
+							$.iBox.alert(data.msg,2000);
+						}
+					}
+				});
+			}
+			else{
+				$.iBox.loading("处理中...");
+				jQuery.post("${ctx}/coupon/buyCoupon",{id:${coupon.id} },function(data,status){}); 
+			}
+		});
+	</script>
+</body>
+</html>

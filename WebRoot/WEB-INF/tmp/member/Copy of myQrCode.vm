@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+<head>
+	<title>尺尚</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta content="telephone=no" name="format-detection">
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/css.css"/>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/mui.min.css"/>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/app.css"/>
+	 #parse("WEB-INF/tmp/include.vm")
+	<script src="${ctx}/js/jquery.qrcode.min.js"></script>
+</head>
+
+<body>
+	 #parse("WEB-INF/tmp/top.vm")
+	
+	<header class="mui-bar mui-bar-nav z_bar_nav">
+	    <a class="mui-action-back mui-icon mui-icon-arrowleft z_col_666"></a>
+	    <h1 class="mui-title">我的推广码</h1>
+	</header>
+	<div class="z_padt44">
+		<div class="z_tuiguang">
+	    	<div class="z_tuiguang_b"><img class="r1" src="${ctx}/images/ma_bj.jpg" /><div id="qrcode" class="r2"></div></div>
+	     	<div class="z_tuiguang_p"><p>长按图片保存分享到朋友圈</p></div>
+	    </div>
+	</div>
+	
+	<div class="height5"></div>
+	#parse("WEB-INF/tmp/bottom.vm")
+	
+	<script>
+	$(function(){
+		jQuery('#qrcode').qrcode({
+			width: $(".r2").width(),
+			height: $(".r2").width(),
+			text: "$!{url}",
+			src: '${ctx}/images/logo.jpg'
+		});
+	});
+	</script>
+</body>
+</html>

@@ -1,0 +1,447 @@
+<!doctype html>
+<html>
+<head>
+	<title>尺尚</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta content="telephone=no" name="format-detection">
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/css.css"/>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/app.css"/>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/z_css.css"/>
+	<script src='${ctx}/js/swipe.js'></script>
+	<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	 #parse("WEB-INF/tmp/include.vm")
+	 <style>
+	 .selectlist{min-height:50px;}
+	 .goodsh4 p img{max-width:100%;}
+	 p {font-size: 14px;margin-top: 0;margin-bottom: 10px;color: #8f8f94;}
+	 .t7_sh .t7_sh_main .hd span {font-weight: 500;color: #333;padding-left: 10px;font-size: 16px;display: inline-block;float: left;}
+	 </style>
+</head>
+
+<body>
+<input type="hidden" name="price"/>
+<input type="hidden" name="detailid"/>
+
+<div id="idxpic">
+   <div class='swipe-wrap'>
+   	#foreach($img in $!{goodsImgs})
+    <div><img src="${ftppath}/$!{img.path}"/></div>
+   	#end
+  </div>
+  <ul class="xiaoyuandian">
+  	#foreach($img in $!{goodsImgs})
+    <li #if(${velocityCount}==1)class="cur"#end></li>
+  	#end
+  </ul>
+</div>
+
+<div class="goodstt">
+  <h1><span class="t7_r1">$!{brand.name}</span>-<span class="t7_r2">$!{goods.name}</span></h1>
+</div>
+
+<div class="goodsprice clr">
+  <h2 class=" fl">
+  	￥#if(${goods.isDiscount}=="2")$!{goods.priceJsonObj.vipmin}#else$!{goods.priceJsonObj.min}#end
+  	#if(${goods.isDiscount}=="2")<font style="text-decoration:line-through;color:#8f8f94;font-size:15px;padding-left:20px;">￥$!{goods.priceJsonObj.min}</font>#end
+  </h2>
+  
+  #if("$!{collected}"=="true")
+  <a id="collect" href="javascript:$.iBox.alert('已经收藏过了')" class="fr favored z_shouchang"><img src="${ctx}/images/favoriteed.png" alt=""/>收藏</a></div>
+  #else
+  <a id="collect" href="javascript:collect($!{goods.id})" class="fr z_shouchang"><img src="${ctx}/images/favorite.png" alt=""/>收藏</a></div>
+  #end
+<div class="line"></div>
+
+<div class="goodsh5"><h5>颜色:</h5></div>
+<div class="selectlist js-color-select">
+	#foreach($color in $!{goods.specJsonObj.color})<a js-id="$!{color.id}" href="javascript:void(0)" onclick="specChange(this)">$!{color.name}</a>#end
+</div>
+<div class="goodsh5"><h5>尺寸:</h5></div>
+<div class="selectlist js-size-select">
+	#foreach($size in $!{goods.specJsonObj.size})<a js-id="$!{size.id}" href="javascript:void(0)" onclick="specChange(this)">$!{size.name}</a>#end
+</div>
+<input type="hidden" name="numrem"/>
+<div class="goodsh5"><h5>购买数量: <em style="display:none;" class="numrem">剩余<span></span>件</em></h5></div>
+<div class="number"><a href="javascript:void(0)" onclick="subNum(this)">-</a><span class="numbbox">1</span><a href="javascript:void(0)" onclick="plus(this)">+</a></div>
+
+<div class="line"></div>
+
+<div class="t7_zp">
+	<div class="t7_zp_main clear">
+        <ul>
+            <li><img src="${ctx}/images/t7_a1.png" width="30" /><span>正品授权</span></li>
+            <li><img src="${ctx}/images/t7_a2.png" width="30" /><span>线下门店</span></li>
+            <li><img src="${ctx}/images/t7_a3.png" width="30" /><span>会员免邮</span></li>
+            <li><img src="${ctx}/images/t7_a4.png" width="30" /><span>5天退换</span></li>
+        </ul>
+    </div>
+</div>
+
+<div class="line"></div>
+
+<!--
+<div class="goodsh4"><h4><img src="${ctx}/images/goodsico1.png"  alt=""/>简介 / Goods Description</h4>
+	<p>$!{goods.shortIntro}</p>
+</div>-->
+<!--<div class="goodsh4"><h4><img src="${ctx}/images/goodsico2.png" alt=""/>面料 / FABRIC :</h4><p>$!{goods.material}</p> </div>
+<div class="goodsh4"><h4><img src="${ctx}/images/goodsico3.png"  alt=""/>洗涤方式 / WASHING METHOD :</h4> <p>$!{goods.washWay}</p></div>-->
+
+<div class="goodsh4"><h4><img src="${ctx}/images/goodsico4.png"  alt=""/>详细介绍 / Detal Introduce:</h4> 
+	<p>
+	$!{goods.intro}
+	</p>
+</div>
+
+<div class="line"></div>
+
+<div class="height5"></div>
+<!--bottom-->
+
+<div class="bottom1" style="${style};height:4.5rem;width:100%;position:fixed;left:auto;right:auto;bottom:0;_position:absolute;_top:expression(document.documentElement.clientHeight + document.documentElement.scrollTop - this.offsetHeight);text-align:center;">
+  <div class="goodsbottom">
+    <div class="goodsbtnl" onclick="location.href='${ctx}/index'"><a href="javascript:void(0)" ><img src="${ctx}/images/n1.png" alt=""/><p>首页</p></a></div>    
+    <div class="goodsbtnl" onclick="location.href='${ctx}/order/gotoShoppingCar'"><a href="javascript:void(0)" ><img src="${ctx}/images/buyico.png" alt=""/><p>购物车</p></a>#if($session.getAttribute("SESSION_SHOPPINGCAR")>0)<em class="a4_e bj_1">$session.getAttribute("SESSION_SHOPPINGCAR")</em>#end</div>    
+    <div class="goodsbtnr z_gwc" onclick="addCart()"><a href="javascript:void(0)">加入购物车</a></div>
+    <div class="goodsbtnr z_ljgm" onclick="gotobuy()"><a href="javascript:void(0)">立即购买</a></div>
+  </div>
+</div>
+
+<div class="t7_sh">
+	<div class="t7_sh_main">
+    	<div class="hd"><i class="t7_close"></i><span>尺尚服务</span></div>
+        <div class="bd">
+            <ul>
+                <li>
+                    <p class="row1"><span><img src="${ctx}/images/t7_d.png" width="20" hidden="20" /></span><b>正品授权</b></p>
+                    <p class="row2">所有商品均为设计师品牌正品授权，请您放心购买。</p>
+                </li>
+                <li>
+                    <p class="row1"><span><img src="${ctx}/images/t7_d.png" width="20" hidden="20" /></span><b>线下门店</b></p>
+                    <p class="row2">尺尚线下门店地址：重庆南滨路133号长嘉汇购物公园L1-27<br />客服电话：17302394597</p>
+                </li>
+                <li>
+                    <p class="row1"><span><img src="${ctx}/images/t7_d.png" width="20" hidden="20" /></span><b>会员免邮</b></p>
+                    <p class="row2">尺尚会员享受大陆订单免邮服务，国际订单根据实际运费收取。</p>
+                </li>
+                <li>
+                    <p class="row1"><span><img src="${ctx}/images/t7_d.png" width="20" hidden="20" /></span><b>5天退换</b></p>
+                    <p class="row2">购买前请仔细确认商品尺码，颜色，商品售出后，非质量问题，概不退货。<br/>若发现商品有质量问题或尺码不合适，请在签收日后5日内联系客服，并提供相关图片。<br/>超出时间，恕不受理。若出现尺码不合适，在不影响第二次销售的情况下（保持包装完好、吊牌完好、未使用、未洗涤等），仅提供一次换货服务，所产生的运费需要顾客自理。<br/>特价商品、活动商品等特殊商品、不提供退换货服务，请理解。</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<style>
+.a4_e{
+    display: block;
+    width: 16px;
+    height: 16px;
+    line-height: 16px;
+    text-align: center;
+    border-radius: 10px;
+    font-size: 10px;
+    color: #fff;
+    position: relative;
+    top: -47px;
+    right: -50px;
+}
+</style>
+<script>
+		wx.config({
+	        debug:false, 
+	        appId:"${jsparas.appId}",
+	        timestamp: "${jsparas.timestamp}",
+	        nonceStr: "${jsparas.nonceStr}",
+	        signature:"${jsparas.signature}",
+	        jsApiList: [
+	           'checkJsApi',
+	           'onMenuShareTimeline',
+	           'onMenuShareAppMessage',
+	           'onMenuShareQQ',
+	           'onMenuShareWeibo',
+	           'onMenuShareQZone' 
+	        ]
+	    });
+	    
+	    var title  = "${jsparas.title}";
+    	var link = "${jsparas.link}";
+    	var imgUrl = "${jsparas.imgUrl}";
+    	var desc = "${jsparas.desc}";
+	    wx.ready(function () {
+	    	//获取“分享到朋友圈”按钮点击状态及自定义分享内容接口
+	    	wx.onMenuShareTimeline({
+	    	    title:title, // 分享标题
+	    	    link:link, // 分享链接
+	    	    imgUrl:imgUrl, // 分享图标
+	    	    success: function () {
+	    	        // 用户确认分享后执行的回调函数
+	    	    },
+	    	    cancel: function () {
+	    	        // 用户取消分享后执行的回调函数
+	    	    }
+	    	});
+	    	//获取“分享给朋友”按钮点击状态及自定义分享内容接口
+	    	wx.onMenuShareAppMessage({
+	    	    title:title, // 分享标题
+	    	    desc:desc, // 分享描述
+	    	    link:link, // 分享链接
+	    	    imgUrl:imgUrl, // 分享图标
+	    	    type: 'link', // 分享类型,music、video或link，不填默认为link
+	    	    dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+	    	    success: function () {
+	    	        // 用户确认分享后执行的回调函数
+	    	    },
+	    	    cancel: function () {
+	    	        // 用户取消分享后执行的回调函数
+	    	    }
+	    	});
+	    	//获取“分享到QQ”按钮点击状态及自定义分享内容接口
+	    	wx.onMenuShareQQ({
+	    	    title:title, // 分享标题
+	    	    desc:desc, // 分享描述
+	    	    link:link, // 分享链接
+	    	    imgUrl:imgUrl, // 分享图标
+	    	    success: function () {
+	    	       // 用户确认分享后执行的回调函数
+	    	    },
+	    	    cancel: function () {
+	    	       // 用户取消分享后执行的回调函数
+	    	    }
+	    	});
+	    	//获取“分享到腾讯微博”按钮点击状态及自定义分享内容接口
+	    	wx.onMenuShareWeibo({
+	    	    title:title, // 分享标题
+	    	    desc:desc, // 分享描述
+	    	    link:link, // 分享链接
+	    	    imgUrl:imgUrl, // 分享图标
+	    	    success: function () {
+	    	       // 用户确认分享后执行的回调函数
+	    	    },
+	    	    cancel: function () {
+	    	        // 用户取消分享后执行的回调函数
+	    	    }
+	    	});
+
+	    	//获取“分享到腾讯微博”按钮点击状态及自定义分享内容接口
+	    	wx.onMenuShareWeibo({
+	    	    title:title, // 分享标题
+	    	    desc:desc, // 分享描述
+	    	    link:link, // 分享链接
+	    	    imgUrl:imgUrl, // 分享图标
+	    	    success: function () {
+	    	       // 用户确认分享后执行的回调函数
+	    	    },
+	    	    cancel: function () {
+	    	        // 用户取消分享后执行的回调函数
+	    	    }
+	    	});
+	    });
+
+
+var details=eval($!{detailJson});
+
+//收藏
+function collect(id){
+	$.ajax({
+		url:'${ctx}/goods/collectGoods',
+		data:{id:id},
+		method:'post',
+		dataType:'json',
+		success:function(result){
+			if(result.ok){
+				$("#collect").addClass("favored");
+				$("#collect").attr("href","javascript:$.iBox.alert('已经收藏过了')");
+				$("#collect img").attr("src","${ctx}/images/favoriteed.png");
+				$.iBox.success("收藏成功!",2000);
+			}
+		}
+	});
+}
+
+//商品增加
+function plus(t){
+	var amount=$("input[name='numrem']").val();
+	if(amount){
+		if(parseInt($(t).prev().text())>=parseInt($("input[name='numrem']").val())){
+			$.iBox.alert("不能大于库存数量",2000);
+			$(t).prev().text(amount);
+			return;
+		}
+	}
+	addNum(t);
+}
+
+//规格改变
+function specChange(t){
+	if($(t).parents(".js-color-select").length>0){		//颜色选择
+		var id=$(t).attr("js-id");
+		var html="";
+		for(var i=0;i<details.length;i++){
+			if(details[i].colorId==parseInt(id)&&details[i].amount>0){
+				html+="<a js-id='"+details[i].sizeId+"' href='javascript:void(0)' onclick='specChange(this)'>"+details[i].sizeName+"</a>";
+			}
+		}
+		if($.trim(html)==""){
+			$.iBox.alert("该规格以售罄，请选择其他规格",500);
+		}
+		$(".js-size-select").html(html);
+	}
+	else{
+		if($(".js-color-select .on").length<=0){
+			$.iBox.alert("请先选择颜色",1000);
+			return;
+		}
+	}
+	$(t).siblings().removeClass("on");
+	$(t).addClass("on");
+	getspecdetail();
+}
+
+function getspecdetail(){
+	var colorid,sizeid;
+	if($(".js-color-select .on").length>0){
+		colorid=$(".js-color-select .on").eq(0).attr("js-id");
+	}
+	if($(".js-size-select .on").length>0){
+		sizeid=$(".js-size-select .on").eq(0).attr("js-id");
+	}
+	if(colorid&&sizeid){
+		$(".numrem").show();
+		$(".number .numbbox").text(1);
+		for(var i=0;i<details.length;i++){
+			if(parseInt(colorid)==details[i].colorId&&parseInt(sizeid)==details[i].sizeId){
+				$(".numrem span").text(details[i].amount);
+				$("input[name='numrem']").val(details[i].amount);
+				if("${goods.isDiscount}"=="2"){
+					$(".goodsprice h2").html("￥"+details[i].vipPrice+" <font style='text-decoration:line-through;color:#8f8f94;font-size:15px;padding-left:20px;'>￥"+details[i].price+"</font>");
+				}
+				else{
+					$(".goodsprice h2").html("￥"+details[i].price);
+				}
+				$("input[name='detailid']").val(details[i].id);
+				$("input[name='price']").val(details[i].price);
+				break;
+			}
+		}
+	}
+	else{
+		$(".numrem").hide();
+		$("input[name='detailid']").val("");
+		$("input[name='price']").val("");
+	}
+}
+
+function validate(){
+	var detailid=$("input[name='detailid']").val();
+	var price=$("input[name='price']").val();
+	if(!detailid||!price){
+		$.iBox.alert("请先选择商品规格",2000);
+		return false;
+	}
+	if(!$(".number .numbbox").text()||isNaN($(".number .numbbox").text())||parseInt($(".number .numbbox").text())<=0){
+		$.iBox.alert("请先选择商品数量",2000);
+		return false;
+	}
+	return true;
+}
+
+function addCart(){
+	if(!validate()){
+		return false;
+	}
+	var detailid=$("input[name='detailid']").val();
+	var num=parseInt($(".number .numbbox").text());
+	$.ajax({
+		url:'${ctx}/order/addCart',
+		data:{
+			detailid:detailid,
+			num:num
+		},
+		method:'post',
+		dataType:'json',
+		success:function(data){
+			if(data.ok){
+				$.iBox.success("添加购物车成功!",2000);
+				if($(".a4_e").length){
+					$(".a4_e").text(data.cnt);
+				}
+				else{
+					var numHtml='<em class="a4_e bj_1">'+data.cnt+'</em>';
+					$(".goodsbottom .goodsbtnl:eq(1)").find("a").after(numHtml);
+				}
+			}
+			else{
+				$.iBox.alert(data.msg,2000);
+			}
+		}
+	});
+}
+
+function gotobuy(){
+	if(!validate()){
+		return false;
+	}
+	var detailid=$("input[name='detailid']").val();
+	var num=parseInt($(".number .numbbox").text());
+	var obj=[{
+		id:detailid,
+		num:num
+	}];
+	var html="<form id='buyform' method='post' action='${ctx}/order/gotobuy' style='display:none'><input type='hidden' name='json' value='"+JSON.stringify(obj)+"'/></form>";
+	$("body").append(html);
+	$("#buyform").submit();
+}
+
+var imgs=[];
+#foreach($img in $!{goodsImgs})
+	imgs.push("${ftppath}/$!{img.path}");
+#end
+
+$(".swipe-wrap img").click(function(){		//图片点击
+	var url=$(this).attr("src");
+	WeixinJSBridge.invoke('imagePreview', {  
+        'current' : url,  
+        'urls' : imgs
+    });  
+});
+
+$(function(){
+	if("${downstatus}"=="true"){
+		$.iBox.alert("该商品已下架!",1000);
+		setTimeout(function(){
+			location.href="${ctx}/index";
+		},1000);
+	}
+
+	$(".swipe-wrap").css({
+		maxHeight:$(window).width()
+	});
+	
+	$(".t7_sh").css("height",($(window).height())+"px");		
+	$(".t7_sh").hide();
+	$(".t7_zp").click(function(){
+		$(".t7_sh").show();
+	});
+	$(".t7_close").click(function(){
+		$(".t7_sh").hide();
+	});
+});
+</script>
+
+<script>
+var elem = document.getElementById('idxpic');
+window.mySwipe = Swipe(elem, {
+	auto: 3000,   
+	callback: function(index, element) {
+		$(".xiaoyuandian li").eq(index).addClass("cur").siblings().removeClass("cur");
+	}
+});
+
+$(".xiaoyuandian li").click(function(){
+	mySwipe.slide($(this).index());
+});
+</script>
+</body>
+</html>

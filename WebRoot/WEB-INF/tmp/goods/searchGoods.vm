@@ -1,0 +1,119 @@
+<!doctype html>
+<html>
+<head>
+	<title>搜索</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta content="telephone=no" name="format-detection">
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/css.css"/>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/mui.min.css"/>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/app.css"/>
+	 #parse("WEB-INF/tmp/include.vm")
+</head>
+
+<body>
+	<header class="mui-bar mui-bar-nav z_bar_nav">
+	    <a class="mui-action-back mui-icon mui-icon-arrowleft z_col_666" onclick="javascript:history.go(-1)"></a>
+	    <a class="head_more right z_bar_font" id="searchBtn">搜索</a>
+	    <div class="z_seach_hd"><a class="z_hd_sa" href="javascript:void(0)"></a>
+	    	<input class="z_hd_seach" type="text" value="$!{searchTxt}" placeholder="请输入关键字搜索" />
+		</div>
+	</header>
+	<div class="z_padt44">
+		#if($resultCnt!=0)
+		<div class="seach_list">
+	    	<div class="seach_list_hd">
+	        	<ul>
+	            	<li><a class="#if($orderBy=="sortno asc")cur_3#else cur_3_0#end" onclick="sort(this)" js-sort="sortno asc" href="javascript:void(0)"><span>默认</span></a></li>
+	            	<li><a class="#if($orderBy=="createTime asc")cur_1#elseif($orderBy=="createTime desc")cur_2 #elsecur_0#end" onclick="sort(this)" js-sort1="createTime asc" js-sort2="createTime desc" href="javascript:void(0)"><span>时间</span></a></li>
+	            	<li><a class="#if($orderBy=="minPrice asc")cur_1#elseif($orderBy=="minPrice desc")cur_2 #elsecur_0#end" onclick="sort(this)" js-sort1="minPrice asc" js-sort2="minPrice desc" href="javascript:void(0)"><span>价格</span></a></li>
+	            	<li><a class="#if($orderBy=="soldCnt desc")cur_3#else cur_3_0#end" onclick="sort(this)" js-sort="soldCnt desc" href="javascript:void(0)"><span>销量</span></a></li>
+	            </ul>
+	        </div>
+	    	<div class="seach_list_bd">
+	        	<div class="i_c_ware clear">
+	                <ul>
+	                	#foreach($goods in $goodsList)
+	                    <li onclick="location.href='${ctx}/goods/goodsDetail?id=$!{goods.id}'">
+	                    	<a href="javascript:void(0)"><img onload="fixImg($(this))" onerror="defaultImg(this)" src="${ftppath}/$!{goods.img}"></a>
+	                        <p class="row1">$!{goods.name}</p>
+	                        <p class="row2 clear"><span class="left"><i class="r1">￥</i><i class="r2">#if(${goods.isDiscount}=="2")$!{goods.priceJsonObj.vipmin}#else$!{goods.priceJsonObj.min}#end</i></span>#if(${goods.isDiscount}=="2")<span class="right">原价:￥<i>$!{goods.priceJsonObj.min}</i></span>#end</p>
+	                    </li>
+	                    #end
+	                </ul>
+	            </div>
+	        </div>
+	    </div>
+		#else
+		<div class="seach_list">
+	    	<div class="seach_none">
+	        	<div class="seach_none_bj"></div>
+	            <p class="row1">抱歉，“<span>$!{searchTxt}</span>”暂无搜索结果</p>
+	            <p class="row2">我们为您推荐了一下热门商品</p>
+	        </div>
+	        <div class="seach_list_tit"><i class="recom"></i><span>为您推荐</span></div>
+	    	<div class="seach_list_bd">
+	        	<div class="i_c_ware clear">
+                	<ul>
+                		#foreach($goods in $goodsList)
+                    	<li onclick="location.href='${ctx}/goods/goodsDetail?id=$!{goods.id}'">
+	                    	<a href="javascript:void(0)"><img onload="fixImg($(this))" onerror="defaultImg(this)" src="${ftppath}/$!{goods.img}"></a>
+	                        <p class="row1">$!{goods.name}</p>
+	                        <p class="row2 clear"><span class="left"><i class="r1">￥</i><i class="r2">#if(${goods.isDiscount}=="2")$!{goods.priceJsonObj.vipmin}#else$!{goods.priceJsonObj.min}#end</i></span>#if(${goods.isDiscount}=="2")<span class="right">原价:￥<i>$!{goods.priceJsonObj.min}</i></span>#end</p>
+	                    </li>
+                        #end
+                    </ul>
+                </div>
+	        </div>
+	    </div>
+		#end
+	</div>
+	
+	#parse("WEB-INF/tmp/bottom.vm")
+	
+	<input type="hidden" name="orderBy"/>
+<script>
+$(function(){
+	$("#searchBtn").click(function(){
+		var text=$(this).parent().find("input[type='text']").val();
+		if(text){
+			location.href="${ctx}/goods/searchGoods?searchTxt="+text;
+		}
+	});
+	
+	fixImg($(".seach_list ul li img"));
+});
+
+function sort(t){
+	var cls=$(t).attr("class");
+	$(".cur_3").attr("class","cur_3_0");
+	$(".cur_1").attr("class","cur_0");
+	$(".cur_2").attr("class","cur_0");
+	var orderBy="";
+
+	if($(t).attr("class").indexOf("cur_3")>=0){
+		$(t).attr("class","cur_3");
+		orderBy=$(t).attr("js-sort");
+	}
+	else{
+		if(cls=="cur_0"){
+			$(t).attr("class","cur_1");
+			orderBy=$(t).attr("js-sort1");
+		}
+		else if(cls=="cur_1"){
+			$(t).attr("class","cur_2");
+			orderBy=$(t).attr("js-sort2");
+		}
+		else{
+			$(t).attr("class","cur_1");
+			orderBy=$(t).attr("js-sort1");
+		}
+	}
+	$("input[name='orderBy']").val(orderBy);
+	
+	var text=$(".z_seach_hd input[type='text']:first").val();
+	location.href="${ctx}/goods/searchGoods?orderBy="+orderBy+"&searchTxt="+text;
+}
+</script>
+</body>
+</html>

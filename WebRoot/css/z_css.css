@@ -1,0 +1,15 @@
+.z_shouchang{ border-radius:15px !important;}
+.selectlist a{ border:0 none !important; background:#f5f5f5 !important;border-radius:15px !important;}
+.selectlist a.on, .selectlist a:hover,.goodsprice a.favored{background: -webkit-linear-gradient(90deg, #ff7701, #ff4b00) !important; background: -o-linear-gradient(90deg, #ff7701, #ff4b00) !important; background: -moz-linear-gradient(90deg, #ff7701, #ff4b00) !important;background: linear-gradient(90deg, #ff7701, #ff4b00) !important;}
+.goodsprice a.favored{ border:0 none !important; padding:9px 14px !important;}
+.z_gwc{background: -webkit-linear-gradient(90deg, #ffc801, #ff9603); background: -o-linear-gradient(90deg, #ffc801, #ff9603); background: -moz-linear-gradient(90deg, #ffc801, #ff9603);background: linear-gradient(90deg, #ffc801, #ff9603); /* 标准的语法（必须放在最后） */}
+.z_ljgm{background: -webkit-linear-gradient(90deg, #ff7701, #ff4b00); background: -o-linear-gradient(90deg, #ff7701, #ff4b00); background: -moz-linear-gradient(90deg, #ff7701, #ff4b00);background: linear-gradient(90deg, #ff7701, #ff4b00);}
+.orderlistnr h3{ min-height:40px !important; max-height:40px !important;}
+.orderlistnumb{ height:30px !important;}
+.orderlistnumb h3{ height:30px !important; line-height:30px !important; color:#333 !important;}
+.orderlistnumb .btn{ height:30px !important; line-height:30px !important; color:#575cc1 !important;}
+.shopbtnr{background: -webkit-linear-gradient(90deg, #ff7701, #ff4b00); /* Safari 5.1 - 6.0 */background: -o-linear-gradient(90deg, #ff7701, #ff4b00); /* Opera 11.1 - 12.0 */background: -moz-linear-gradient(90deg, #ff7701, #ff4b00); /* Firefox 3.6 - 15 */background: linear-gradient(90deg, #ff7701, #ff4b00); /* 标准的语法（必须放在最后） */}
+.xiaoyuandian li { background:#fff !important;border:1px #ff4b00 solid !important; -webkit-box-shadow: 0 0 1px 1px rgba(255,79,3,.7);box-shadow: 0 0 1px 1px rgba(255,79,3,.7); width:8px !important; height:8px !important;}
+.xiaoyuandian li.cur {background: #ff4b00 !important;}
+..orderlistpic{ height:112px !important;}
+.backblock span a{color:#ff4f03 !important;}

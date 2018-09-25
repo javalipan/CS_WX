@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+	<title>尺尚</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta content="telephone=no" name="format-detection">
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/css.css"/>
+	<script src='${ctx}/js/swipe.js'></script>
+	 #parse("WEB-INF/tmp/include.vm")
+</head>
+
+<body>
+#parse("WEB-INF/tmp/top.vm")
+
+<!--first row-->
+<div class="logolistbox">
+  #foreach($brand in $!{brands})
+  <div class="logolistico fl po-r">
+    <div class="name">
+      <p><a href="${ctx}/goods/brandGoodsList?id=$!{brand.id}">$!{brand.name}</a></p>
+    </div>
+    <a href="${ctx}/goods/brandGoodsList?id=$!{brand.id}"><img src="${ftppath}/$!{brand.img}"  alt=""/></a>
+    <div class="sblock"></div>
+    <div class="striger"></div>
+  </div>
+  #end
+  
+</div>
+
+
+<div class="height5"></div>
+<!--bottom-->
+
+#parse("WEB-INF/tmp/bottom.vm")
+
+</body>
+</html>

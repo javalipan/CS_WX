@@ -1,0 +1,124 @@
+<!doctype html>
+<html>
+<head>
+	<title>尺尚</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta content="telephone=no" name="format-detection">
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/css.css"/>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/mui.min.css"/>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/app.css"/>
+	 #parse("WEB-INF/tmp/include.vm")
+	 <style>
+	.oldprice{font-size: 12px;text-decoration: line-through;padding-left: 10px;}
+	</style>
+</head>
+
+<body>
+	<header class="mui-bar mui-bar-nav z_bar_nav">
+	    <a class="mui-action-back mui-icon mui-icon-arrowleft z_col_666" onclick="javascript:history.go(-1)"></a>
+	    <h1 class="mui-title">我的订单</h1>
+	</header>
+	<div class="z_padt44">
+		<div class="z_order tab">
+	    	<div class="z_order_hd tab-hd clear">
+	        	<ul>
+	            	<li #if("$!{type}"=="")class="cur"#end><a href="javascript:void(0)" onclick="location.href='${ctx}/order/orderList'">全部</a></li>
+	            	<li #if("$!{type}"=="0")class="cur"#end><a href="javascript:void(0)" onclick="location.href='${ctx}/order/orderList?type=0'">待付款</a></li>
+	            	<li #if("$!{type}"=="1")class="cur"#end><a href="javascript:void(0)" onclick="location.href='${ctx}/order/orderList?type=1'">待发货</a></li>
+	                <li #if("$!{type}"=="2")class="cur"#end><a href="javascript:void(0)" onclick="location.href='${ctx}/order/orderList?type=2'">待收货</a></li>
+	                <li #if("$!{type}"=="3")class="cur"#end><a href="javascript:void(0)" onclick="location.href='${ctx}/order/orderList?type=3'">已完成</a></li>
+	            </ul>
+	        </div>
+	    	<div class="z_order_bd tab-bd">
+	            <div class="z_order_div div_none thisclass">
+	            	#if($orderList.size()==0)
+	            	<div class="z_coupon"><div class="z_coupon_bd"><div class="z_coup_none"><span><img src="${ctx}/images/z_c_d.png" width="60" height="60"></span><span>暂无该类订单</span></div></div></div>
+	            	#end
+	            	#foreach($order in $!{orderList})
+	            	<div class="z_order_list">
+	                    <div class="z_order_tit clear" onclick="location.href='${ctx}/order/orderDetail?id=${order[0].id}'">
+	                        <span class="left">订单：<i>$!{order[0].code}</i></span>
+	                        <span class="right">
+	                        #if("$!{order[0].status}"=="0")
+							#if("$!{order[0].isPay}"=="0"&&"$!{order[0].isSend}"=="0"&&"$!{order[0].isReceive}"=="0")
+							待付款
+							#elseif("$!{order[0].isPay}"=="1"&&"$!{order[0].isSend}"=="0"&&"$!{order[0].isReceive}"=="0")
+							待发货
+							#elseif("$!{order[0].isPay}"=="1"&&"$!{order[0].isSend}"=="1"&&"$!{order[0].isReceive}"=="0")
+							待收货
+							#elseif("$!{order[0].isPay}"=="1"&&"$!{order[0].isSend}"=="1"&&"$!{order[0].isReceive}"=="1")
+							已完成
+							#end
+							#else
+							已作废
+							#end
+	                        </span>
+	                    </div>
+	                    #foreach($detail in $!{order})
+	                    <div class="z_order_ct">
+	                        <a href="${ctx}/goods/goodsDetail?id=$!{detail.goodsId}"><img src="$!{ftppath}$!{detail.img}" width="70px" height="70"></a>
+	                        <p class="row1">$!{detail.goodsName}</p>
+	                        <p class="row2"><span class="r1 left"><i>$!{detail.colorName}</i> ,<i> $!{detail.sizeName}</i></span><span class="r2 right">￥#if(${detail.discount}>0)$!{detail.vipPrice}<font class="oldprice">￥$!{detail.price}</font> #else$!{detail.price} #end×<i>$!{detail.amount}</i></span></p>
+	                    </div>
+	                    #end
+	                    <div class="z_order_bt clear">
+	                        <!--<span class="left">实付:￥<i>6.8</i></span>-->
+	                        #if("$!{order[0].isPay}"=="0"&&"$!{order[0].isSend}"=="0"&&"$!{order[0].isReceive}"=="0"&&"$!{order[0].status}"=="0")
+							<div class="right"><a href="javascript:void(0)" onclick="cancelOrder($!{order[0].id})">取消订单</a><a href="javascript:void(0)" onclick="location.href='${ctx}/order/againPay?id=$!{order[0].id}'" class="cur">去付款</a></div>
+							#elseif("$!{order[0].isPay}"=="1"&&"$!{order[0].isSend}"=="1"&&"$!{order[0].isReceive}"=="0")
+							<div class="right"><a href="javascript:void(0)" onclick="confirmReceive($!{order[0].id})" class="cur">确认收货</a></div>
+							#end
+	                    </div>
+	                </div>
+	                #end
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	
+	#parse("WEB-INF/tmp/bottom.vm")
+<script>
+function confirmReceive(id){
+	if(window.confirm("您确定要确认收货吗?")){
+		$.ajax({
+			url:'${ctx}/order/confirmReceive',
+			data:{
+				id:id
+			},
+			method:'post',
+			dataType:'json',
+			success:function(data){
+				if(data.ok){
+					$.iBox.success("操作成功",2000);
+					setTimeout("window.location.reload()",2000);
+				}
+			}
+		});
+	}
+}
+
+function cancelOrder(id){
+	if(window.confirm("您确定要取消订单吗?")){
+		$.ajax({
+			url:'${ctx}/order/cancelOrder',
+			data:{
+				id:id
+			},
+			method:'post',
+			dataType:'json',
+			success:function(data){
+				if(data.ok){
+					$.iBox.success("操作成功",2000);
+					setTimeout("window.location.reload()",2000);
+				}
+				else{
+					$.iBox.success("取消失败",2000);
+				}
+			}
+		});
+	}
+}
+</script>
+</body>
+</html>

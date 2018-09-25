@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+<head>
+	<title>尺尚</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta content="telephone=no" name="format-detection">
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/css.css"/>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/mui.min.css"/>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/app.css"/>
+	 #parse("WEB-INF/tmp/include.vm")
+</head>
+
+<body>
+	<div class="z_user z_padb70">
+	    <div class="z_u_hd">
+	    	<a href="${ctx}/member/memberInfo">设置</a>
+	        <div class="z_u_hd_pic"><span><img src="${member.headUrl}" width="60" height="60"/></span></div>
+	        <div class="z_u_hd_name">
+	        	<p class="row1"><span>$!{member.nickname}</span></p>
+	        	<div class="row2">
+	            	<span class="r1">
+	                	<img src="${ctx}/${levelSetting.icon}" height="14">
+	                </span>
+	                <span class="r2">${levelSetting.gradename}</span>
+	            </div>
+	        </div>
+	    </div>
+	    <div class="z_u_to clear">
+	    	<ul style="padding-left: 8%;">
+	        	<li><span class="rowbj_1" onclick="location.href='${ctx}/member/balanceRecord'"><span class="row1">余额</span><span class="row2"><i>$!{member.balance}</i>元</span></span></li>
+	            <li><span class="rowbj_2" onclick="location.href='${ctx}/member/myscore'"><span class="row1">积分</span><span class="row2"><i>$!{member.memberPoint}</i></span></span></li>
+	            <li><span class="rowbj_3" onclick="location.href='${ctx}/coupon/memberCouponList'"><span class="row1">优惠券</span><span class="row2"><i>$!{couponCnt}</i>张</span></span></li>
+	        </ul>
+	    </div>
+		<div class="z_u_ct">
+	    	<div class="z_u_ct_hd">
+	        	<span>我的订单</span>
+	            <a href="javascript:void(0)" onclick="location.href='${ctx}/order/orderList'" class="z_mui_after">查看全部</a>
+	        </div>
+	        <div class="z_u_ct_bd clear">
+	        	<ul>
+	            	<li onclick="location.href='${ctx}/order/orderList?type=0'"><a href="javascript:void(0)"><i><b>$!{record.unpayed}</b><img src="${ctx}/images/i1.png" width="30" height="30"/></i><span>待付款</span></a></li>
+	                <li onclick="location.href='${ctx}/order/orderList?type=1'"><a href="javascript:void(0)"><i><b>$!{record.unsended}</b><img src="${ctx}/images/i2.png" width="30" height="30"/></i><span>待发货</span></a></li>
+	                <li onclick="location.href='${ctx}/order/orderList?type=2'"><a href="javascript:void(0)"><i><b>$!{record.sended}</b><img src="${ctx}/images/i3.png" width="30" height="30"/></i><span>待收货</span></a></li>
+	                <li onclick="location.href='${ctx}/order/orderList?type=3'"><a href="javascript:void(0)"><i><b>$!{record.finished}</b><img src="${ctx}/images/i4.png" width="30" height="30"/></i><span>已完成</span></a></li>
+	            </ul>
+	        </div>
+	    </div>
+	    <div class="z_u_bd">
+	    	<ul>
+	        	<li onclick="location.href='${ctx}/member/memberGrade'"><span><img src="${ctx}/images/a1.png" width="20" height="20"/></span><a href="javascript:void(0)">会员计划</a></li>
+	            <!--<li onclick="location.href='${ctx}/member/myQrCode?id=${member.id}'"><span><img src="${ctx}/images/a6.png" width="20" height="20"/></span><a href="javascript:void(0)">邀请有礼</a></li>-->
+	       		<li onclick="location.href='${ctx}/coupon/couponList'"><span><img src="${ctx}/images/a7.png" width="20" height="20"/></span><a href="javascript:void(0)">优惠券兑换</a></li>
+	       		<li onclick="location.href='${ctx}/coupon/memberCouponList'"><span><img src="${ctx}/images/a9.png" width="20" height="20"/></span><a href="javascript:void(0)">我的优惠券</a></li>
+	       		<li onclick="location.href='${ctx}/member/myscore'"><span><img src="${ctx}/images/a2.png" width="20" height="20"/></span><a href="javascript:void(0)">我的积分</a></li>
+	       		<li onclick="location.href='${ctx}/member/rechargeRecord'"><span><img src="${ctx}/images/a8.png" width="20" height="20"/></span><a href="javascript:void(0)">充值记录</a></li>
+	            <li onclick="location.href='${ctx}/addr/initAddressList'"><span><img src="${ctx}/images/a3.png" width="20" height="20"/></span><a href="javascript:void(0)">地址管理</a></li>
+	            <li onclick="location.href='${ctx}/member/myCollect'"><span><img src="${ctx}/images/a4.png" width="20" height="20"/></span><a href="javascript:void(0)">我的收藏</a></li>
+	            <li onclick="location.href='http://free.weikefu.net/AppKeFu/floatip/weixin/chat.php?wg=chishang&robot=false'"><span><img src="${ctx}/images/kefu.png" width="20" height="20"/></span><a href="javascript:void(0)">联系客服</a></li>
+	        </ul>
+	    </div>
+	    <div class="z_ads">
+	    	<p>客服电话：17302394597</p>
+	        <p>实体店位置：重庆南岸区南滨路133号长嘉汇购物公园L1-27。</p>
+	    </div>
+	</div>
+	
+	#set($current=5)
+	#parse("WEB-INF/tmp/bottom.vm")
+</body>
+</html>

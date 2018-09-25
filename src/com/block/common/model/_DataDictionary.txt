@@ -1,0 +1,265 @@
+Table: t_cards
+-------------------------+--------------+------+-----+---------+---------
+ Field                   | Type         | Null | Key | Default | Remarks 
+-------------------------+--------------+------+-----+---------+---------
+ Id                      | VARCHAR(36)  | NO   | PRI |         |         
+ MemberCardType          | INT(10)      | NO   | PRI |         | 会员卡类型   
+ MemberCardCode          | VARCHAR(20)  | NO   | PRI |         | 会员卡编号   
+ CommodityCode           | VARCHAR(20)  | NO   |     |         | 商品编号    
+ MemberCardName          | VARCHAR(255) | NO   |     |         | 会员卡名称   
+ MemberCardPic           | VARCHAR(255) | YES  |     |         | 会员卡图片   
+ MemberCardDeadline      | DATETIME(19) | NO   |     |         | 会员卡截止期限 
+ MemberCardPrivilege     | VARCHAR(500) | YES  |     |         | 会员卡特权   
+ MemberCardExplain       | VARCHAR(500) | YES  |     |         | 会员卡说明   
+ MemberCardContainAmount | INT(10)      | NO   |     |         | 会员卡包含商品总数量
+ MemberCardMarketPrice   | FLOAT(6,2)   | YES  |     |         | 会员卡市场价格 
+ MemberCardSalesPrice    | FLOAT(6,2)   | NO   |     |         | 会员卡销售价格 
+-------------------------+--------------+------+-----+---------+---------
+
+Table: t_carduserecord
+----------------+-------------+------+-----+---------+---------
+ Field          | Type        | Null | Key | Default | Remarks 
+----------------+-------------+------+-----+---------+---------
+ Id             | VARCHAR(36) | NO   | PRI |         |         
+ MemberCardCode | VARCHAR(20) | NO   |     |         | 会员卡编号   
+ MemberCode     | VARCHAR(20) | NO   |     |         | 会员编号    
+ OrderCode      | VARCHAR(20) | NO   |     |         | 订单编号    
+----------------+-------------+------+-----+---------+---------
+
+Table: t_commodities
+------------------------+--------------+------+-----+---------+---------
+ Field                  | Type         | Null | Key | Default | Remarks 
+------------------------+--------------+------+-----+---------+---------
+ Id                     | VARCHAR(36)  | NO   | PRI |         |         
+ CommodityCode          | VARCHAR(20)  | NO   | PRI |         | 商品编号    
+ CommodityType          | INT(10)      | NO   | PRI | 0       | 商品分类,1/蛋类，2/家禽类
+ CommodityName          | VARCHAR(255) | NO   |     |         | 商品名称    
+ CommodityDefaultPic    | VARCHAR(255) | NO   |     |         | 第一张默认图片 
+ CommodityPic1          | VARCHAR(255) | YES  |     |         |         
+ CommodityPic2          | VARCHAR(255) | YES  |     |         |         
+ CommodityPic3          | VARCHAR(255) | YES  |     |         |         
+ CommodityPic4          | VARCHAR(255) | YES  |     |         |         
+ CommodityExplain       | VARCHAR(500) | YES  |     |         | 商品说明    
+ CommoditySpecification | VARCHAR(255) | YES  |     |         | 商品规格    
+ UseNotice              | VARCHAR(500) | YES  |     |         | 商品购买须知  
+ MarketPrice            | FLOAT(6,2)   | YES  |     | 0.00    | 商品市场价   
+ SalesPrice             | FLOAT(6,2)   | NO   |     | 0.00    | 商品销售价   
+ PurchasePrice          | FLOAT(6,2)   | YES  |     |         | 商品采购价   
+ IsSale                 | INT(10)      | NO   |     | 0       | 是否上架，0/下架，1/上架
+ CommoditySort          | INT(10)      | YES  |     |         | 商品排序    
+ StockQuantity          | INT(10)      | NO   |     | 0       | 库存数量    
+ IsGroupon              | INT(10)      | YES  |     | 0       | 是否允许团购,0/不允许，1/允许
+ IsDiscount             | INT(10)      | YES  |     | 0       | 是否参与优惠活动,0/不参与，1/参与
+ Editor                 | VARCHAR(255) | NO   |     |         | 编辑人     
+ EditTime               | DATETIME(19) | NO   |     |         | 编辑时间    
+ CreateTime             | DATETIME(19) | NO   |     |         | 创建时间    
+------------------------+--------------+------+-----+---------+---------
+
+Table: t_member
+------------------+--------------+------+-----+---------+---------
+ Field            | Type         | Null | Key | Default | Remarks 
+------------------+--------------+------+-----+---------+---------
+ Id               | VARCHAR(36)  | NO   | PRI |         |         
+ Openid           | VARCHAR(36)  | YES  |     |         |         
+ Unionid          | VARCHAR(36)  | YES  |     |         |         
+ MemberCode       | VARCHAR(20)  | NO   | PRI |         | 会员编号    
+ IsPartner        | INT(10)      | NO   | PRI | 0       | 是否合作商,0/否，1/是
+ PartnerType      | INT(10)      | YES  |     |         | 合作商类型，1/产品供应商；2/物流合作商;3/平台推广运营商
+ PartnerCode      | VARCHAR(20)  | YES  |     |         | 合作商编号   
+ MemberGrade      | INT(10)      | YES  |     |         | 会员等级，芝麻、绿豆、黄豆、豌豆、蚕豆、花生、马铃薯、玉米、丝瓜、南瓜、冬瓜
+ MemberPoints     | INT(10)      | YES  |     |         | 会员积分    
+ MemberNickname   | VARCHAR(255) | YES  |     |         | 会员昵称    
+ MemberHead       | VARCHAR(255) | YES  |     |         | 会员头像    
+ ConsigneeName    | VARCHAR(255) | YES  |     |         | 收货人名称   
+ ConsigneePhone   | VARCHAR(15)  | YES  |     |         | 收货人电话   
+ ConsigneeAddress | VARCHAR(255) | YES  |     |         | 收货人地址   
+ AddressId		  | int(11)		 | YES  |     |         | 收货人地址  id 
+ Status           | INT(10)      | NO   |     | 1       | 用户状态,0禁用/1启用/2取消关注
+ FromUser         | VARCHAR(36)  | YES  |     |         | 关注来源    
+ RegisterTime     | DATETIME(19) | YES  |     |         | 关注/注册时间 
+ CancelTime       | DATETIME(19) | YES  |     |         | 取消关注/注销时间
+------------------+--------------+------+-----+---------+---------
+
+Table: t_membercard
+------------------------------+--------------+------+-----+---------+---------
+ Field                        | Type         | Null | Key | Default | Remarks 
+------------------------------+--------------+------+-----+---------+---------
+ Id                           | VARCHAR(36)  | NO   | PRI |         |         
+ MemberCardType               | INT(10)      | NO   | PRI |         | 会员卡类型   
+ MemberCardCode               | VARCHAR(20)  | NO   | PRI |         | 会员卡编号   
+ MemberCode                   | VARCHAR(20)  | NO   |     |         | 会员编号    
+ OrderCode                    | VARCHAR(20)  | NO   |     |         | 订单编号    
+ CommodityCode                | VARCHAR(20)  | NO   |     |         | 商品编号    
+ MemberCardName               | VARCHAR(255) | NO   |     |         | 会员卡名称   
+ MemberCardPic                | VARCHAR(255) | YES  |     |         | 会员卡图片   
+ MemberCardDeadline           | DATETIME(19) | NO   |     |         | 会员卡截止期限 
+ MemberCardPrivilege          | VARCHAR(500) | YES  |     |         | 会员卡特权   
+ MemberCardExplain            | VARCHAR(500) | YES  |     |         | 会员卡说明   
+ MemberCardContainAmount      | INT(10)      | NO   |     |         | 会员卡包含商品总数量
+ DistributedQuantity          | INT(10)      | NO   |     | 0       | 已配送数量   
+ DistributionInterval         | INT(10)      | NO   |     |         | 配送间隔周期(每周/每两周/每月)
+ DistributionIntervalQuantity | INT(10)      | NO   |     |         | 每间隔周期的配送数量
+ DistributionRequirement      | VARCHAR(255) | YES  |     |         | 其他配送要求  
+ ConsigneeName                | VARCHAR(255) | NO   |     |         | 收货人名称   
+ ConsigneePhone               | VARCHAR(15)  | NO   |     |         | 收货人电话   
+ ConsigneeAddress             | VARCHAR(255) | NO   |     |         | 收货人地址   
+ PaymentWay                   | INT(10)      | NO   |     | 0       | 支付方式，1/微信支付，2/支付宝支付，3/银联支付
+ IsPayment                    | INT(10)      | NO   |     | 0       | 支付状态，0/未支付，1/已支付
+ PaymentTime                  | DATETIME(19) | NO   |     |         | 支付时间    
+ MemberCardMarketPrice        | FLOAT(6,2)   | YES  |     |         | 会员卡市场价格 
+ MemberCardSalesPrice         | FLOAT(6,2)   | NO   |     |         | 会员卡销售价格 
+ TotalQuantity                | INT(10)      | NO   |     | 0       | 总数量     
+ TotalAmount                  | FLOAT(6,2)   | NO   |     |         | 总金额     
+ MemberCardStatus             | INT(10)      | NO   |     | 0       | 会员卡状态，0/无效，1/有效
+ IssueTime                    | DATETIME(19) | NO   |     |         | 会员卡发行时间 
+------------------------------+--------------+------+-----+---------+---------
+
+Table: t_msg
+-------------+---------------+------+-----+---------+---------
+ Field       | Type          | Null | Key | Default | Remarks 
+-------------+---------------+------+-----+---------+---------
+ id          | VARCHAR(36)   | NO   | PRI |         |         
+ title       | VARCHAR(200)  | NO   |     |         | 标题      
+ msgtype     | VARCHAR(20)   | YES  |     |         | 消息类型(1:文字消息;2:图片消息;3:视频消息;4:小视频消息;5:位置消息;6:收到链接;7:订阅;8:取消订阅;9:点击菜单;10:点击链接菜单)
+ picaddr     | VARCHAR(200)  | YES  |     |         | 图片地址    
+ pic         | VARCHAR(200)  | YES  |     |         | 图片      
+ contenttype | VARCHAR(10)   | YES  |     |         | 内容类型(1:链接;2:富文本)
+ linkaddr    | VARCHAR(500)  | YES  |     |         |         
+ content     | VARCHAR(3500) | YES  |     |         | 内容      
+ fdorder     | VARCHAR(10)   | YES  |     |         | 排序号     
+-------------+---------------+------+-----+---------+---------
+
+Table: t_orderdetails
+------------------------+--------------+------+-----+---------+---------
+ Field                  | Type         | Null | Key | Default | Remarks 
+------------------------+--------------+------+-----+---------+---------
+ Id                     | VARCHAR(36)  | NO   | PRI |         |         
+ OrderType              | INT(10)      | NO   | PRI |         | 订单分类,1-网络单购,2-团购,3-现场购买
+ OrderCode              | VARCHAR(20)  | NO   | PRI |         | 订单编号    
+ CommodityType          | INT(10)      | NO   |     |         | 商品分类    
+ CommodityCode          | VARCHAR(20)  | NO   |     |         | 商品编号    
+ PartnerCode            | VARCHAR(20)  | YES  |     |         | 合作商编号(订单推送时回写)
+ MemberCode             | VARCHAR(20)  | NO   |     |         | 会员编号    
+ MemberCardCode         | VARCHAR(20)  | YES  |     |         | 会员卡编号(会员卡消费时回写会员卡code)
+ TotalQuantity          | INT(10)      | NO   |     |         | 合计数量    
+ TotalAmount            | FLOAT(6,2)   | NO   |     |         |         
+ CommodityName          | VARCHAR(255) | NO   |     |         | 商品名称    
+ CommoditySpecification | VARCHAR(255) | YES  |     |         | 商品规格    
+ MarketPrice            | FLOAT(6,2)   | YES  |     |         | 商品市场价   
+ SalesPrice             | FLOAT(6,2)   | NO   |     |         | 商品销售价   
+ PurchasePrice          | FLOAT(6,2)   | YES  |     |         | 商品采购价   
+ IsPayment              | INT(10)      | NO   |     | 0       | 是否支付，0/未支付，1/已支付
+ IsPush                 | INT(10)      | NO   |     | 0       | 是否将订单推送到合作商,0/未推送，1/已推送
+ IsSorting              | INT(10)      | NO   |     | 0       | 是否分拣，0/未分拣，1/已分拣
+ IsSend                 | INT(10)      | NO   |     | 0       | 是否发货，0/未发货，1/已发货
+ IsDelivered            | INT(10)      | NO   |     | 0       | 是否送达，0/未送达，1/已送达
+ IsReceived             | INT(10)      | NO   |     | 0       | 是否签收，0/未签收，1/已签收
+ IsSettlement           | INT(10)      | NO   |     | 0       | 是否结算,0/未结算,1/已结算
+ PaymentWay             | INT(10)      | NO   |     | 0       | 支付方式，1/微信支付，2/支付宝支付，3/银联支付
+ DeliveryWay            | INT(10)      | NO   |     | 0       | 配送方式，1/普通快递，2/中通快递，3/顺丰快递
+ ConsigneeName          | VARCHAR(255) | NO   |     |         | 收货人姓名   
+ ConsigneePhone         | VARCHAR(15)  | NO   |     |         | 收货人电话   
+ ConsigneeAddress       | VARCHAR(255) | NO   |     |         | 收货人地址   
+ PromoCode              | VARCHAR(20)  | YES  |     |         | 优惠码     
+ OrderRemarks           | VARCHAR(255) | YES  |     |         | 订单备注    
+ OrderTime              | DATETIME(19) | NO   |     |         | 下单时间    
+ PaymentTime            | DATETIME(19) | YES  |     |         | 支付时间    
+ SortingTime            | DATETIME(19) | YES  |     |         | 分拣时间    
+ SendTime               | DATETIME(19) | YES  |     |         | 发货时间    
+ DeliveredTime          | DATETIME(19) | YES  |     |         | 送达时间    
+ SettlementTime         | DATETIME(19) | YES  |     |         | 结算时间    
+------------------------+--------------+------+-----+---------+---------
+
+Table: t_orderpush
+---------------+--------------+------+-----+---------+---------
+ Field         | Type         | Null | Key | Default | Remarks 
+---------------+--------------+------+-----+---------+---------
+ Id            | VARCHAR(36)  | NO   | PRI |         |         
+ OrderType     | INT(10)      | NO   |     |         | 订单类型    
+ OrderCode     | VARCHAR(20)  | NO   |     |         | 订单编号    
+ CommodityType | INT(10)      | NO   |     |         | 商品类型    
+ MemberCode    | VARCHAR(20)  | NO   |     |         | 会员编号    
+ PartnerCode   | VARCHAR(20)  | NO   |     |         | 合作商编号   
+ PushType      | INT(10)      | NO   |     | 0       | 推送类型，1/自动，2/手动
+ PushPeople    | VARCHAR(255) | NO   |     |         | 推送人     
+ PushTime      | DATETIME(19) | NO   |     |         | 推送时间    
+ PushRemarks   | VARCHAR(500) | YES  |     |         | 推送备注    
+---------------+--------------+------+-----+---------+---------
+
+Table: t_partners
+-----------------+--------------+------+-----+---------+---------
+ Field           | Type         | Null | Key | Default | Remarks 
+-----------------+--------------+------+-----+---------+---------
+ Id              | INT(10)      | NO   | PRI |         |         
+ PartnerType     | INT(10)      | NO   | PRI |         | 合作商类型，1/产品供应商；2/物流合作商;3/平台推广运营商
+ PartnerCode     | VARCHAR(20)  | NO   | PRI |         | 合作商编号   
+ PartnerName     | VARCHAR(255) | NO   |     |         | 合作商名称   
+ PartnerPhone    | VARCHAR(15)  | NO   |     |         |         
+ PartnerAddress  | VARCHAR(255) | NO   |     |         |         
+ PartnerIdentity | VARCHAR(255) | YES  |     |         | 合作商身份证明材料
+ SettledAmount   | FLOAT(8,2)   | YES  |     | 0.00    | 已结算金额   
+ NoSettledAmount | FLOAT(8,2)   | YES  |     | 0.00    | 未结算金额   
+ Editor          | VARCHAR(255) | NO   |     |         | 编辑人     
+ EditTime        | DATETIME(19) | NO   |     |         | 编辑时间    
+ CreateTime      | DATETIME(19) | NO   |     |         | 创建时间    
+-----------------+--------------+------+-----+---------+---------
+
+Table: t_partnersettledrecord
+-------------------+--------------+------+-----+---------+---------
+ Field             | Type         | Null | Key | Default | Remarks 
+-------------------+--------------+------+-----+---------+---------
+ Id                | VARCHAR(36)  | NO   | PRI |         |         
+ PartnerType       | INT(10)      | NO   |     |         | 合作商类型，1/产品供应商；2/物流合作商;3/平台推广运营商
+ PartnerCode       | VARCHAR(20)  | NO   |     |         | 合作商编号   
+ PartnerName       | VARCHAR(255) | NO   |     |         | 合作商名称   
+ SettlementAmount  | FLOAT(8,2)   | NO   |     |         | 结算金额    
+ SettlementTime    | DATETIME(19) | NO   |     |         | 结算时间    
+ IsReviewed        | INT(10)      | NO   |     | 0       | 是否已审核，0/未审核，1/未通过，2/通过
+ Reviewer          | VARCHAR(255) | YES  |     |         | 审核人     
+ ReviewTime        | DATETIME(19) | YES  |     |         | 审核时间    
+ ReviewRemarks     | VARCHAR(500) | YES  |     |         | 审核备注    
+ IsRemittance      | INT(10)      | NO   |     | 0       | 是否打款，0/未打款，1/已打款
+ Remitter          | VARCHAR(255) | YES  |     |         | 汇款人     
+ RemittanceTime    | DATETIME(19) | YES  |     |         | 打款时间    
+ RemittanceRemarks | VARCHAR(500) | YES  |     |         | 打款备注    
+-------------------+--------------+------+-----+---------+---------
+
+Table: t_supplier
+-------------------------+--------------+------+-----+---------+---------
+ Field                   | Type         | Null | Key | Default | Remarks 
+-------------------------+--------------+------+-----+---------+---------
+ Id                      | VARCHAR(36)  | NO   | PRI |         |         
+ SupplierCode            | VARCHAR(20)  | NO   | PRI |         | 供应商编号   
+ PartnerCode             | VARCHAR(20)  | NO   |     |         | 合作商编号   
+ SupplierName            | VARCHAR(255) | NO   |     |         | 供应商名称   
+ SupplierPhone           | VARCHAR(15)  | NO   |     |         | 供应商电话   
+ SupplierAddress         | VARCHAR(255) | NO   |     |         | 供应商地址   
+ SupplierLongitude       | VARCHAR(255) | YES  |     |         | 供应商经度   
+ SupplierLatitude        | VARCHAR(255) | YES  |     |         | 供应商纬度   
+ SupplierIdentity        | VARCHAR(255) | YES  |     |         | 供应商身份证明材料
+ Pic1                    | VARCHAR(255) | YES  |     |         | 供应商照片1  
+ Pic2                    | VARCHAR(255) | YES  |     |         | 供应商照片2  
+ Pic3                    | VARCHAR(255) | YES  |     |         | 供应商照片3  
+ MicroVideo              | VARCHAR(255) | YES  |     |         | 微视频     
+ HenQuantity             | INT(10)      | YES  |     | 0       | 母鸡数量    
+ DailyProductionQuantity | INT(10)      | YES  |     | 0       | 每日产蛋数量  
+ OtherProducts           | VARCHAR(255) | YES  |     |         | 其他产品描述  
+ Editor                  | VARCHAR(255) | NO   |     |         | 编辑人     
+ EditTime                | DATETIME(19) | NO   |     |         | 编辑时间    
+ CreateTime              | DATETIME(19) | NO   |     |         | 创建时间    
+-------------------------+--------------+------+-----+---------+---------
+
+Table: t_supplyrecord
+----------------+--------------+------+-----+---------+---------
+ Field          | Type         | Null | Key | Default | Remarks 
+----------------+--------------+------+-----+---------+---------
+ Id             | VARCHAR(36)  | NO   | PRI |         |         
+ SupplierCode   | VARCHAR(20)  | NO   |     |         | 供应商编号   
+ PartnerCode    | VARCHAR(20)  | NO   |     |         | 合作商编号   
+ OrderCode      | VARCHAR(20)  | NO   |     |         | 订单编号    
+ CommodityCode  | VARCHAR(20)  | NO   |     |         | 商品编号    
+ SupplyQuantity | INT(10)      | NO   |     | 0       | 供货数量    
+ SupplyTime     | DATETIME(19) | NO   |     |         | 供货时间    
+ IsSettlement   | INT(10)      | NO   |     | 1       | 是否结算,0/未结算,1/已结算
+----------------+--------------+------+-----+---------+---------
+

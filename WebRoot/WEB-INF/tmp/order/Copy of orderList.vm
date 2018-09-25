@@ -1,0 +1,124 @@
+<!doctype html>
+<html>
+<head>
+	<title>尺尚</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta content="telephone=no" name="format-detection">
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/css.css"/>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/mui.min.css"/>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/app.css"/>
+	#parse("WEB-INF/tmp/include.vm")
+	<style>
+	.oldprice{font-size: 12px;text-decoration: line-through;padding-left: 10px;}
+	</style>
+</head>
+
+<body>
+<div class="backblock"><img src="${ctx}/images/btn-back.png"  onclick="javascript:history.go(-1)" alt=""/>
+#if("$!{type}"=="0")
+待付款订单
+#elseif("$!{type}"=="1")
+待发货订单
+#elseif("$!{type}"=="2")
+待收货订单
+#elseif("$!{type}"=="3")
+已完成订单
+#else 
+全部订单
+#end
+</div>
+
+#foreach($order in $!{orderList})
+<div class="orderlistnumb po-r">
+  <h3 onclick="location.href='${ctx}/order/orderDetail?id=${order[0].id}'">订单编号：$!{order[0].code}</h3>
+  <div class="btn">
+  	#if("$!{order[0].status}"=="0")
+	#if("$!{order[0].isPay}"=="0"&&"$!{order[0].isSend}"=="0"&&"$!{order[0].isReceive}"=="0")
+	待付款
+	#elseif("$!{order[0].isPay}"=="1"&&"$!{order[0].isSend}"=="0"&&"$!{order[0].isReceive}"=="0")
+	待发货
+	#elseif("$!{order[0].isPay}"=="1"&&"$!{order[0].isSend}"=="1"&&"$!{order[0].isReceive}"=="0")
+	待收货
+	#elseif("$!{order[0].isPay}"=="1"&&"$!{order[0].isSend}"=="1"&&"$!{order[0].isReceive}"=="1")
+	已完成
+	#end
+	#else
+	已作废
+	#end
+  </div>
+</div>
+#foreach($detail in $!{order})
+<div  class="orderlist" style="height:7rem;">
+  <a href="${ctx}/goods/goodsDetail?id=$!{detail.goodsId}"><div class="orderlistpic"><img style="max-height: 6rem;" src="$!{ftppath}$!{detail.img}"  alt=""/></div></a>
+  <div class="orderlistnr">
+    <a href="${ctx}/goods/goodsDetail?id=$!{detail.goodsId}"><h3>$!{detail.goodsName}</h3></a>
+    <div class="rule">$!{detail.colorName}&nbsp;&nbsp;$!{detail.sizeName}</div>
+    <div><span>X$!{detail.amount}</span> <em>￥#if(${detail.discount}>0)$!{detail.vipPrice}<font class="oldprice">￥$!{detail.price}</font> #else$!{detail.price} #end </em></div>
+    #if("$!{detail.isPay}"=="0"&&"$!{detail.isSend}"=="0"&&"$!{detail.isReceive}"=="0"&&"$!{detail.status}"=="0")
+	#if(${velocityCount}==$order.size())
+	<div style="clear:both;"></div>
+	<div class="btn" style="float:right;clear:none;margin-right:8px;" onclick="cancelOrder($!{detail.id})"><a href="javascript:void(0)">取消订单</a></div>
+	<div class="btn" style="float:right;clear:none;margin-right:8px;" onclick="location.href='${ctx}/order/againPay?id=$!{detail.id}'"><a href="javascript:void(0)">支付</a></div>
+	#end
+	#elseif("$!{detail.isPay}"=="1"&&"$!{detail.isSend}"=="1"&&"$!{detail.isReceive}"=="0")
+	#if(${velocityCount}==$order.size())
+	<div class="btn" onclick="confirmReceive($!{detail.id})"><a href="javascript:void(0)">确认收货</a></div>
+	#end
+	#end
+	<div style="clear:both;"></div>
+  </div>
+</div>
+<div class="line1"></div>
+#end
+<div class="line1"></div>
+#end
+
+<div class="height5"></div>
+#parse("WEB-INF/tmp/bottom.vm")
+<!--bottom-->
+
+<script>
+function confirmReceive(id){
+	if(window.confirm("您确定要确认收货吗?")){
+		$.ajax({
+			url:'${ctx}/order/confirmReceive',
+			data:{
+				id:id
+			},
+			method:'post',
+			dataType:'json',
+			success:function(data){
+				if(data.ok){
+					$.iBox.success("操作成功",2000);
+					setTimeout("window.location.reload()",2000);
+				}
+			}
+		});
+	}
+}
+
+function cancelOrder(id){
+	if(window.confirm("您确定要取消订单吗?")){
+		$.ajax({
+			url:'${ctx}/order/cancelOrder',
+			data:{
+				id:id
+			},
+			method:'post',
+			dataType:'json',
+			success:function(data){
+				if(data.ok){
+					$.iBox.success("操作成功",2000);
+					setTimeout("window.location.reload()",2000);
+				}
+				else{
+					$.iBox.success("取消失败",2000);
+				}
+			}
+		});
+	}
+}
+</script>
+</body>
+</html>

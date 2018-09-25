@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+<head>
+	<title>商品分类</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta content="telephone=no" name="format-detection">
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/css.css"/>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/mui.min.css"/>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/app.css"/>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/ectouch.css"/>
+	 #parse("WEB-INF/tmp/include.vm")
+	 <script type="text/javascript" src="${ctx}/js/z_js.js"></script>
+</head>
+
+<body>
+	<header class="mui-bar mui-bar-nav z_bar_nav">
+	      <div class="z_seach_30">
+	    	<div class="z_seach_30_c">
+	        	<input class="z_seach_30_t" type="text" placeholder="请输入关键字搜索" /><input class="z_seach_30_b" type="button" value=""/>
+	        </div>
+	        <a href="javascript:void(0)" class="z_30_non">取消</a>
+	    </div>
+	</header>
+	<div class="z_padt44">
+	    <div class="con">
+	      <aside>
+	        <div class="menu-left scrollbar-none z_padb50" id="sidebar">
+	          <ul>
+	          	#foreach($type in $parents)
+	            <li onclick="location.href='${ctx}/goods/typeList?code=${type.code}'" #if(${code}==${type.code})class="active"#end>$!{type.name}</li>
+	            #end
+	          </ul>
+	        </div>
+	      </aside>
+	      <section class="menu-right padding-all j-content" style="height: 542px;">
+	      	#foreach($type in $children)
+	        <h5><span>${type.name}</span></h5>
+	        <ul>
+	          #foreach($third in ${type.children})
+	          <li class="w-3"><a href="${ctx}/goods/typeGoodsList?id=${third.id}"></a><span>$!{third.name}</span></li>
+	          #end
+	        </ul>
+	        #end
+	      </section>
+	      <!--<section class="menu-right padding-all j-content">
+	      	#foreach($type in $children)
+	      	#if($type.goodsList.size()>0)
+	        <h5><a href="${ctx}/goods/typeGoodsList?id=${type.id}">查看更多</a><span>${type.name}</span></h5>
+	        <ul>
+	          #foreach($goods in ${type.goodsList})
+	          <li class="w-3" onclick="location.href='${ctx}/goods/goodsDetail?id=$!{goods.id}'"><a href="javascript:void(0)"></a><i><img onerror="defaultImg(this)" onload="fixImg($(this))" src="${ftppath}/$!{goods.img}" /></i><span>${goods.name}</span></li>
+	          #end
+	        </ul>
+	        #end
+	        #end
+	      </section>-->
+	    </div>	
+	</div>
+	
+	#set($current=3)
+	#parse("WEB-INF/tmp/bottom.vm")
+	
+	<script type="text/javascript">
+	$(function(){
+		 $(".z_seach_30_t").click(function(){
+			$(".z_seach_30").addClass("z_seach_30_click");
+		});
+		$(".z_30_non").click(function(){
+			$(".z_seach_30").removeClass("z_seach_30_click");
+		});
+		
+		$(".z_seach_30_b").click(function(){
+			var text=$(this).prev().val();
+			location.href="${ctx}/goods/searchGoods?searchTxt="+text;
+		});
+		
+		fixImg($(".menu-right ul li img"));
+	});
+	</script>
+</body>
+</html>

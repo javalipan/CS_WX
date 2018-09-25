@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+<head>
+	<title>尺尚</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta content="telephone=no" name="format-detection">
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/css.css"/>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/mui.min.css"/>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/app.css"/>
+	 #parse("WEB-INF/tmp/include.vm")
+</head>
+
+<body>
+ 	#parse("WEB-INF/tmp/top.vm")
+ 	
+	<div class="hb-user"><img src="$!{member.headUrl}" style="width: 4rem;height: 4rem;display: block;margin:0 auto;border-radius: 30rem;background: #828C97;text-align: center;" alt=""/></div>
+	<div class="hb-hi">$!{member.nickname}：欢迎您成为尺尚会员，为了答谢你厚爱，店主特为您准备心意红包 </div>
+	
+	<div class="hb-bg">
+	  <img src="${ctx}/images/hongbaobg1.jpg" id="hongbao" style=" margin-top:3rem;" alt=""/>
+    </div>
+
+	 #parse("WEB-INF/tmp/bottom.vm")
+	<script>
+		$("#hongbao").click(function(){
+			var html="<h2 style='color:#fff;margin-top:5px;'>恭喜您,<br/>获得注册优惠券</h2>  <img src='${ctx}/images/hongbaoopen.png' alt=''/></div><div class='hb-tip' style='margin-top:1rem;'><h4>抽中的红包就存入您的会员中心中的“我的优惠券”中，  所有优惠券均可用于线下/线下消费。</h4>";
+			$(".hb-bg").html(html);
+		});
+	</script>
+</body>
+</html>

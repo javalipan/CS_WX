@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+<head>
+	<title>优惠券#if(${coupon.type}=='0')兑换#else购买#end</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta content="telephone=no" name="format-detection">
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/css.css"/>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/mui.min.css"/>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/app.css"/>
+	<script src='${ctx}/js/swipe.js'></script>
+	<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	 #parse("WEB-INF/tmp/include.vm")
+	<script type="text/javascript" src="${ctx}/js/z_js.js"></script>
+</head>
+
+<body>
+	<header class="mui-bar mui-bar-nav z_bar_nav">
+	    <a class="mui-action-back mui-icon mui-icon-arrowleft z_col_666" onclick="javascript:history.go(-1)"></a>
+	    <h1 class="mui-title">我的优惠券</h1>
+	</header>
+	<div class="z_padt44">
+		<div class="z_coupon tab">
+	    	<div class="z_coupon_hd tab-hd clear">
+	        	<ul>
+	            	<li class="cur"><a href="javascript:void(0)">未使用</a></li>
+	            	<li class=""><a href="javascript:void(0)">已使用</a></li>
+	            	<li class=""><a href="javascript:void(0)">已过期</a></li>
+	            </ul>
+	        </div>
+	    	<div class="z_coupon_bd tab-bd">
+	            <div class="z_coupon_none thisclass">
+		            #if($unUsed.size()==0)
+		        		<div class="z_coup_none"><span><img src="${ctx}/images/z_c_d.png" width="60" height="60"/></span><span>暂无该类优惠券</span></div>
+		        	#else
+	            	<div class="z_coupon_list z_c_a">
+	                    <ul>
+	                    	#foreach($coupon in $unUsed)
+	                        <li class="clear">
+	                        	<i class="i1"></i><i class="i2"></i><i class="i3"></i>
+	                        	<span class="img"><img src="${ftppath}/${coupon.logoUrl}"/></span>
+	                            <h2>${coupon.name}</h2>
+	                            <p class="r1">${coupon.money}元</p>
+	                            <p class="r2">使用期限：$!date.format('yyyy-MM-dd',$!coupon.startTime) - $!date.format('yyyy-MM-dd',$!coupon.endTime)</p>
+	                        </li>
+	                        #end
+	                    </ul>
+	                </div>
+	                #end
+	            </div>
+	            <div class="z_coupon_none">
+	            	#if($used.size()==0)
+		        		<div class="z_coup_none"><span><img src="${ctx}/images/z_c_d.png" width="60" height="60"/></span><span>暂无该类优惠券</span></div>
+		        	#else
+	                <div class="z_coupon_list z_c_b">
+	                    <ul>
+	                    	#foreach($coupon in $used)
+	                        <li class="clear">
+	                        	<i class="i1"></i><i class="i2"></i></i><i class="i3"></i>
+	                        	<span class="img"><img src="${ftppath}/${coupon.logoUrl}"/></span>
+	                            <h2>${coupon.name}</h2>
+	                            <p class="r1">${coupon.money}元</p>
+	                            <p class="r2">使用期限：$!date.format('yyyy-MM-dd',$!coupon.startTime) - $!date.format('yyyy-MM-dd',$!coupon.endTime)</p>
+	                        </li>
+	                        #end
+	                    </ul>
+	                </div>
+	                #end
+	            </div>
+	            <div class="z_coupon_none">
+	            	#if($overdued.size()==0)
+		        		<div class="z_coup_none"><span><img src="${ctx}/images/z_c_d.png" width="60" height="60"/></span><span>暂无该类优惠券</span></div>
+		        	#else
+	                <div class="z_coupon_list z_c_c">
+	                    <ul>
+	                    	#foreach($coupon in $overdued)
+	                        <li class="clear">
+	                        	<i class="i1"></i><i class="i2"></i></i><i class="i3"></i>
+	                        	<span class="img"><img src="${ftppath}/${coupon.logoUrl}"/></span>
+	                            <h2>${coupon.name}</h2>
+	                            <p class="r1">${coupon.money}元</p>
+	                            <p class="r2">使用期限：$!date.format('yyyy-MM-dd',$!coupon.startTime) - $!date.format('yyyy-MM-dd',$!coupon.endTime)</p>
+	                        </li>
+	                        #end
+	                    </ul>
+	                </div>
+	                #end
+	            </div>
+	        </div>
+	    </div>
+		
+	</div>
+	
+	#parse("WEB-INF/tmp/bottom.vm")
+</body>
+</html>

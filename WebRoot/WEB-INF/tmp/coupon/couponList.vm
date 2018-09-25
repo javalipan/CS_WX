@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+<head>
+	<title>优惠券兑换</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta content="telephone=no" name="format-detection">
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/css.css"/>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/mui.min.css"/>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/app.css"/>
+	<script src='${ctx}/js/swipe.js'></script>
+	<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	 #parse("WEB-INF/tmp/include.vm")
+</head>
+
+<body>
+	<header class="mui-bar mui-bar-nav z_bar_nav">
+	    <a class="mui-action-back mui-icon mui-icon-arrowleft z_col_666"  onclick="javascript:history.go(-1)"></a>
+	    <a class="head_more right z_bar_font" onclick="location.href='${ctx}/member/myscore'">积分明细</a>
+	    <h1 class="mui-title">优惠券兑换</h1>
+	</header>
+	<div class="z_padt44">
+		<div class="z_integral">
+	    	<div class="z_integral_hd">
+	        	<p class="r1"><span>$!{member.memberPoint}</span>积分</p>
+	            <p class="r2"><span>当前积分</span></p>
+	        </div>
+	    	<div class="z_integral_bd">
+	        	<div class="z_integral_list">
+	                <ul>
+	                	#foreach($coupon in $coupons)
+	                    <li class="clear"><i class="i1"><a class="bj_1" onclick="location.href='${ctx}/coupon/couponDetail?id=${coupon.id}'" class="javascript:void(0)">#if(${coupon.type}=='0')兑换#else 购买#end</a></i>
+	                        <span class="img"><img src="${ftppath}/${coupon.logoUrl}"/></span>
+	                        <h2>${coupon.name}</h2>
+	                        <p class="r1"><span>${coupon.money}元/#if(${coupon.type}=='0')${coupon.integral}#else ${coupon.price}#end</span>#if(${coupon.type}=='0')积分#else元 #end</p>
+	                        <p class="r2"><span>${coupon.gradename}</span>会员以上可#if(${coupon.type}=='0')兑换#else购买#end</p>
+	                    </li>
+	                    #end
+	                </ul>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	
+	#parse("WEB-INF/tmp/bottom.vm")
+</body>
+</html>

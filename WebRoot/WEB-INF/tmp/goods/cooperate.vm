@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+<head>
+	<title>尺尚</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta content="telephone=no" name="format-detection">
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/css.css"/>
+	<script src='${ctx}/js/swipe.js'></script>
+	 #parse("WEB-INF/tmp/include.vm")
+</head>
+
+<body>
+	<div  class="backblock"><img onclick="javascript:history.go(-1)" src="${ctx}/images/btn-back.png"  alt=""/>特别合作系列</div>
+	
+	<div class="cooperate">
+		<h1>尺尚与设计师独家合作系列</h1>
+		#foreach($cooperate in $!{cooperates})
+		<a href="${ctx}/cooperate/cooperateDetail?id=${cooperate.id}"><img width="99%" src="${ftppath}$!{cooperate.img}" alt=""/><h2>$!{cooperate.title}</h2></a>
+		#end
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+<head>
+	<title>尺尚</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta content="telephone=no" name="format-detection">
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/css.css"/>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/mui.min.css"/>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/app.css"/>
+	#parse("WEB-INF/tmp/include.vm")
+</head>
+
+<body>
+	#parse("WEB-INF/tmp/top.vm")
+	<div class="myscorebg"> 
+	  <div class="myscore">
+	    <h4>我的余额</h4>
+	    <h5>$!{member.balance}</h5>
+	  </div>
+	</div>
+	
+	<div class="myscoretab"><a href="${ctx}/member/rechargeRecord">充值记录</a> <a href="${ctx}/member/balanceRecord" class="on">消费记录</a></div>
+	
+	<div class="viptablebox"><table class="viptable" >
+	  <tbody>
+	    <tr>
+	      <th scope="col">No.</th>
+	      <th scope="col">消费金额</th>
+	      <th scope="col">订单编号</th>
+	      <th scope="col">时间</th>
+	    </tr>
+	    #foreach($record in $!{balanceRecords})
+	    <tr>
+	      <td>$!{velocityCount}</td>
+	      <td>$!{record.amount}</td>
+	      <td>
+	      	$!{record.code}
+	      </td>
+	      <td>$!date.format('yyyy-MM-dd',$!record.useTime)</td>
+	    </tr>
+	  	#end
+	  </tbody>
+	</table></div>
+	
+	<div class="height5"></div>
+	
+	#parse("WEB-INF/tmp/bottom.vm")
+</body>
+</html>

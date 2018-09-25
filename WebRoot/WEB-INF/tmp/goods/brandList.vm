@@ -1,0 +1,144 @@
+<!doctype html>
+<html>
+<head>
+	<title>尺尚</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta content="telephone=no" name="format-detection">
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/css.css"/>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/mui.min.css"/>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/app.css"/>
+	 #parse("WEB-INF/tmp/include.vm")
+	 <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	 <style>
+	 .z_c_designer ul li .z_c_des_pic{width:110px;heigth:110px;}
+	 </style>
+</head>
+
+<body>
+	<header class="mui-bar mui-bar-nav z_bar_nav">
+	    <a class="mui-action-back mui-icon mui-icon-arrowleft z_col_666"></a>
+	    <h1 class="mui-title">设计师</h1>
+	</header>
+	<div class="z_padt44 z_padb70">
+		<div class="z_c_designer">
+	    	<ul>
+	    		#foreach($brand in $brands)
+	        	<li onclick="location.href='${ctx}/goods/brandGoodsList?id=${brand.id}'">
+	            	<a class="z_c_des_pic" href="${ctx}/goods/brandGoodsList?id=${brand.id}"><img onload="fixImg($(this))" onerror="defaultImg(this)" src="${ftppath}/$!{brand.img}" /></a>
+	                <p class="row1">$!{brand.name}</p>
+	                <p class="row2">$!{brand.intro}</p>
+	                <p class="row3"><a class="bj_1" href="${ctx}/goods/brandGoodsList?id=${brand.id}">点击进入</a></p>
+	            </li>
+	            #end
+	        </ul>
+	    </div>
+		<!--<div class="z_no_more">没有更多啦！</div>-->
+	</div>
+	
+	#set($current=2)
+	#parse("WEB-INF/tmp/bottom.vm")
+	
+	<script>
+	$(function(){
+		fixImg($(".z_c_designer ul li img"));
+	});
+	
+	function defaultImg(t){
+		$(t).attr("src",ctx+"/images/logo.jpg");
+	}
+	</script>
+	
+	<script>
+	wx.config({
+	        debug:false, 
+	        appId:"${jsparas.appId}",
+	        timestamp: "${jsparas.timestamp}",
+	        nonceStr: "${jsparas.nonceStr}",
+	        signature:"${jsparas.signature}",
+	        jsApiList: [
+	           'checkJsApi',
+	           'onMenuShareTimeline',
+	           'onMenuShareAppMessage',
+	           'onMenuShareQQ',
+	           'onMenuShareWeibo',
+	           'onMenuShareQZone' 
+	        ]
+	    });
+	    
+	    var title  = "${jsparas.title}";
+    	var link = "${jsparas.link}";
+    	var imgUrl = "${jsparas.imgUrl}";
+    	var desc = "${jsparas.desc}";
+	    wx.ready(function () {
+	    	//获取“分享到朋友圈”按钮点击状态及自定义分享内容接口
+	    	wx.onMenuShareTimeline({
+	    	    title:title, // 分享标题
+	    	    link:link, // 分享链接
+	    	    imgUrl:imgUrl, // 分享图标
+	    	    success: function () {
+	    	        // 用户确认分享后执行的回调函数
+	    	    },
+	    	    cancel: function () {
+	    	        // 用户取消分享后执行的回调函数
+	    	    }
+	    	});
+	    	//获取“分享给朋友”按钮点击状态及自定义分享内容接口
+	    	wx.onMenuShareAppMessage({
+	    	    title:title, // 分享标题
+	    	    desc:desc, // 分享描述
+	    	    link:link, // 分享链接
+	    	    imgUrl:imgUrl, // 分享图标
+	    	    type: 'link', // 分享类型,music、video或link，不填默认为link
+	    	    dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+	    	    success: function () {
+	    	        // 用户确认分享后执行的回调函数
+	    	    },
+	    	    cancel: function () {
+	    	        // 用户取消分享后执行的回调函数
+	    	    }
+	    	});
+	    	//获取“分享到QQ”按钮点击状态及自定义分享内容接口
+	    	wx.onMenuShareQQ({
+	    	    title:title, // 分享标题
+	    	    desc:desc, // 分享描述
+	    	    link:link, // 分享链接
+	    	    imgUrl:imgUrl, // 分享图标
+	    	    success: function () {
+	    	       // 用户确认分享后执行的回调函数
+	    	    },
+	    	    cancel: function () {
+	    	       // 用户取消分享后执行的回调函数
+	    	    }
+	    	});
+	    	//获取“分享到腾讯微博”按钮点击状态及自定义分享内容接口
+	    	wx.onMenuShareWeibo({
+	    	    title:title, // 分享标题
+	    	    desc:desc, // 分享描述
+	    	    link:link, // 分享链接
+	    	    imgUrl:imgUrl, // 分享图标
+	    	    success: function () {
+	    	       // 用户确认分享后执行的回调函数
+	    	    },
+	    	    cancel: function () {
+	    	        // 用户取消分享后执行的回调函数
+	    	    }
+	    	});
+
+	    	//获取“分享到腾讯微博”按钮点击状态及自定义分享内容接口
+	    	wx.onMenuShareWeibo({
+	    	    title:title, // 分享标题
+	    	    desc:desc, // 分享描述
+	    	    link:link, // 分享链接
+	    	    imgUrl:imgUrl, // 分享图标
+	    	    success: function () {
+	    	       // 用户确认分享后执行的回调函数
+	    	    },
+	    	    cancel: function () {
+	    	        // 用户取消分享后执行的回调函数
+	    	    }
+	    	});
+	    });
+	</script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+<head>
+	<title>尺尚</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta content="telephone=no" name="format-detection">
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/css.css"/>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/mui.min.css"/>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/app.css"/>
+	<script src='${ctx}/js/swipe.js'></script>
+	 #parse("WEB-INF/tmp/include.vm")
+</head>
+
+<body>
+	<header class="mui-bar mui-bar-nav z_bar_nav">
+	    <a class="mui-action-back mui-icon mui-icon-arrowleft z_col_666" onclick="javascript:history.go(-1)"></a>
+	    <h1 class="mui-title">往期回顾</h1>
+	</header>
+	<div class="z_padt44">
+		<div class="z_tbbd">
+	    	<ul>
+	    		#foreach($content in $!{contents})
+	        	<li>
+		        	<a href="${content.url}">
+		            	<p class="row1">$!{content.title}</p>
+		            	<p class="row2">$!date.format('yyyy-MM-dd HH:mm:ss',$!content.createTime)</p>
+		            	<img src="${ftppath}$!{content.img}" width="60" height="60"/>
+		            </a>
+	            </li>
+	            #end
+	        </ul>
+	    </div>
+	</div>
+
+</body>
+</html>

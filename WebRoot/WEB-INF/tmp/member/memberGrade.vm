@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+<head>
+	<title>尺尚</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta content="telephone=no" name="format-detection">
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/css.css"/>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/mui.min.css"/>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/app.css"/>
+	 #parse("WEB-INF/tmp/include.vm")
+	 <style>.viptable img,.vipbggrade .vipgrade img{width:auto;height:18px;}</style>
+</head>
+
+<body>
+ #parse("WEB-INF/tmp/top.vm")
+ 
+<div class="vipbggrade"> <img src="$!{member.headUrl}" style="width: 4rem;height: 4rem;display: block;margin:0 auto;border-radius: 30rem;background: #828C97;text-align: center;" alt="">
+  <div class="vipgrade">
+    <h2>尊贵的$!{member.nickname}：</h2>
+    <h3>您目前的会员级别为:&nbsp;<img src="${ctx}/$!{levelSetting.icon}" alt=""/>“$!{levelSetting.gradename}”</h3>
+    #if($nextLevel.icon)
+    <h3>还需${remaining}元消费晋级:&nbsp;<img src="${ctx}/$!{nextLevel.icon}" alt=""/>“$!{nextLevel.gradename}”</h3>
+    #end
+    <h3>当前等级折扣为 $!{levelSetting.discount} 折 #if($nextLevel.icon)下级折扣为  $!{nextLevel.discount} 折#end</h3>
+  </div>
+</div>
+<div class="z_user_more">
+    <p>尺尚为亲爱的会员们制定了一套回馈、增值方案。</p>
+	<h1>会员级别列表</h1>
+</div>
+<div class="viptablebox">
+  <table class="viptable">
+      <tr>
+        <th>会员名称</th>
+        <th>消费/充值(元)</th>
+        <th>充值赠送(元)</th>
+        <th>享受服务</th>
+      </tr>
+      <tr>
+        <td><img src="${ctx}/images/z_star1.png"><span>一星</span></td>
+        <td>6000以下</td>
+        <td>0</td>
+        <td>-</td>	
+      </tr>
+      <tr>
+        <td><img src="${ctx}/images/z_star2.png"><span>二星</span></td>
+        <td>6000</td>
+        <td>200</td>
+        <td>订单9.8折</td>
+      </tr>
+      <tr>
+        <td><img src="${ctx}/images/z_star3.png"><span>三星</span></td>
+        <td>10000</td>
+        <td>400</td>
+        <td>订单9.5折</td>
+      </tr>
+      <tr>
+        <td><img src="${ctx}/images/z_star4.png"><span>四星</span></td>
+        <td>20000</td>
+        <td>1000</td>
+        <td>订单9.2折</td>
+      </tr>
+      <tr>
+        <td><img src="${ctx}/images/z_star5.png"><span>五星</span></td>
+        <td>30000</td>
+        <td>1800</td>
+        <td>订单9折</td>
+      </tr>
+      <tr>
+        <td><img src="${ctx}/images/z_star6.png"><span>铂金</span></td>
+        <td>50000</td>
+        <td>3500</td>
+        <td>订单8.5折</td>
+      </tr>
+      <tr>
+        <td><img src="${ctx}/images/z_star7.png"><span>钻石</span></td>
+        <td>100000+</td>
+        <td>7500</td>
+        <td>订单8折</td>
+      </tr>
+  </table>
+</div>
+<div class="z_user_more_p">
+	<h2>会员晋级</h2>
+    <p>会员累积消费或充值到表中指定金额后，晋级到对应级别会员，并享受相应优惠折扣或增送金额（充值客户）。</p>
+    <h2>会员级别的时效性</h2>
+    <p>会员级别有效期为一年，自会员晋级日开始一年时间，享受该会员级别所有服务和优惠。在有效期内任意消费一笔，从该消费日计算，会员级别有效期再延续一年。</p>
+    <h2>会员降级</h2>
+    <p>在会员有效期内未产生任何消费，有效期到期后，会员级别降一级。降级会员从该级别的累积消费金额起点开始计算。如白金会员降到五星会员时，则起始计算金额为30000，以后的消费从30000开始累加，以此判断是否再晋级到铂金会员。</p>    
+</div>
+<div class="height5"></div>
+ #parse("WEB-INF/tmp/bottom.vm")
+</body>
+</html>

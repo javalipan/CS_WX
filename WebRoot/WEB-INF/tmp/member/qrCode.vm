@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+<head>
+	<title>尺尚</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta content="telephone=no" name="format-detection">
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/css.css"/>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/mui.min.css"/>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/app.css"/>
+	 #parse("WEB-INF/tmp/include.vm")
+</head>
+
+<body>
+	<header class="mui-bar mui-bar-nav z_bar_nav">
+	    <h1 class="mui-title">尺尚</h1>
+	</header>
+	
+	<div class="z_padt44">
+	    <div class="zy_other">
+	        <div class="zy_other_m">
+	        	<div class="zy_other_logo"><img src="${ctx}/images/zy_logo.png"></div>
+	            <p class="p1">尺尚，我的时尚，集风尚潮流，个性设计的原创独立设计师平台。</p>
+	            <div class="zy_other_por"><img src="${ctx}/images/zy_other_logo.png"></div>
+	            <p class="p2">注册尺尚，赠送200元现金券</p>
+	            <p class="p3">首单消费，再送200元现金券</p>
+	            <div class="zy_other_ma"><img src="http://qr.liantu.com/api.php?text=$!{url}"></div>
+	            <p class="p4">长按二维码关注</p>
+	            <p class="p5">地址：重庆南岸区南滨路133号长嘉汇购物公园L1-27</p>
+	    	</div>
+	    </div>
+	</div>
+</body>
+</html>
