@@ -53,7 +53,7 @@
 	        <ul>
 	            <li><a href="javascript:void(0)">订单原价</a><span class="z_col6167f1"><i>${oldprice}</i>元</span></li>
 	            <li><a href="javascript:void(0)">享受折扣</a><span class="z_col6167f1"><i>${member.discount}</i>折</span></li>
-	            <li><a href="javascript:void(0)">订单金额</a><span class="z_col6167f1"><i>${total}</i>元</span></li>
+	            <li><a href="javascript:void(0)">订单金额</a><span class="z_col6167f1"><i>${orderprice}</i>元</span></li>
 	            #if(${subtractmoney}>0)
 	            <li><a class="z_odd_y" href="javascript:void(0)"><i>满</i>满减优惠</a><span id="subMoney" class="z_col6167f1">$!{subtractText}</span></li>
 	            <input type="hidden" value="${subtractmoney}" name="subtractmoney"/>
@@ -101,12 +101,12 @@
 	                    <div class="z_coupon_list z_c_a">
 	                        <ul>
 	                        	#foreach($coupon in $!{memberCoupons})
-	                            <li class="clear" js-id="${coupon.id}" js-money="${coupon.money}">
+	                            <li class="clear" js-id="${coupon.id}" js-money="${coupon.money}" js-limitmoney="${coupon.limitmoney}">
 	                            	<label class="z_lable_100 mui-checkbox"><input type="checkbox" vaule="" name="checkbox"></label>
 	                                <i class="i1"></i><i class="i2"></i>
 	                                <span class="img"><img src="${ftppath}${coupon.logoUrl}"></span>
 	                                <h2>${coupon.name}</h2>
-	                                <p class="r1">${coupon.money}元</p>
+	                                <p class="r1">${coupon.money}元  #if($coupon.limitmoney>0)(满${coupon.limitmoney}元可用)#end</p>
 	                                <p class="r2">使用期限：$!date.format('yyyy-MM-dd',$!coupon.startTime) - $!date.format('yyyy-MM-dd',$!coupon.endTime)</p>
 	                            </li>
 	                            #end
@@ -247,6 +247,7 @@
 	
 	//合计计算
 	function calc(){
+		var discount=parseFloat("${discount}");		//用户折扣
 		var oldprice=parseFloat("${oldprice}");
 		var topay=parseFloat("${topay}");
 		var balancePayTxt=$("input[name='balancePay']").val();
@@ -254,8 +255,9 @@
 		var couponUse=$("#couponUse").text();
 		var couponpay=couponUse==""?0:parseFloat(couponUse);		//优惠券支付
 		
-		topay=Number(topay).sub(balancePay);
-		topay=Number(topay).sub(couponpay);
+		topay=Number(topay).sub(couponpay);		//优惠券
+		topay=Number(Number(topay).mul(discount)).div(10);		//用户折扣		
+		topay=Number(topay).sub(balancePay);		//余额支付
 		if(topay<0){
 			topay=0;
 		}
@@ -312,6 +314,9 @@
 		$("#balances").click(function(){
 			$(".z_odd_m").show();
 			$(".z_odd_m input[type='text']").val("");
+			$("#balanceUse").text(0);
+			$("input[name='balancePay']").val(0);
+			calc();
 		});
 		
 		//余额使用确认
@@ -325,10 +330,7 @@
 				$.iBox.alert("余额不足",500);
 				return;
 			}
-			var topay=parseFloat("${topay}");
-			var couponUse=$("#couponUse").text();
-			var couponpay=couponUse==""?0:parseFloat(couponUse);		//优惠券支付
-			topay=Number(topay).sub(couponpay);
+			var topay=parseFloat($(".topay:eq(0)").text());
 			if(parseFloat(text)>topay){
 				$.iBox.alert("使用余额大于支付金额",500);
 				return;
@@ -355,6 +357,11 @@
 			for(var i=0;i<checked.length;i++){
 				var id=checked.eq(i).parent().parent().attr("js-id");
 				var money=checked.eq(i).parent().parent().attr("js-money");
+				var limitmoney=checked.eq(i).parent().parent().attr("js-limitmoney");
+				if(parseFloat(limitmoney)>parseFloat("${orderprice}")){
+					$.iBox.alert("订单金额未达到优惠券限制金额，无法使用",1000);
+	  				return;
+	  			}
 				couponpay=Number(money).add(couponpay);
 				if(i==0){
 					ids+=id;

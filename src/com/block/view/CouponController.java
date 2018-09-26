@@ -156,6 +156,7 @@ public class CouponController extends BaseController{
 				memberCoupon.setStartTime(calendar.getTime());
 				memberCoupon.setEndTime(end.getTime());
 			}
+			memberCoupon.setLimitmoney(coupon.getLimitmoney());
 			memberCoupon.setStatus("0");
 			memberCoupon.save();		//保存用户优惠券
 			
@@ -188,6 +189,7 @@ public class CouponController extends BaseController{
 				memberCoupon.setEndTime(end.getTime());
 			}
 			memberCoupon.setStatus("3");
+			memberCoupon.setLimitmoney(coupon.getLimitmoney());
 			memberCoupon.save();		//保存用户优惠券
 			
 			Map<String, String> unifiedorder = new HashMap<String, String>();

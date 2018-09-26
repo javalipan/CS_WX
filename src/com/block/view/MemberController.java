@@ -180,6 +180,7 @@ public class MemberController extends BaseController{
 					memberCoupon.setEndTime(end.getTime());
 				}
 				memberCoupon.setStatus("0");
+				memberCoupon.setLimitmoney(coupon.getLimitmoney());
 				memberCoupon.save();		//用户注册赠送优惠券
 				
 				result.put("redirect", true);

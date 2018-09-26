@@ -40,7 +40,7 @@
 	                        	<i class="i1"></i><i class="i2"></i><i class="i3"></i>
 	                        	<span class="img"><img src="${ftppath}/${coupon.logoUrl}"/></span>
 	                            <h2>${coupon.name}</h2>
-	                            <p class="r1">${coupon.money}元</p>
+	                            <p class="r1">${coupon.money}元  #if($coupon.limitmoney>0)(满${coupon.limitmoney}元可用)#end</p>
 	                            <p class="r2">使用期限：$!date.format('yyyy-MM-dd',$!coupon.startTime) - $!date.format('yyyy-MM-dd',$!coupon.endTime)</p>
 	                        </li>
 	                        #end
@@ -59,7 +59,7 @@
 	                        	<i class="i1"></i><i class="i2"></i></i><i class="i3"></i>
 	                        	<span class="img"><img src="${ftppath}/${coupon.logoUrl}"/></span>
 	                            <h2>${coupon.name}</h2>
-	                            <p class="r1">${coupon.money}元</p>
+	                            <p class="r1">${coupon.money}元  #if($coupon.limitmoney>0)(满${coupon.limitmoney}元可用)#end</p>
 	                            <p class="r2">使用期限：$!date.format('yyyy-MM-dd',$!coupon.startTime) - $!date.format('yyyy-MM-dd',$!coupon.endTime)</p>
 	                        </li>
 	                        #end
@@ -78,7 +78,7 @@
 	                        	<i class="i1"></i><i class="i2"></i></i><i class="i3"></i>
 	                        	<span class="img"><img src="${ftppath}/${coupon.logoUrl}"/></span>
 	                            <h2>${coupon.name}</h2>
-	                            <p class="r1">${coupon.money}元</p>
+	                            <p class="r1">${coupon.money}元  #if($coupon.limitmoney>0)(满${coupon.limitmoney}元可用)#end</p>
 	                            <p class="r2">使用期限：$!date.format('yyyy-MM-dd',$!coupon.startTime) - $!date.format('yyyy-MM-dd',$!coupon.endTime)</p>
 	                        </li>
 	                        #end

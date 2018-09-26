@@ -240,9 +240,10 @@ public class OrderController extends BaseController{
 				}
 			}
 		}
+		setAttr("orderprice", total);
 		setAttr("goodsDetails", goodsDetails);
 		setAttr("oldprice", oldprice);
-		total=NumberUtil.multiply(total, member.getDiscount()<=0?1:member.getDiscount()/10);
+		setAttr("discount", (member.getDiscount()>0&&member.getDiscount()<10)?member.getDiscount():0);
 		
 		List<FullRule> fullRules=FullRule.dao.find("select * from t_full_rule order by amount asc");
 		setAttr("fullRules", fullRules);		//满减规则
@@ -976,15 +977,40 @@ public class OrderController extends BaseController{
 		order.setOldPrice(total);
 		
 		order.setDiscount(member.getDiscount());
-		if(member.getDiscount()!=null&&member.getDiscount()>0&&member.getDiscount()<10){		//会员折扣
-			viptotal=NumberUtil.divide(NumberUtil.multiply(viptotal, member.getDiscount()), 10);
+		
+		List<MemberCoupon> memberCoupons=null;
+		String couponids=getPara("couponids");
+		if(StringUtils.isNotBlank(couponids)){		//选择了优惠券
+			memberCoupons=MemberCoupon.dao.find("select * from t_member_coupon where id in("+couponids+")");
+			int coupontotal=0;		//优惠券使用总金额
+			String userCoupons="";
+			for(MemberCoupon memberCoupon:memberCoupons){
+				if(memberCoupon.getLimitmoney()>viptotal2){
+					renderJavascript("$.iBox.remove();$.iBox.alert('订单金额未达到优惠券限制金额，无法使用!');");
+					return;
+				}
+				coupontotal+=memberCoupon.getMoney();
+				userCoupons+=memberCoupon.getCode()+",";
+			}
+			viptotal=NumberUtil.subtract(viptotal,coupontotal);
+			order.setCouponsPay(coupontotal);		//优惠券支付
+			order.setUserCoupons(userCoupons.substring(0,userCoupons.length()-1));
 		}
+		else{
+			order.setCouponsPay(0);
+		}
+		
 		List<FullRule> fullRules=FullRule.dao.find("select * from t_full_rule order by amount asc");
 		int subtractmoney=calcFullReduce(viptotal, fullRules);
 		if(subtractmoney>0){
 			viptotal=NumberUtil.subtract(viptotal, subtractmoney);	//减去满减部分
 			order.setSubtractMoney(subtractmoney);
 		}
+		
+		if(member.getDiscount()!=null&&member.getDiscount()>0&&member.getDiscount()<10){		//会员折扣
+			viptotal=NumberUtil.divide(NumberUtil.multiply(viptotal, member.getDiscount()), 10);
+		}
+		
 		String balancePay=getPara("balancePay");
 		if(StringUtils.isNotBlank(balancePay)&&Double.parseDouble(balancePay)>0){	//余额支付
 			order.setBalancePay(Double.parseDouble(balancePay));
@@ -998,23 +1024,7 @@ public class OrderController extends BaseController{
 		else{
 			order.setBalancePay(0.0);
 		}
-		List<MemberCoupon> memberCoupons=null;
-		String couponids=getPara("couponids");
-		if(StringUtils.isNotBlank(couponids)){		//选择了优惠券
-			memberCoupons=MemberCoupon.dao.find("select * from t_member_coupon where id in("+couponids+")");
-			int coupontotal=0;		//优惠券使用总金额
-			String userCoupons="";
-			for(MemberCoupon memberCoupon:memberCoupons){
-				coupontotal+=memberCoupon.getMoney();
-				userCoupons+=memberCoupon.getCode()+",";
-			}
-			viptotal=NumberUtil.subtract(viptotal,coupontotal);
-			order.setCouponsPay(coupontotal);		//优惠券支付
-			order.setUserCoupons(userCoupons.substring(0,userCoupons.length()-1));
-		}
-		else{
-			order.setCouponsPay(0);
-		}
+		
 		
 		if(viptotal<=0){
 			viptotal=0;
@@ -1209,6 +1219,7 @@ public class OrderController extends BaseController{
 							memberCoupon.setEndTime(end.getTime());
 						}
 						memberCoupon.setStatus("0");
+						memberCoupon.setLimitmoney(invitedcoupon.getLimitmoney());
 						memberCoupon.save();		//被邀请人优惠券
 					}
 					
@@ -1239,6 +1250,7 @@ public class OrderController extends BaseController{
 							memberCoupon.setEndTime(end.getTime());
 						}
 						memberCoupon.setStatus("0");
+						memberCoupon.setLimitmoney(invitercoupon.getLimitmoney());
 						memberCoupon.save();		//邀请人优惠券
 					}
 				}

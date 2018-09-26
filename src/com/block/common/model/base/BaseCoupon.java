@@ -291,4 +291,18 @@ public class BaseCoupon <M extends BaseCoupon<M>> extends Model<M> implements IB
 		set("createUser",createUser);
 	}
 
+	/**
+	 *获取金额制限
+	 */
+	public Integer getLimitmoney() {
+		return get("limitmoney");
+	}
+
+	/**
+	 *设置金额制限
+	 */
+	public void setLimitmoney(Integer limitmoney) {
+		set("limitmoney",limitmoney);
+	}
+
 }

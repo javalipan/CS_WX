@@ -207,4 +207,18 @@ public class BaseMemberCoupon <M extends BaseMemberCoupon<M>> extends Model<M> i
 		set("orderId",orderId);
 	}
 
+	/**
+	 *获取金额制限
+	 */
+	public Integer getLimitmoney() {
+		return get("limitmoney");
+	}
+
+	/**
+	 *设置金额制限
+	 */
+	public void setLimitmoney(Integer limitmoney) {
+		set("limitmoney",limitmoney);
+	}
+
 }
