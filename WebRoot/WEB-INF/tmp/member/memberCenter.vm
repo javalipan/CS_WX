@@ -27,7 +27,7 @@
 	        </div>
 	    </div>
 	    <div class="z_u_to clear">
-	    	<ul style="padding-left: 8%;">
+	    	<ul>
 	        	<li><span class="rowbj_1" onclick="location.href='${ctx}/member/balanceRecord'"><span class="row1">余额</span><span class="row2"><i>$!{member.balance}</i>元</span></span></li>
 	            <li><span class="rowbj_2" onclick="location.href='${ctx}/member/myscore'"><span class="row1">积分</span><span class="row2"><i>$!{member.memberPoint}</i></span></span></li>
 	            <li><span class="rowbj_3" onclick="location.href='${ctx}/coupon/memberCouponList'"><span class="row1">优惠券</span><span class="row2"><i>$!{couponCnt}</i>张</span></span></li>

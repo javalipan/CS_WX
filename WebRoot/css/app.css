@@ -28,7 +28,7 @@ a:active { color: #ff4f03 !important;}
 .z_mgt10{ margin-top:10px;}
 .z_colff4f03{ color:#ff4f03;}
 .z_col333{ color:#333;}
-.z_nav{ position:fixed; bottom:0; left:0; width:100%; height:49px; border-top:#f1f1f1 solid 1px; background:#FFF;}
+.z_nav{ position:fixed; bottom:0; left:0; width:100%; height:49px; border-top:#f1f1f1 solid 1px; background:#FFF; z-index:10;}
 .z_nav ul li{ width:20%; float:left; height:49px; overflow:hidden;}
 .z_nav ul li a{ display:block; width:100%; padding-top:7px;}
 .z_nav ul li a span{ display:block; color:#666; font-size:12px; text-align:center;}
@@ -188,11 +188,11 @@ a:active { color: #ff4f03 !important;}
 .z_user .z_u_bd ul li span{ float:left; height:45px; width:35px; float:left; display:block;}
 .z_user .z_u_bd ul li span img{ margin-top:12px;}
 .z_user .z_u_bd ul li a{ float:left; height:45px;display:block; font-size:15px; color:#333;}
-.z_bar_nav{ background:#FFF; border-bottom:#e3e3e3 solid 1px; box-shadow:none !important;}
+.z_bar_nav{ background:#FFF; border-bottom:#e3e3e3 solid 1px; box-shadow:none !important; z-index:11;}
 .z_bar_font{ height:44px; line-height:44px; font-size:14px;}
 .z_bar_nav h1{ color:#333; font-size:15px;}
 .z_col_666{ color:#666;}
-.z_coupon{}
+.z_coupon{ padding-bottom:50px;}
 .z_coupon .z_coupon_hd{ height:45px; border-bottom:#e8e8e9 solid 1px; background:#fff;}
 .z_coupon .z_coupon_hd ul li{ width:33.3%; text-align:center;}
 .z_coupon .z_coupon_hd ul li a{ display:inline-block; line-height:45px;height:45px;font-size:16px;}
