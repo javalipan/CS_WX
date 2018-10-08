@@ -11,6 +11,7 @@ import com.block.common.model.MemberLabel;
 import com.block.common.model.Order;
 import com.block.utils.DateUtil;
 import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.Record;
 
 /**
  * 标签计算
@@ -113,25 +114,68 @@ public class LabelThread implements Runnable{
 		timeLabel.setMemberId(member.getId());
 		timeLabel.setLabelName(DateUtil.getInTimeLabel(member.getRegisterTime()));
 		
-		if(count==1){		//第一次下单,需要新增标签
-			levelLabel.save();
-			moneyLabel.save();
-			recentLabel.save();
-			repeatLabel.save();
-			brandLabel.save();
-			sizeLabel.save();
-			styleLabel.save();
-			timeLabel.save();
-		}
-		else{		//非第一次下单更新标签
+		Record levelLabelrecord=Db.findFirst("select count(1) cnt from t_member_label where memberId=? and typeCode=?",member.getId(),LabelTypeEnum.LABELTYPE_LEVEL.getCode());
+		if(levelLabelrecord.getLong("cnt")>0){
 			Db.update("update t_member_label set labelName=? where memberId=? and typeCode=?",levelLabel.getLabelName(),member.getId(),LabelTypeEnum.LABELTYPE_LEVEL.getCode());
+		}
+		else{
+			levelLabel.save();
+		}
+		
+		Record moneyLabelrecord=Db.findFirst("select count(1) cnt from t_member_label where memberId=? and typeCode=?",member.getId(),LabelTypeEnum.LABELTYPE_MONEY.getCode());
+		if(moneyLabelrecord.getLong("cnt")>0){
 			Db.update("update t_member_label set labelName=? where memberId=? and typeCode=?",moneyLabel.getLabelName(),member.getId(),LabelTypeEnum.LABELTYPE_MONEY.getCode());
+		}
+		else{
+			moneyLabel.save();
+		}
+		
+		Record recentLabelrecord=Db.findFirst("select count(1) cnt from t_member_label where memberId=? and typeCode=?",member.getId(),LabelTypeEnum.LABELTYPE_RECENT.getCode());
+		if(recentLabelrecord.getLong("cnt")>0){
 			Db.update("update t_member_label set labelName=? where memberId=? and typeCode=?",recentLabel.getLabelName(),member.getId(),LabelTypeEnum.LABELTYPE_RECENT.getCode());
+		}
+		else{
+			recentLabel.save();
+		}
+		
+		Record repeatLabelrecord=Db.findFirst("select count(1) cnt from t_member_label where memberId=? and typeCode=?",member.getId(),LabelTypeEnum.LABELTYPE_REPEAT.getCode());
+		if(repeatLabelrecord.getLong("cnt")>0){
 			Db.update("update t_member_label set labelName=? where memberId=? and typeCode=?",repeatLabel.getLabelName(),member.getId(),LabelTypeEnum.LABELTYPE_REPEAT.getCode());
+		}
+		else{
+			repeatLabel.save();
+		}
+		
+		Record brandLabelrecord=Db.findFirst("select count(1) cnt from t_member_label where memberId=? and typeCode=?",member.getId(),LabelTypeEnum.LABELTYPE_BRAND.getCode());
+		if(brandLabelrecord.getLong("cnt")>0){
 			Db.update("update t_member_label set labelName=? where memberId=? and typeCode=?",brandLabel.getLabelName(),member.getId(),LabelTypeEnum.LABELTYPE_BRAND.getCode());
+		}
+		else{
+			brandLabel.save();
+		}
+		
+		Record sizeLabelrecord=Db.findFirst("select count(1) cnt from t_member_label where memberId=? and typeCode=?",member.getId(),LabelTypeEnum.LABELTYPE_SIZE.getCode());
+		if(sizeLabelrecord.getLong("cnt")>0){
 			Db.update("update t_member_label set labelName=? where memberId=? and typeCode=?",sizeLabel.getLabelName(),member.getId(),LabelTypeEnum.LABELTYPE_SIZE.getCode());
+		}
+		else{
+			sizeLabel.save();
+		}
+		
+		Record styleLabelrecord=Db.findFirst("select count(1) cnt from t_member_label where memberId=? and typeCode=?",member.getId(),LabelTypeEnum.LABELTYPE_STYLE.getCode());
+		if(styleLabelrecord.getLong("cnt")>0){
 			Db.update("update t_member_label set labelName=? where memberId=? and typeCode=?",styleLabel.getLabelName(),member.getId(),LabelTypeEnum.LABELTYPE_STYLE.getCode());
+		}
+		else{
+			styleLabel.save();
+		}
+		
+		Record timeLabelrecord=Db.findFirst("select count(1) cnt from t_member_label where memberId=? and typeCode=?",member.getId(),LabelTypeEnum.LABELTYPE_TIME.getCode());
+		if(timeLabelrecord.getLong("cnt")>0){
 			Db.update("update t_member_label set labelName=? where memberId=? and typeCode=?",timeLabel.getLabelName(),member.getId(),LabelTypeEnum.LABELTYPE_TIME.getCode());
+		}
+		else{
+			timeLabel.save();
 		}
 	}
 }

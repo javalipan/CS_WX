@@ -248,6 +248,7 @@
 	//合计计算
 	function calc(){
 		var discount=parseFloat("${discount}");		//用户折扣
+		discount=(discount<=0||discount>=10)?10:discount;
 		var oldprice=parseFloat("${oldprice}");
 		var topay=parseFloat("${topay}");
 		var balancePayTxt=$("input[name='balancePay']").val();
