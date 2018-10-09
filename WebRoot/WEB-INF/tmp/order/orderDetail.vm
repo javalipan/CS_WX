@@ -20,7 +20,7 @@
 		<div class="z_address">
 	    	<span class="z_icon_address"></span>
 	    	<div class="z_address_a">
-	        	<p class="row1"><span class="r1"><b>收货人：</b><i id="addressName">$!{order.reveivename}</i></span><span class="r2" id="phone">$!{order.phone}</span></p>
+	        	<p class="row1"><span class="r1"><b>收货人：</b><i id="addressName">$!{order.reveiveName}</i></span><span class="r2" id="phone">$!{order.phone}</span></p>
 	            <p class="row2">收货地址：<span id="address">$!{order.address}</span></p>
 	        </div>
 	    </div>
@@ -30,7 +30,7 @@
 	            <a href="javascript:void(0)" class="list_img"><img onload="fixImg($(this))" onerror="defaultImg(this)" src="${ftppath}$!{goodsDetail.img}"></a>
 	            <p class="row1">$!{goodsDetail.name}</p>
 	            <p class="row2"><span>$!{goodsDetail.colorName}</span>,<span>$!{goodsDetail.sizeName}</span></p>
-	            #if(${goodsDetail.isdiscount}=="2")
+	            #if(${goodsDetail.discount}>0 && ${goodsDetail.discount}<10)
 	            <p class="row3"><span class="left"><span class="r1"><i>￥</i>$!{goodsDetail.vipPrice}</span><span class="r2"><i>￥</i>$!{goodsDetail.price}</span></span><span class="right">×<i>$!{goodsDetail.odamount}</i></span></p>
 	            #else
 	            <p class="row3"><span class="left"><span class="r1"><i>￥</i>$!{goodsDetail.price}</span></span><span class="right">×<i>$!{goodsDetail.odamount}</i></span></p>

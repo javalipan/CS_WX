@@ -1659,7 +1659,7 @@ public class OrderController extends BaseController{
 		setSessionAttr(SESSION_MEMBER, member);
 		Long orderid=getParaToLong("id");
 		Order order=Order.dao.findById(orderid);
-		List<GoodsDetail> goodsDetails=GoodsDetail.dao.find("select g.name,g.img,g.isdiscount,d.*,s1.specvalue colorName,s2.specvalue sizeName,od.amount odamount,od.totalPrice odtotalPrice from t_order o left join t_order_detail od on o.id=od.orderid left join t_goods_detail d on d.id=od.goodsdetailid left join t_goods g on g.id=d.goodsid left join t_spec s1 on s1.id=d.colorid left join t_spec s2 on s2.id=d.sizeid where o.id=?",orderid);
+		List<GoodsDetail> goodsDetails=GoodsDetail.dao.find("select g.name,g.img,g.isdiscount,od.*,s1.specvalue colorName,s2.specvalue sizeName,od.amount odamount,od.totalPrice odtotalPrice from t_order o left join t_order_detail od on o.id=od.orderid left join t_goods_detail d on d.id=od.goodsdetailid left join t_goods g on g.id=d.goodsid left join t_spec s1 on s1.id=d.colorid left join t_spec s2 on s2.id=d.sizeid where o.id=?",orderid);
 		for(GoodsDetail goodsDetail:goodsDetails){
 			if(goodsDetail.getInt("odamount")>goodsDetail.getAmount()){		//购买数量不能大于库存验证
 				renderJavascript("库存不足!");
@@ -1669,7 +1669,7 @@ public class OrderController extends BaseController{
 		setAttr("order",order);
 		setAttr("goodsDetails",goodsDetails);
 		setAttr("member",member);
-		setAttr("orderTotal", NumberUtil.toFixed(NumberUtil.add(NumberUtil.add(NumberUtil.add(order.getBalancePay(), order.getSubtractMoney()), order.getCouponsPay()), order.getTotalPrice()), 2));
+		setAttr("orderTotal", NumberUtil.toFixed(NumberUtil.add(NumberUtil.add(NumberUtil.divide(NumberUtil.add(order.getBalancePay(), order.getTotalPrice()), ((order.getDiscount()>0&&order.getDiscount()<10)?NumberUtil.divide(order.getDiscount(),10):0)), order.getSubtractMoney()), order.getCouponsPay()), 2));
 		
 		renderVelocity("order/againpayment.vm");
 	}
@@ -1688,7 +1688,7 @@ public class OrderController extends BaseController{
 		setAttr("order",order);
 		setAttr("goodsDetails",goodsDetails);
 		setAttr("member",member);
-		setAttr("orderTotal", NumberUtil.toFixed(NumberUtil.add(NumberUtil.add(NumberUtil.add(order.getBalancePay(), order.getSubtractMoney()), order.getCouponsPay()), order.getTotalPrice()), 2));
+		setAttr("orderTotal", NumberUtil.toFixed(NumberUtil.add(NumberUtil.add(NumberUtil.divide(NumberUtil.add(order.getBalancePay(), order.getTotalPrice()), ((order.getDiscount()>0&&order.getDiscount()<10)?NumberUtil.divide(order.getDiscount(),10):0)), order.getSubtractMoney()), order.getCouponsPay()), 2));
 		
 		renderVelocity("order/orderDetail.vm");
 	}
