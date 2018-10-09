@@ -215,6 +215,10 @@
 	    				}
 						nextselect.find("option:gt(0)").remove();
 						nextselect.append(html);
+						if(result.length==1){
+							nextselect.find("option:eq(1)").attr("selected","selected");
+							nextselect.change();
+						}
 	    			}
 	    		})
 	    	}

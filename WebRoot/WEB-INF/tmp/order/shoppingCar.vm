@@ -268,7 +268,13 @@
 			calc();
 		});
 		
-		$(".imgselect").click();
+		$(".selectall img").attr("ischecked",true);
+		$(".selectall img").attr("src","${ctx}/images/checkbox-s.png");
+		var imgselect=$(".imgselect");
+		for(var i=0;i<imgselect.length;i++){
+			imgselect.eq(i).attr("ischecked",true);
+			imgselect.eq(i).attr("src","${ctx}/images/checkbox-s.png");
+		}
 	});
 	</script>
 </body>
