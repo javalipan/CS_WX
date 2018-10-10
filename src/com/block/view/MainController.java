@@ -25,6 +25,8 @@ import com.jfinal.weixin.sdk.jfinal.MsgInterceptor;
 
 public class MainController extends BaseController {
 	
+	private static final String COUPON_CNT="COUPON_CNT";
+	
 	public void index(){
 		Member member=(Member) getSession().getAttribute(SESSION_MEMBER);
 		if(member==null){
@@ -83,16 +85,37 @@ public class MainController extends BaseController {
 			}
 			setAttr("member", member);
 			
-			List<MemberCoupon> memberCoupons=MemberCoupon.dao.find("select * from t_member_coupon where memberId=? and status=0 and startTime<=now() and endTime>=now()",member.getId());
-			setAttr("memberCoupons", memberCoupons);
-			
-			int totalamount=0;
-			if(memberCoupons!=null&&memberCoupons.size()>0){
-				for(MemberCoupon mc:memberCoupons){
-					totalamount+=mc.getMoney();
+			Integer cntstr=(Integer) getRequest().getSession().getAttribute(COUPON_CNT);
+			if(cntstr==null){
+				List<MemberCoupon> memberCoupons=MemberCoupon.dao.find("select * from t_member_coupon where memberId=? and status=0 and startTime<=now() and endTime>=now()",member.getId());
+				getRequest().getSession().setAttribute(COUPON_CNT,memberCoupons.size());
+				setAttr("memberCoupons", memberCoupons);
+				
+				int totalamount=0;
+				if(memberCoupons!=null&&memberCoupons.size()>0){
+					for(MemberCoupon mc:memberCoupons){
+						totalamount+=mc.getMoney();
+					}
+				}
+				setAttr("totalamount", totalamount);
+				
+			}
+			else{
+				List<MemberCoupon> memberCoupons=MemberCoupon.dao.find("select * from t_member_coupon where memberId=? and status=0 and startTime<=now() and endTime>=now()",member.getId());
+				getRequest().getSession().setAttribute(COUPON_CNT,memberCoupons.size());
+				if(cntstr!=memberCoupons.size()){
+					setAttr("memberCoupons", memberCoupons);
+					
+					int totalamount=0;
+					if(memberCoupons!=null&&memberCoupons.size()>0){
+						for(MemberCoupon mc:memberCoupons){
+							totalamount+=mc.getMoney();
+						}
+					}
+					setAttr("totalamount", totalamount);
+					
 				}
 			}
-			setAttr("totalamount", totalamount);
 		}
     	
 		renderVelocity("index.vm");

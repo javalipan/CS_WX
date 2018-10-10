@@ -58,6 +58,8 @@
 	<script>
 	//编辑
 	function edit(){
+		$(".selectall img").attr("ischecked",false);
+		$(".selectall img").attr("src","${ctx}/images/checkbox-n.png");
 		$("#editBtn").text("完成");
 		$("#editBtn").attr("onclick","save()");
 		$(".initview").hide();
@@ -67,6 +69,8 @@
 	
 	//保存编辑
 	function save(){
+		$(".selectall img").attr("ischecked",false);
+		$(".selectall img").attr("src","${ctx}/images/checkbox-n.png");
 		var items=$(".imgselect");
 		var array=[];
 		for(var i=0;i<items.length;i++){
@@ -275,6 +279,7 @@
 			imgselect.eq(i).attr("ischecked",true);
 			imgselect.eq(i).attr("src","${ctx}/images/checkbox-s.png");
 		}
+		calc();
 	});
 	</script>
 </body>
