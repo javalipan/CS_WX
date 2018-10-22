@@ -183,10 +183,10 @@
 	]
     });
     
-    var title  = "尺尚设计师集合";
+    var title  = "尺尚设计师集成平台";
 	var link = "${jsparas.link}";
 	var imgUrl = "http://weixin.karlay.cn/images/logo.jpg";
-	var desc = "尺尚设计师集合";
+	var desc = "尺尚设计师集成平台，一个集潮流风尚、设计师服饰集成平台。";
     wx.ready(function () {
 		//获取“分享到朋友圈”按钮点击状态及自定义分享内容接口
 		wx.onMenuShareTimeline({

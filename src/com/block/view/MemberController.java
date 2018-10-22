@@ -305,7 +305,7 @@ public class MemberController extends BaseController{
 			Map<String, String> jsparas=jsSign(jsTicket.getTicket(), url);
 			jsparas.put("jsapi_ticket", jsTicket.getTicket());
 			jsparas.put("appId", ApiConfigKit.getApiConfig().getAppId());
-			String title  = "尺尚设计师集合";
+			String title  = "尺尚设计师集成平台";
 			String link = CommonConstant.WEIXIN_DOMAIN+"member/qrCode?id="+id;
 			String imgUrl=null;
 			imgUrl=CommonConstant.WEIXIN_DOMAIN+"images/logo.jpg";

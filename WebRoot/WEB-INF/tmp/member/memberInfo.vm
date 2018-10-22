@@ -108,6 +108,10 @@
     		$.iBox.alert("请输入姓名",1000);
     		return;
     	}
+    	if(!$("input[name='birthday']").val()){
+    		$.iBox.alert("请选择生日",1000);
+    		return;
+    	}
     	$.ajax({
     		url:"${ctx}/member/saveMemberInfo",
     		data:$("#infoForm").serializeArray(),

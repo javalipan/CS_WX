@@ -190,10 +190,10 @@ public class GoodsController extends BaseController{
 			Map<String, String> jsparas=jsSign(jsTicket.getTicket(), url);
 			jsparas.put("jsapi_ticket", jsTicket.getTicket());
 			jsparas.put("appId", ApiConfigKit.getApiConfig().getAppId());
-			String title  = "尺尚设计师集合";
+			String title  = "尺尚设计师集成平台";
 			String link = CommonConstant.WEIXIN_DOMAIN+"goods/brandList";
 			String imgUrl=CommonConstant.WEIXIN_DOMAIN+"images/logo2.png";
-			String desc = "尺尚设计师集合";
+			String desc = "尺尚设计师集成平台，一个集潮流风尚、设计师服饰集成平台。";
 			jsparas.put("title", title);
 			jsparas.put("link", link);
 			jsparas.put("imgUrl", imgUrl);
@@ -258,7 +258,7 @@ public class GoodsController extends BaseController{
 			else{
 				imgUrl=CommonConstant.WEIXIN_DOMAIN+"images/qrcode.png";
 			}
-			String desc = "尺尚设计师集合";
+			String desc = "尺尚设计师集成平台，一个集潮流风尚、设计师服饰集成平台。";
 			jsparas.put("title", title);
 			jsparas.put("link", link);
 			jsparas.put("imgUrl", imgUrl);
@@ -358,7 +358,7 @@ public class GoodsController extends BaseController{
 			else{
 				imgUrl=CommonConstant.WEIXIN_DOMAIN+"images/qrcode.png";
 			}
-			String desc = "尺尚设计师集合";
+			String desc = "尺尚设计师集成平台，一个集潮流风尚、设计师服饰集成平台。";
 			jsparas.put("title", title);
 			jsparas.put("link", link);
 			jsparas.put("imgUrl", imgUrl);
