@@ -31,8 +31,12 @@
 	                    <li class="clear">
 	                        <span class="img"><img src="${ftppath}/${coupon.logoUrl}"/></span>
 	                        <h2>${coupon.name}</h2>
-	                        <p class="r1 clear"><span class="left"><i>${coupon.money}</i>元</span><span class="right">剩余:<i>${coupon.leftAmount}</i>张</span></p>
-	                        <p class="r2">领取有效期:$!date.format('yyyy-MM-dd',$!coupon.startTime) - $!date.format('yyyy-MM-dd',$!coupon.endTime)</p>
+	                        <p class="r1 clear"><span class="left"><i>${coupon.money}</i>元</span><span style="display:none" class="right">剩余:<i>${coupon.leftAmount}</i>张</span></p>
+	                        #if("${coupon.timeType}"=="0")
+	                        <p class="r2">使用有效期:$!date.format('yyyy-MM-dd',$!coupon.startTime) - $!date.format('yyyy-MM-dd',$!coupon.endTime)</p>
+	                        #else
+	                        <p class="r2">使用有效期:${coupon.days}天</p>
+	                        #end
 	                    </li>
 	                </ul>
 	            </div>
