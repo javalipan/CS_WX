@@ -54,7 +54,7 @@ public class MainController extends BaseController {
 			Goods goods=new Goods();
 			goods.setStatus("1");
 			goods.setIsDiscount("2");
-			goodsList=Goods.dao.searchGoods(goods, "sortno asc", 0, 20);
+			goodsList=Goods.dao.searchGoods(goods, "sortno asc", 0, 20000000);
 		}
 		else {	//新品
 			Goods goods=new Goods();
