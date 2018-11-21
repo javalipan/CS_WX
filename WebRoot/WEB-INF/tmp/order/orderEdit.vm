@@ -61,6 +61,7 @@
 	            #if($memberCoupons.size()>0)
 	            <li class="z_odd_li" id="coupons"><a class="z_odd_m2" href="javascript:void(0)">优惠券</a><span class="z_col6167f1"><i id="couponUse">0</i>元</span></li>
 	            #end
+	            <li class="z_odd_li"><a class="z_odd_m1" href="javascript:void(0)">当前余额</a><span class="z_col6167f1"><i>${member.balance}</i>元</span></li>
 	            <li class="z_odd_li" id="balances"><a class="z_odd_m1" href="javascript:void(0)">余额使用</a><span class="z_col6167f1"><i id="balanceUse">0</i>元</span></li>
 	            
 	            <li class="z_por"><a class="z_gz" href="javascript:void(0)">满减规则</a><span class="z_gz_all">小计￥<i class="topay">${topay}</i></span><span class="z_gz_sell">已优惠￥<i>0</i></span></li>  
