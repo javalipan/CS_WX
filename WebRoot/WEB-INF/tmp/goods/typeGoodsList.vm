@@ -61,6 +61,12 @@
 	<script>
 	$(function(){
 		fixImg($(".seach_list_bd ul li img"));
+		
+		var  w = 0; 
+		$('.z_list_hd_c a').each(function (){
+			w+=$(this).outerWidth(true);
+		});
+		$('.z_list_hd_c').css('width',w);
 	});
 	
 	function sort(t){

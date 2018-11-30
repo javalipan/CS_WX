@@ -50,7 +50,7 @@
 	    <div class="z_u_bd">
 	    	<ul>
 	        	<li onclick="location.href='${ctx}/member/memberGrade'"><span><img src="${ctx}/images/a1.png" width="20" height="20"/></span><a href="javascript:void(0)">会员计划</a></li>
-	            <!--<li onclick="location.href='${ctx}/member/myQrCode?id=${member.id}'"><span><img src="${ctx}/images/a6.png" width="20" height="20"/></span><a href="javascript:void(0)">邀请有礼</a></li>-->
+	            <li onclick="location.href='${ctx}/member/myQrCode?id=${member.id}'"><span><img src="${ctx}/images/a6.png" width="20" height="20"/></span><a href="javascript:void(0)">邀请有礼</a></li>
 	       		<li onclick="location.href='${ctx}/coupon/couponList'"><span><img src="${ctx}/images/a7.png" width="20" height="20"/></span><a href="javascript:void(0)">优惠券兑换</a></li>
 	       		<li onclick="location.href='${ctx}/coupon/memberCouponList'"><span><img src="${ctx}/images/a9.png" width="20" height="20"/></span><a href="javascript:void(0)">我的优惠券</a></li>
 	       		<li onclick="location.href='${ctx}/member/myscore'"><span><img src="${ctx}/images/a2.png" width="20" height="20"/></span><a href="javascript:void(0)">我的积分</a></li>
