@@ -223,9 +223,9 @@ public class WxMsgController extends MsgController {
 			}
 			render(outTextMsg);
 		}else if(InQrCodeEvent.EVENT_INQRCODE_SCAN.equals(inQrCodeEvent.getEvent())){
-			renderOutTextMsg("");
+			renderNull();
 		}else{
-			renderOutTextMsg("");
+			renderNull();
 		}
 	}
 
