@@ -219,7 +219,7 @@ public class OrderController extends BaseController{
 				if(goodsDetail.getId().longValue()==jsonArray.getJSONObject(i).getLong("id").longValue()){
 					int num=jsonArray.getJSONObject(i).getInteger("num");
 					if(num>goodsDetail.getAmount()){		//购买数量不能大于库存验证
-						renderJavascript("库存不足!");
+						renderJavascript("商品"+goodsDetail.get("name")+"库存不足!");
 						return;
 					}
 					if(!"1".equals(goodsDetail.getStatus())){
