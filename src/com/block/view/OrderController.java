@@ -1669,7 +1669,10 @@ public class OrderController extends BaseController{
 		setAttr("order",order);
 		setAttr("goodsDetails",goodsDetails);
 		setAttr("member",member);
-		setAttr("orderTotal", NumberUtil.toFixed(NumberUtil.add(NumberUtil.add(NumberUtil.divide(NumberUtil.add(order.getBalancePay(), order.getTotalPrice()), ((order.getDiscount()>0&&order.getDiscount()<10)?NumberUtil.divide(order.getDiscount(),10):0)), order.getSubtractMoney()), order.getCouponsPay()), 2));
+		
+		double discount=((order.getDiscount()>0&&order.getDiscount()<10)?NumberUtil.divide(order.getDiscount(),10):0);
+		discount=discount==0?1:discount;
+		setAttr("orderTotal", NumberUtil.toFixed(NumberUtil.add(NumberUtil.add(NumberUtil.divide(NumberUtil.add(order.getBalancePay(), order.getTotalPrice()), discount), order.getSubtractMoney()), order.getCouponsPay()), 2));
 		
 		renderVelocity("order/againpayment.vm");
 	}
@@ -1688,7 +1691,9 @@ public class OrderController extends BaseController{
 		setAttr("order",order);
 		setAttr("goodsDetails",goodsDetails);
 		setAttr("member",member);
-		setAttr("orderTotal", NumberUtil.toFixed(NumberUtil.add(NumberUtil.add(NumberUtil.divide(NumberUtil.add(order.getBalancePay(), order.getTotalPrice()), ((order.getDiscount()>0&&order.getDiscount()<10)?NumberUtil.divide(order.getDiscount(),10):0)), order.getSubtractMoney()), order.getCouponsPay()), 2));
+		double discount=((order.getDiscount()>0&&order.getDiscount()<10)?NumberUtil.divide(order.getDiscount(),10):0);
+		discount=discount==0?1:discount;
+		setAttr("orderTotal", NumberUtil.toFixed(NumberUtil.add(NumberUtil.add(NumberUtil.divide(NumberUtil.add(order.getBalancePay(), order.getTotalPrice()), discount), order.getSubtractMoney()), order.getCouponsPay()), 2));
 		
 		renderVelocity("order/orderDetail.vm");
 	}

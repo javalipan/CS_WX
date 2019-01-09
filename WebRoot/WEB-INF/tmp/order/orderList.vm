@@ -19,7 +19,7 @@
 	    <a class="mui-action-back mui-icon mui-icon-arrowleft z_col_666" onclick="javascript:history.go(-1)"></a>
 	    <h1 class="mui-title">我的订单</h1>
 	</header>
-	<div class="z_padt44">
+	<div class="z_padt44" style="padding-bottom:50px;">
 		<div class="z_order tab">
 	    	<div class="z_order_hd tab-hd clear">
 	        	<ul>

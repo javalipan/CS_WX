@@ -44,7 +44,7 @@
 	    <div class="z_odd">
 	        <ul>
 	            <li><a href="javascript:void(0)">订单原价</a><span class="z_col6167f1"><i>${order.oldPrice}</i>元</span></li>
-	            <li><a href="javascript:void(0)">享受折扣</a><span class="z_col6167f1"><i>${member.discount}</i>折</span></li>
+	            <li><a href="javascript:void(0)">享受折扣</a><span class="z_col6167f1"><i>${order.discount}</i>折</span></li>
 	            <li><a href="javascript:void(0)">订单金额</a><span class="z_col6167f1"><i>${orderTotal}</i>元</span></li>
 	            <li><a class="z_odd_y" href="javascript:void(0)"><i>满</i>满减优惠</a><span id="subMoney" class="z_col6167f1">$!{order.subtractMoney}元</span></li>
 	            <li id="coupons"><a class="z_odd_m2" href="javascript:void(0)">优惠券</a><span class="z_col6167f1"><i id="couponUse">${order.couponsPay}</i>元</span></li>
