@@ -22,7 +22,7 @@
 	    	<div class="z_yq_tit"><img src="${ctx}/images/yq_logo.png"></div>
 	    	<p class="z_yq_t1">邀请小伙伴<span>扫码并首单消费</span>后<br />您和您的小伙伴均可获得<span>200元现金券</span>奖励</p>
 	        <p class="z_yq_t2">您的专属二维码</p>
-	    	<div class="zimg_center"><img src="http://qr.liantu.com/api.php?text=$!{url}" /></div>
+	    	<div class="zimg_center"><img src="http://api.k780.com:88/?app=qr.get&data=$!{url}" /></div>
 	        <p class="zshear"><a href="javascript:void(0)" class="bj_1 a_shar">邀请</a></p>
 	    </div>
 	</div>
