@@ -73,7 +73,7 @@
             <li><img src="${ctx}/images/t7_a1.png" width="30" /><span>正品授权</span></li>
             <li><img src="${ctx}/images/t7_a2.png" width="30" /><span>线下门店</span></li>
             <li><img src="${ctx}/images/t7_a3.png" width="30" /><span>会员免邮</span></li>
-            <li><img src="${ctx}/images/t7_a4.png" width="30" /><span>5天退换</span></li>
+            <li><img src="${ctx}/images/t7_a4.png" width="30" /><span>5天换</span></li>
         </ul>
     </div>
 </div>
@@ -125,8 +125,8 @@
                     <p class="row2">尺尚会员享受大陆订单免邮服务，国际订单根据实际运费收取。</p>
                 </li>
                 <li>
-                    <p class="row1"><span><img src="${ctx}/images/t7_d.png" width="20" hidden="20" /></span><b>5天退换</b></p>
-                    <p class="row2">购买前请仔细确认商品尺码，颜色，商品售出后，非质量问题，概不退货。<br/>若发现商品有质量问题或尺码不合适，请在签收日后5日内联系客服，并提供相关图片。<br/>超出时间，恕不受理。若出现尺码不合适，在不影响第二次销售的情况下（保持包装完好、吊牌完好、未使用、未洗涤等），仅提供一次换货服务，所产生的运费需要顾客自理。<br/>特价商品、活动商品等特殊商品、不提供退换货服务，请理解。</p>
+                    <p class="row1"><span><img src="${ctx}/images/t7_d.png" width="20" hidden="20" /></span><b>5天换</b></p>
+                    <p class="row2">若发现商品有质量问题或尺码不合适，请在签收日后5日内联系客服，并提供相关图片。<br/>超出时间，恕不受理。若出现尺码不合适，在不影响第二次销售的情况下（保持包装完好、吊牌完好、未使用、未洗涤等），仅提供一次换货服务，所产生的运费需要顾客自理。<br/>特价商品、活动商品等特殊商品、不提供换货服务，请理解。</p>
                 </li>
             </ul>
         </div>
