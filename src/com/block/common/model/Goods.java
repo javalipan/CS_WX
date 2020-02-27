@@ -28,8 +28,8 @@ public class Goods extends BaseGoods<Goods>{
 	public List<Goods> getRecomend(Long memberid,int count){
 		List<Goods> goods=null;
 		if(memberid!=null&&memberid>0){
-			String sql="select distinct * from(select "+basecolumn+",(select sum(d.amount) from t_goods_detail d where d.goodsid=g.id and d.status=1) amount,b.name brandname from t_goods g left join t_brand b on b.id=g.brandid where g.status='1' and g.styleTypeid in("
-					+" select id from t_style style where style.parentId in("
+			
+			String typesql=" select id from t_style style where style.parentId in("
 					+" select g.styleTypeid from t_order o "
 					+" left join t_order_detail od on o.id=od.orderId "
 					+" left join t_goods_detail gd on gd.id=od.goodsDetailId "
@@ -37,11 +37,19 @@ public class Goods extends BaseGoods<Goods>{
 					+" where g.status='1' and o.memberid=?"
 					+" union all"
 					+" select s.parentId from t_style s where s.id in("
-					+" select g.styleTypeid from t_goods_browseHis bh left join t_goods g on g.id=bh.goodsId where g.status='1' and bh.memberid=?)"
-					+")) union all "
-					+" select "+basecolumn+",(select sum(d.amount) from t_goods_detail d where d.goodsid=g.id and d.status=1) amount,b.name brandname from t_goods g left join t_brand b on b.id=g.brandid where g.status='1' and g.isRecomment='1')t "
+					+" select g.styleTypeid from t_goods_browseHis bh left join t_goods g on g.id=bh.goodsId where g.status='1' and bh.memberid=?))";
+			List<Goods> types = dao.find(typesql,memberid,memberid);
+			String typelist="";
+			for(int i=0;i<types.size();i++){
+				long id=types.get(i).getLong("id");
+				typelist+=(i==0?"":",")+id;
+			}
+			
+			String sql="select distinct * from(select "+basecolumn+",b.name brandname from t_goods g left join t_brand b on b.id=g.brandid where g.status='1' and g.styleTypeid in(?) "
+					+" union all "
+					+" select "+basecolumn+",b.name brandname from t_goods g left join t_brand b on b.id=g.brandid where g.status='1' and g.isRecomment='1')t "
 					+" limit 0,?";
-			goods=dao.find(sql,memberid,memberid,count);
+			goods=dao.find(sql,typelist,count);
 		}
 		if(memberid==null||goods.size()==0){
 			goods=dao.find("select "+basecolumn+",(select sum(d.amount) from t_goods_detail d where d.goodsid=g.id and d.status=1) amount,b.name brandname from t_goods g left join t_brand b on b.id=g.brandid where g.status='1' group by soldcnt desc limit 0,?",count);
